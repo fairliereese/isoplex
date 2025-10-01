@@ -108,7 +108,6 @@ def compute_pi(df):
     -------
     pd.DataFrame
         DataFrame with additional columns:
-        - 'gene_counts': total counts per gene
         - 'pi': isoform proportion within each gene
     """
     # compute total counts per gene
@@ -116,6 +115,9 @@ def compute_pi(df):
     
     # compute pi
     df['pi'] = df['counts'] / df['gene_counts']
+    
+    # remove gene counts; it will be computed later anyway
+    df.drop('gene_counts', axis=1, inplace=True)
     
     return df
 
@@ -223,8 +225,9 @@ def call_effective_isoforms(df):
         - 'isoform_rank': rank of each isoform within its gene (by pi)
         - 'effective_isoform': boolean indicating if isoform is effective
     """
-    # round perplexity to nearest integer
-    df['round_perplexity'] = df['perplexity'].round(0)
+    # round perplexity to nearest integer to get
+    # number of effective isoforms
+    df['n_effective_isoforms'] = df['perplexity'].round(0)
     
     # rank isoforms within each gene by pi
     df['isoform_rank'] = (
@@ -234,13 +237,69 @@ def call_effective_isoforms(df):
     )
     
     # mark isoforms as effective if rank <= rounded perplexity
-    df['effective_isoform'] = df['isoform_rank'] <= df['round_perplexity']
+    df['effective_isoform'] = df['isoform_rank'] <= df['n_effective_isoforms']
     
     return df
 
-def compute_isoform_metrics(df):
+def compute_expression_breadth(df, sample_col):
     """
-    Compute isoform diversity metrics for a single-sample (bulk) dataframe.
+    Compute percentage of samples in which each isoform is effective.
+    """
+    n_samples = df[sample_col].nunique()
+    
+    temp = (
+        df.loc[df.effective_isoform, ['transcript_id', sample_col]]
+        .groupby('transcript_id')
+        .nunique()
+        .reset_index()
+        .rename({sample_col: 'n_samples_effective'}, axis=1)
+    )
+    
+    df = df.merge(temp, how='left', on='transcript_id')
+    df['expression_breadth'] = df['n_samples_effective'].fillna(0) / n_samples * 100
+    
+    return df
+
+def compute_expression_var(df, sample_col):
+    """
+    Compute number of samples expressing each isoform and pi standard deviation.
+    """
+    df['n_exp_samples'] = df.groupby('transcript_id')[sample_col].transform('nunique')
+    df['expression_var'] = df.groupby('transcript_id')['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
+    
+    return df
+
+def compute_avg_expression(df, sample_col, feature_col):
+    """
+    Compute average expression across samples
+    """
+    temp = df[[feature_col, sample_col, 'counts']]
+    
+    # in case the values are not unique (ie feature = gene_id, orf_id, etc.,
+    # first sum them all up across samples
+    temp = (temp.groupby([feature_col, sample_col])
+            .sum()
+            .reset_index()
+            .rename({'counts':f'{feature_col}_counts'}, axis=1))
+    temp.drop(sample_col, axis=1, inplace=True)
+    
+    # then take the mean across samples
+    temp = (temp.groupby(feature_col)
+               .mean()
+               .reset_index()
+               .rename({f'{feature_col}_counts':
+                        f'avg_{feature_col}_counts'}, axis=1))
+    
+    # and add to the final df
+    df = df.merge(temp,
+                  how='left',
+                  on=[feature_col]) 
+    return df
+
+
+def compute_global_isoform_metrics(df):
+    """
+    Compute global isoform diversity metrics for a single-sample (bulk) dataframe.
 
     Parameters
     ----------
@@ -270,34 +329,6 @@ def compute_isoform_metrics(df):
 
     return df
 
-def compute_expression_breadth(df, sample_col):
-    """
-    Compute percentage of samples in which each isoform is effective.
-    """
-    n_samples = df[sample_col].nunique()
-    
-    temp = (
-        df.loc[df.effective_isoform, ['transcript_id', sample_col]]
-        .groupby('transcript_id')
-        .nunique()
-        .reset_index()
-        .rename({sample_col: 'n_samples_effective'}, axis=1)
-    )
-    
-    df = df.merge(temp, how='left', on='transcript_id')
-    df['perc_effective_isoforms'] = df['n_samples_effective'].fillna(0) / n_samples * 100
-    
-    return df
-
-def compute_expression_var(df, sample_col):
-    """
-    Compute number of samples expressing each isoform and pi standard deviation.
-    """
-    df['n_exp_samples'] = df.groupby('transcript_id')[sample_col].transform('nunique')
-    df['pi_std'] = df.groupby('transcript_id')['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
-    
-    return df
-
 def compute_multi_sample_isoform_metrics(df, sample_col):
     """
     Compute isoform metrics across multiple samples.
@@ -313,7 +344,7 @@ def compute_multi_sample_isoform_metrics(df, sample_col):
     -------
     pd.DataFrame
         DataFrame with single-sample metrics plus cross-sample metrics:
-        - 'perc_effective_isoforms', 'n_exp_samples', 'pi_std'
+        - 'expression_breadth', 'n_exp_samples', 'expression_var'
     """
     # validate input for multi-sample dataset
     validate_counts_input(df, sample_col=sample_col)
@@ -324,12 +355,18 @@ def compute_multi_sample_isoform_metrics(df, sample_col):
     for s in samples:
         s_df = df.loc[df[sample_col] == s].copy(deep=True)
         # delegate single-sample calculations
-        s_df = compute_isoform_metrics(s_df)
+        s_df = compute_global_isoform_metrics(s_df)
         big_df = pd.concat([big_df, s_df], axis=0)
     
     # compute cross-sample metrics
     big_df = compute_expression_breadth(big_df, sample_col=sample_col)
     big_df = compute_expression_var(big_df, sample_col=sample_col)
+    
+    # avg. expression of genes and transcripts
+    for feature_col in ['transcript_id', 'gene_id']:
+        big_df = compute_avg_expression(big_df,
+                                        sample_col=sample_col,
+                                        feature_col=feature_col)
     
     return big_df
 
