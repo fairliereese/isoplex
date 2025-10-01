@@ -105,30 +105,61 @@ def fill_missing_transcript_sample(df, sample_col='sample'):
     
     return df_filled
 
-def compute_tpm(df, sample_col=None):
+def collapse_counts_by_feature(df,
+                               feature_col=TRANSCRIPT_COL,
+                               expression_col=EXP_COL,
+                               gene_col=GENE_COL,
+                               sample_col=None):
     """
-    Calculate TPM values from counts and add as a new column to the dataframe.
+    Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input table with counts at transcript level.
+    feature_col : str
+        Alternative feature column to collapse to (e.g. 'orf_id').
+    expression_col : str
+        Name of expression col to collapse
+    gene_col : str
+        Column identifying genes.
+    sample_col : str, optional
+        Sample column. If None, assumes single-sample bulk.
+
+    Returns
+    -------
+    pd.DataFrame
+        Collapsed df with summed counts per feature.
+    """
+    group_cols = list(dict.fromkeys([gene_col, feature_col]))
+
+    if sample_col is not None:
+        group_cols.append(sample_col)
+    
+    # sum counts for all transcripts mapping to the same feature
+    out = (df.groupby(group_cols, as_index=False)[expression_col]
+          .sum())
+
+    return out
+
+def compute_tpm(df):
+    """
+    Calculate TPM values from counts for a single-sample (bulk) dataframe
+    and add as a new column to the dataframe.
 
     Parameters
     ----------
     df : pd.DataFrame
         Input dataframe containing 'counts'.
-    sample_col : str, optional
-        Column representing samples. If None, assumes single-sample bulk.
 
     Returns
     -------
     pd.DataFrame
-        DataFrame with TPM column added.
+        DataFrame with a new column 'tpm' added.
     """
-    if sample_col is None:
-        total_counts = df['counts'].sum()
-        df['tpm'] = df['counts'] / total_counts * 1e6
-    else:
-        df['tpm'] = df['counts'] / df.groupby(sample_col)['counts'].transform('sum') * 1e6
+    df['tpm'] = df['counts'] / df['counts'].sum() * 1e6
 
     return df
-
 
 def compute_pi(df, gene_col=GENE_COL):
     """
@@ -146,7 +177,7 @@ def compute_pi(df, gene_col=GENE_COL):
     pd.DataFrame
         DataFrame with an additional 'pi' column.
     """
-    df['gene_counts'] = df.groupby(gene_col)['tpm'].transform('sum')
+    df['gene_tpm'] = df.groupby(gene_col)['tpm'].transform('sum')
     df['pi'] = df['tpm'] / df['gene_tpm']
     df = df.drop(columns='gene_tpm')
     return df
@@ -388,39 +419,6 @@ def compute_avg_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
 
     return df
 
-def collapse_counts_by_feature(df,
-                               feature_col=TRANSCRIPT_COL,
-                               gene_col=GENE_COL,
-                               sample_col=None):
-    """
-    Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        Input table with counts at transcript level.
-    feature_col : str
-        Alternative feature column to collapse to (e.g. 'orf_id').
-    gene_col : str
-        Column identifying genes.
-    sample_col : str, optional
-        Sample column. If None, assumes single-sample bulk.
-
-    Returns
-    -------
-    pd.DataFrame
-        Collapsed df with summed counts per feature.
-    """
-    group_cols = list(set([gene_col, feature_col]))
-    if sample_col is not None:
-        group_cols.append(sample_col)
-    
-    # sum counts for all transcripts mapping to the same feature
-    out = (df.groupby(group_cols, as_index=False)['counts']
-          .sum())
-
-    return out
-
 def compute_global_isoform_metrics(df,
                                    gene_col=GENE_COL,
                                    feature_col=TRANSCRIPT_COL,
@@ -450,14 +448,18 @@ def compute_global_isoform_metrics(df,
     pd.DataFrame
         DataFrame with computed metrics.
     """
+    # repeatedly used column args
+    col_kwargs = {'gene_col': gene_col,
+                  'feature_col': feature_col,
+                  'expression_col': expression_col,
+                  'sample_col': None}
+
+    
     # validate input
     validate_counts_input(df, expression_col=expression_col)
 
     # collapse counts if feature_col differs from transcript_col
-    df = collapse_counts_by_feature(df,
-                                    feature_col=feature_col,
-                                    gene_col=gene_col,
-                                    sample_col=None)
+    df = collapse_counts_by_feature(df, **col_kwargs)
 
     # compute TPM if requested
     if expression_col_type == 'counts':
@@ -468,16 +470,13 @@ def compute_global_isoform_metrics(df,
     # compute isoform ratios
     df = compute_pi(df)
     
-    # repeatedly used column args
-    col_kwargs = {'gene_col': gene_col, 'feature_col': feature_col}
-
     # compute gene-level metrics
-    df = compute_gene_potential(df, **kwargs)
-    df = compute_entropy(df, **kwargs)
-    df = compute_perplexity(df, **kwargs)
+    df = compute_gene_potential(df, **col_kwargs)
+    df = compute_entropy(df, **col_kwargs)
+    df = compute_perplexity(df, **col_kwargs)
 
     # mark effective features
-    df = call_effective(df, **kwargs)
+    df = call_effective(df, **col_kwargs)
 
     return df
 
