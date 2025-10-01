@@ -1,34 +1,44 @@
-import scipy.stats
 import pandas as pd
 import numpy as np
 
-
-import pandas as pd
-import numpy as np
+EXP_COL = 'counts'
+FEATURE_COL = TRANSCRIPT_COL = 'transcript_id'
+GENE_COL = 'gene_id'
+SAMPLE_COL = 'sample'
 
 def validate_counts_input(
     df: pd.DataFrame,
-    sample_col: str = None):
+    gene_col: str = GENE_COL,
+    feature_col: str = TRANSCRIPT_COL,
+    sample_col: str = None,
+    expression_col: str = EXP_COL):
     """
-    Validate input dataframe for computing isoform ratios (pi).
+    Validate input dataframe for computing isoform ratios (pi) or TPM.
 
     Parameters
     ----------
     df : pd.DataFrame
-        Input dataframe containing at least 'gene_id', 'transcript_id', and 'counts'.
+        Input dataframe containing expression values for features (e.g., transcripts) grouped by genes.
+    gene_col : str
+        Column name representing genes (default: 'gene_id').
+    feature_col : str
+        Column name representing features (default: 'transcript_id').
     sample_col : str, optional
-        If provided, checks that this column exists and has no missing values.
+        Column identifying samples. If provided, checks uniqueness of (sample, feature) pairs and presence of missing values.
+    expression_col : str
+        Column containing expression values to validate (default: 'counts').
 
     Raises
     ------
     KeyError
-        If required columns are missing.
+        If required columns are missing from the dataframe.
     ValueError
-        If counts contain invalid (negative or disallowed zero) values,
-        or if transcript_id is missing or duplicated inappropriately.
+        If expression values contain negative numbers, or if gene/feature IDs are missing,
+        or if feature IDs are duplicated (globally or per sample if sample_col is provided),
+        or if sample_col contains missing values or no samples are present.
     """
 
-    required_cols = ['gene_id', 'transcript_id', 'counts']
+    required_cols = [gene_col, feature_col, expression_col]
     if sample_col is not None:
         required_cols.append(sample_col)
 
@@ -37,31 +47,32 @@ def validate_counts_input(
         raise KeyError(f"Missing required columns: {missing}")
 
     # check for null IDs
-    if df['gene_id'].isna().any():
-        raise ValueError("Missing gene_id values.")
-    if df['transcript_id'].isna().any():
-        raise ValueError("Missing transcript_id values.")
+    if df[gene_col].isna().any():
+        raise ValueError(f"Missing {gene_col} values.")
+    if df[feature_col].isna().any():
+        raise ValueError(f"Missing {feature_col} values.")
 
-    # counts validation
-    if (df['counts'] < 0).any():
-        raise ValueError("Counts contain negative values.")
-        
-    # check for duplicated identifiers
-    if sample_col is not None:
-        if df.duplicated(subset=[sample_col, 'transcript_id']).any():
-            raise ValueError('found duplicate (sample, transcript_id) rows')
-    else:
-        if df['transcript_id'].duplicated().any():
-            raise ValueError('found duplicate transcript_id rows')
+    # expression validation
+    if (df[expression_col] < 0).any():
+        raise ValueError(f"Expression column '{expression_col}' contains negative values.")
+
+    # # check for duplicated identifiers
+    # if sample_col is not None:
+    #     if df.duplicated(subset=[sample_col, 'transcript_id']).any():
+    #         raise ValueError("Found duplicate (sample, transcript_id) rows")
+    # else:
+    #     if df['transcript_id'].duplicated().any():
+    #         raise ValueError("Found duplicate transcript_id rows")
 
     # sample column checks
     if sample_col is not None:
         if df[sample_col].isna().any():
             raise ValueError(f"Sample column '{sample_col}' contains missing values.")
-        if df[sample_col].nunique() == 0:
-            raise ValueError("No samples found in the dataframe.")
+        # if df[sample_col].nunique() == 1:
+        #     raise ValueError("Only one sample found in the dataframe.")
 
     return True
+
 
 def fill_missing_transcript_sample(df, sample_col='sample'):
     """
@@ -94,70 +105,95 @@ def fill_missing_transcript_sample(df, sample_col='sample'):
     
     return df_filled
 
-def compute_pi(df):
+def compute_tpm(df, sample_col=None):
     """
-    Generate pi values (isoform ratios) from raw counts.
+    Calculate TPM values from counts and add as a new column to the dataframe.
 
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing at least 'gene_id', 'transcript_id', and 'counts'.
-        Assumes missing transcript-sample combinations have been filled with counts=0.
+        Input dataframe containing 'counts'.
+    sample_col : str, optional
+        Column representing samples. If None, assumes single-sample bulk.
 
     Returns
     -------
     pd.DataFrame
-        DataFrame with additional columns:
-        - 'pi': isoform proportion within each gene
+        DataFrame with TPM column added.
     """
-    # compute total counts per gene
-    df['gene_counts'] = df.groupby('gene_id')['counts'].transform('sum')
-    
-    # compute pi
-    df['pi'] = df['counts'] / df['gene_counts']
-    
-    # remove gene counts; it will be computed later anyway
-    df.drop('gene_counts', axis=1, inplace=True)
-    
+    if sample_col is None:
+        total_counts = df['counts'].sum()
+        df['tpm'] = df['counts'] / total_counts * 1e6
+    else:
+        df['tpm'] = df['counts'] / df.groupby(sample_col)['counts'].transform('sum') * 1e6
+
     return df
 
-def compute_gene_potential(df):
+
+def compute_pi(df, gene_col=GENE_COL):
     """
-    Compute gene potential based on the number of expressed isoforms per gene.
+    Generate pi values (isoform ratios) from input expression column.
 
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing at least 'gene_id' and 'transcript_id'.
+        DataFrame containing at least <gene_col> and 'tpm'.
+    gene_col : str
+        Column representing the gene (default: gene_id)
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with an additional 'pi' column.
+    """
+    df['gene_counts'] = df.groupby(gene_col)['tpm'].transform('sum')
+    df['pi'] = df['tpm'] / df['gene_tpm']
+    df = df.drop(columns='gene_tpm')
+    return df
+
+def compute_gene_potential(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
+    """
+    Compute gene potential based on the number of unique expressed features per gene.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing gene and feature columns.
+    gene_col : str
+        Column representing the gene (default: 'gene_id')
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
 
     Returns
     -------
     pd.DataFrame
         DataFrame with an additional column:
-        - 'gene_potential': number of unique transcripts per gene
+        - 'gene_potential': number of unique features per gene
     """
-    # compute number of isoforms per gene
-    gene_isoform_counts = (
-        df[['gene_id', 'transcript_id']]
-        .groupby('gene_id')
+    # count unique features per gene
+    gene_potential_df = (
+        df[[gene_col, feature_col]]
+        .groupby(gene_col)
         .nunique()
         .reset_index()
-        .rename({'transcript_id': 'gene_potential'}, axis=1)
+        .rename({feature_col: 'gene_potential'}, axis=1)
     )
-    
+
     # merge back to original df
-    df = df.merge(gene_isoform_counts, how='left', on='gene_id')
-    
+    df = df.merge(gene_potential_df, how='left', on=gene_col)
+
     return df
 
-def compute_entropy(df):
+def compute_entropy(df, gene_col=GENE_COL):
     """
-    Compute Shannon entropy per gene based on isoform proportions (pi).
+    Compute Shannon entropy per gene based on isoform proportions.
 
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing 'gene_id' and 'pi' columns.
+        DataFrame containing gene and 'pi' columns.
+    gene_col : str
+        Column representing the gene (default: 'gene_id')
 
     Returns
     -------
@@ -165,27 +201,27 @@ def compute_entropy(df):
         DataFrame with an additional column:
         - 'entropy': Shannon entropy per gene
     """
-    # compute plogp for each isoform
+    # compute plogp for each feature; avoid log2(0)
     df['plogp'] = df['pi'] * np.log2(df['pi'].replace(0, np.nan))
-    
-    # sum over isoforms per gene
+
+    # sum plogp per gene
     entropy_df = (
-        df[['gene_id', 'plogp']]
-        .groupby('gene_id')
+        df[[gene_col, 'plogp']]
+        .groupby(gene_col)
         .sum()
         .reset_index()
         .rename({'plogp': 'entropy'}, axis=1)
     )
-    
-    # multiply by -1 to get positive entropy
+
+    # multiply by -1 for positive entropy
     entropy_df['entropy'] = -1 * entropy_df['entropy']
-    
-    # merge back to original dataframe
-    df = df.merge(entropy_df, how='left', on='gene_id')
-    
+
+    # merge back to original df
+    df = df.merge(entropy_df, how='left', on=gene_col)
+
     # drop intermediate column
     df = df.drop(columns='plogp')
-    
+
     return df
 
 def compute_perplexity(df):
@@ -205,169 +241,317 @@ def compute_perplexity(df):
     """
     # compute perplexity as 2^entropy
     df['perplexity'] = 2 ** df['entropy']
-    
     return df
 
-def call_effective_isoforms(df):
+def call_effective(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
     """
-    Identify effective isoforms per gene based on gene perplexity.
+    Identify effective features per gene based on gene perplexity.
 
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing 'gene_id', 'pi', and 'perplexity' columns.
+        DataFrame containing gene, feature, 'pi', and 'perplexity' columns.
+    gene_col : str
+        Column representing the gene (default: 'gene_id')
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
 
     Returns
     -------
     pd.DataFrame
         DataFrame with additional columns:
-        - 'round_perplexity': perplexity rounded to nearest integer
-        - 'isoform_rank': rank of each isoform within its gene (by pi)
-        - 'effective_isoform': boolean indicating if isoform is effective
+        - 'n_effective_features': perplexity rounded to nearest integer
+        - 'feature_rank': rank of each feature within its gene (by pi)
+        - 'effective_feature': boolean indicating if feature is effective
     """
-    # round perplexity to nearest integer to get
-    # number of effective isoforms
-    df['n_effective_isoforms'] = df['perplexity'].round(0)
-    
-    # rank isoforms within each gene by pi
-    df['isoform_rank'] = (
-        df.groupby('gene_id')['pi']
+    # round perplexity to nearest integer
+    df['n_effective_features'] = df['perplexity'].round(0)
+
+    # rank features within each gene by pi
+    df['feature_rank'] = (
+        df.groupby(gene_col)['pi']
         .rank(method='first', ascending=False)
         .astype(int)
     )
-    
-    # mark isoforms as effective if rank <= rounded perplexity
-    df['effective_isoform'] = df['isoform_rank'] <= df['n_effective_isoforms']
-    
+
+    # mark features as effective if rank <= rounded perplexity
+    df['effective_feature'] = df['feature_rank'] <= df['n_effective_features']
+
     return df
 
-def compute_expression_breadth(df, sample_col):
+def compute_expression_breadth(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
-    Compute percentage of samples in which each isoform is effective.
+    Compute percentage of samples in which each feature is effective.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing feature, sample, and 'effective_feature' columns.
+    sample_col : str
+        Column representing sample IDs.
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with additional columns:
+        - 'n_samples_effective': number of samples where the feature is effective
+        - 'expression_breadth': percentage of samples where the feature is effective
     """
     n_samples = df[sample_col].nunique()
-    
+
     temp = (
-        df.loc[df.effective_isoform, ['transcript_id', sample_col]]
-        .groupby('transcript_id')
+        df.loc[df['effective_feature'], [feature_col, sample_col]]
+        .groupby(feature_col)
         .nunique()
         .reset_index()
         .rename({sample_col: 'n_samples_effective'}, axis=1)
     )
-    
-    df = df.merge(temp, how='left', on='transcript_id')
+
+    df = df.merge(temp, how='left', on=feature_col)
     df['expression_breadth'] = df['n_samples_effective'].fillna(0) / n_samples * 100
-    
+
     return df
 
-def compute_expression_var(df, sample_col):
+def compute_expression_var(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
-    Compute number of samples expressing each isoform and pi standard deviation.
-    """
-    df['n_exp_samples'] = df.groupby('transcript_id')[sample_col].transform('nunique')
-    df['expression_var'] = df.groupby('transcript_id')['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
-    
-    return df
-
-def compute_avg_expression(df, sample_col, feature_col):
-    """
-    Compute average expression across samples
-    """
-    temp = df[[feature_col, sample_col, 'counts']]
-    
-    # in case the values are not unique (ie feature = gene_id, orf_id, etc.,
-    # first sum them all up across samples
-    temp = (temp.groupby([feature_col, sample_col])
-            .sum()
-            .reset_index()
-            .rename({'counts':f'{feature_col}_counts'}, axis=1))
-    temp.drop(sample_col, axis=1, inplace=True)
-    
-    # then take the mean across samples
-    temp = (temp.groupby(feature_col)
-               .mean()
-               .reset_index()
-               .rename({f'{feature_col}_counts':
-                        f'avg_{feature_col}_counts'}, axis=1))
-    
-    # and add to the final df
-    df = df.merge(temp,
-                  how='left',
-                  on=[feature_col]) 
-    return df
-
-
-def compute_global_isoform_metrics(df):
-    """
-    Compute global isoform diversity metrics for a single-sample (bulk) dataframe.
+    Compute number of samples expressing each feature and pi standard deviation.
 
     Parameters
     ----------
     df : pd.DataFrame
-        Input dataframe containing 'gene_id', 'transcript_id', and 'counts'.
+        DataFrame containing feature, sample, and 'pi' columns.
+    sample_col : str
+        Column representing sample IDs.
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
 
     Returns
     -------
     pd.DataFrame
-        DataFrame with computed metrics:
-        - 'gene_counts', 'pi', 'gene_potential', 'entropy', 'perplexity',
-          'round_perplexity', 'isoform_rank', 'effective_isoform'
+        DataFrame with additional columns:
+        - 'n_exp_samples': number of samples where feature is expressed
+        - 'expression_var': standard deviation of pi across samples
+    """
+    # number of samples where feature is expressed
+    df['n_exp_samples'] = df.groupby(feature_col)[sample_col].transform('nunique')
+    
+    # standard deviation of pi across samples
+    df['expression_var'] = df.groupby(feature_col)['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
+    
+    return df
+
+def compute_avg_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
+    """
+    Compute average expression across samples for each feature.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing feature, sample, and counts columns.
+    sample_col : str
+        Column representing sample IDs.
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with additional column:
+        - 'avg_<feature_col>_counts': mean counts across samples for the feature
+    """
+    temp = df[[feature_col, sample_col, 'counts']]
+
+    # filter out unexpressed features so mean denominator is correct
+    temp = temp.loc[temp['counts'] > 0]
+
+    # sum counts per feature per sample (handles cases with multiple rows per feature)
+    temp = (
+        temp.groupby([feature_col, sample_col])
+        .sum()
+        .reset_index()
+        .rename({'counts': f'{feature_col}_counts'}, axis=1)
+    )
+    temp.drop(sample_col, axis=1, inplace=True)
+
+    # then take mean across samples
+    temp = (
+        temp.groupby(feature_col)
+        .mean()
+        .reset_index()
+        .rename({f'{feature_col}_counts': f'avg_{feature_col}_counts'}, axis=1)
+    )
+
+    # merge back to original df
+    df = df.merge(temp, how='left', on=[feature_col])
+
+    return df
+
+def collapse_counts_by_feature(df,
+                               feature_col=TRANSCRIPT_COL,
+                               gene_col=GENE_COL,
+                               sample_col=None):
+    """
+    Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input table with counts at transcript level.
+    feature_col : str
+        Alternative feature column to collapse to (e.g. 'orf_id').
+    gene_col : str
+        Column identifying genes.
+    sample_col : str, optional
+        Sample column. If None, assumes single-sample bulk.
+
+    Returns
+    -------
+    pd.DataFrame
+        Collapsed df with summed counts per feature.
+    """
+    group_cols = list(set([gene_col, feature_col]))
+    if sample_col is not None:
+        group_cols.append(sample_col)
+    
+    # sum counts for all transcripts mapping to the same feature
+    out = (df.groupby(group_cols, as_index=False)['counts']
+          .sum())
+
+    return out
+
+def compute_global_isoform_metrics(df,
+                                   gene_col=GENE_COL,
+                                   feature_col=TRANSCRIPT_COL,
+                                   expression_col=EXP_COL,
+                                   expression_col_type='counts'):
+    """
+    Compute isoform or other feature diversity metrics for a single-sample (bulk) dataframe.
+    Either provide counts or TPMs; if counts, will automatically convert to TPM.
+    Optionally, collapse counts to a different feature or compute TPM.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        DataFrame containing counts at transcript level.
+    gene_col : str
+        Column representing the gene (default: 'gene_id')
+    feature_col : str
+        Column representing the feature (default: 'transcript_id')
+    expression_col : str
+        Column containing expression values (default: 'counts')
+    expression_col_type : str
+        Type of expression values contained in <expression_col>
+        'counts' or 'tpm' (default: 'counts')
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with computed metrics.
     """
     # validate input
-    validate_counts_input(df)
+    validate_counts_input(df, expression_col=expression_col)
+
+    # collapse counts if feature_col differs from transcript_col
+    df = collapse_counts_by_feature(df,
+                                    feature_col=feature_col,
+                                    gene_col=gene_col,
+                                    sample_col=None)
+
+    # compute TPM if requested
+    if expression_col_type == 'counts':
+        df = compute_tpm(df)
+    else:
+        df['tpm'] = df[expression_col]
 
     # compute isoform ratios
     df = compute_pi(df)
+    
+    # repeatedly used column args
+    col_kwargs = {'gene_col': gene_col, 'feature_col': feature_col}
 
     # compute gene-level metrics
-    df = compute_gene_potential(df)
-    df = compute_entropy(df)
-    df = compute_perplexity(df)
+    df = compute_gene_potential(df, **kwargs)
+    df = compute_entropy(df, **kwargs)
+    df = compute_perplexity(df, **kwargs)
 
-    # mark effective isoforms
-    df = call_effective_isoforms(df)
+    # mark effective features
+    df = call_effective(df, **kwargs)
 
     return df
 
-def compute_multi_sample_isoform_metrics(df, sample_col):
+def compute_multi_sample_isoform_metrics(
+    df: pd.DataFrame,
+    sample_col: str,
+    gene_col: str = GENE_COL,
+    feature_col: str = TRANSCRIPT_COL,
+    expression_col: str = EXP_COL,
+    expression_col_type: str = 'counts'
+):
     """
-    Compute isoform metrics across multiple samples.
+    Compute isoform metrics across multiple samples as well as global
+    metrics.
 
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing 'gene_id', 'transcript_id', 'counts', and sample_col.
+        Input table with counts or TPMs for all samples.
     sample_col : str
-        Name of the column identifying samples.
+        Column identifying samples.
+    gene_col : str
+        Column identifying genes.
+    feature_col : str
+        Column identifying isoforms or other features (e.g. ORFs).
+    expression_col : str
+        Column containing counts or TPMs.
+    expression_col_type : {'counts', 'tpm'}
+        Type of values in `expression_col`.
 
     Returns
     -------
     pd.DataFrame
-        DataFrame with single-sample metrics plus cross-sample metrics:
-        - 'expression_breadth', 'n_exp_samples', 'expression_var'
+        DataFrame with:
+          • per-sample metrics (gene potential, entropy, etc.)
+          • cross-sample metrics (breadth, variance, average expression)
+          • columns for global metrics.
     """
-    # validate input for multi-sample dataset
-    validate_counts_input(df, sample_col=sample_col)
-    
+    # --- 1. Validate the full input just once ---
+    validate_counts_input(df,
+                          sample_col=sample_col,
+                          gene_col=gene_col,
+                          feature_col=feature_col,
+                          expression_col=expression_col)
+
+    # --- 2. Prepare kwargs for downstream functions ---
+    col_kwargs = dict(
+        gene_col=gene_col,
+        feature_col=feature_col,
+        expression_col=expression_col,
+        expression_col_type=expression_col_type
+    )
+
+    # --- 3. Loop over samples and compute single-sample metrics ---
     samples = df[sample_col].unique().tolist()
-    big_df = pd.DataFrame()
-    
+    dfs = []
+
     for s in samples:
-        s_df = df.loc[df[sample_col] == s].copy(deep=True)
-        # delegate single-sample calculations
-        s_df = compute_global_isoform_metrics(s_df)
-        big_df = pd.concat([big_df, s_df], axis=0)
-    
-    # compute cross-sample metrics
+        s_df = df.loc[df[sample_col] == s].copy()
+        s_df = compute_global_isoform_metrics(s_df, **col_kwargs)
+        s_df[sample_col] = s  # re-attach sample ID
+        dfs.append(s_df)
+
+    big_df = pd.concat(dfs, axis=0, ignore_index=True)
+
+    # --- 4. Compute cross-sample metrics on the combined table ---
     big_df = compute_expression_breadth(big_df, sample_col=sample_col)
     big_df = compute_expression_var(big_df, sample_col=sample_col)
-    
-    # avg. expression of genes and transcripts
-    for feature_col in ['transcript_id', 'gene_id']:
+
+    for fc in [feature_col, gene_col]:
         big_df = compute_avg_expression(big_df,
                                         sample_col=sample_col,
-                                        feature_col=feature_col)
-    
+                                        feature_col=fc)
+
     return big_df
 
 def flatten_list(l):

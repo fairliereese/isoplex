@@ -14,9 +14,11 @@ classifiers = [
 ]
 license = {text = "MIT"}
 dependencies = [
-  "typer"
+  "typer",
+  "pandas",
+  "numpy"
 ]
-requires-python = ">= 3.10"
+requires-python = ">= 3.8"
 
 [project.optional-dependencies]
 test = [
