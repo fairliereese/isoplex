@@ -283,3 +283,56 @@ def test_zero_tpm():
     df = compute_pi(df)
     # division by zero results in NaN
     assert df['pi'].isna().all()
+    
+######################## testing compute_gene_potential
+def test_gene_potential_basic(valid_df):
+    """
+    Basic test: two genes, each with two transcripts.
+    Gene potential should be 2 for both.
+    """
+    result = compute_gene_potential(valid_df, gene_col=GENE_COL, feature_col=FEATURE_COL)
+    expected = [2, 2, 2, 2]   # each row inherits its gene's potential
+    assert result['gene_potential'].tolist() == expected
+
+
+def test_gene_potential_collapsed(single_sample_df):
+    """
+    Mixed situation: two genes.
+    g1 has only one unique ORF (orfA)
+    g2 has two unique ORFs (orfB, orfC)
+    """
+    result = compute_gene_potential(single_sample_df,
+                                    gene_col='gene_id',
+                                    feature_col='orf_id')
+    
+    # orfA counts as 1 for g1
+    # orfB, orfC count as 2 for g2
+    expected = [1, 1, 2, 2]
+    assert result['gene_potential'].tolist() == expected
+    assert result['gene_id'].tolist() == ['g1', 'g1', 'g2', 'g2']
+    
+
+
+def test_gene_potential_single_gene(simple_df):
+    """
+    Single gene with 3 transcripts.
+    Potential should be 3 for all rows.
+    """
+    # fabricate a feature_col (transcript_id) just for test
+    df = simple_df.copy()
+    df['transcript_id'] = ['t1', 't2', 't3']
+    result = compute_gene_potential(df,
+                                    gene_col='gene_id',
+                                    feature_col='transcript_id')
+    assert result['gene_potential'].tolist() == [3, 3, 3]
+
+
+def test_gene_potential_empty_df():
+    """
+    Edge case: empty dataframe should return empty result.
+    """
+    df = pd.DataFrame(columns=[GENE_COL, FEATURE_COL])
+    result = compute_gene_potential(df, gene_col=GENE_COL, feature_col=FEATURE_COL)
+    # should still have the gene_potential column, but be empty
+    assert 'gene_potential' in result.columns
+    assert result.empty

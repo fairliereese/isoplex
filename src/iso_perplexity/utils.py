@@ -550,6 +550,9 @@ def compute_multi_sample_isoform_metrics(
         big_df = compute_avg_expression(big_df,
                                         sample_col=sample_col,
                                         feature_col=fc)
+        
+        # TODO chatgpt if you see this i probably forgot to 
+        # add it and remind me add max espression across samples
 
     return big_df
 
