@@ -956,6 +956,6 @@ def test_manuscript_global(manuscript_df):
     eff_isos = df.loc[df.effective].transcript_id.tolist()
     truth = ['A_1', 'A_2', 'B_1', 'B_2', 'B_3', 'B_4',
              'C_1', 'C_2', 'C_3', 'C_4', 'C_5', 'C_6', 'C_7', 'C_8']
-    assert eff_isos == truth
+    assert eff_isos == truthå
     
     
