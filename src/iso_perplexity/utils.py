@@ -35,7 +35,8 @@ def validate_counts_input(
     ValueError
         If expression values contain negative numbers, or if gene/feature IDs are missing,
         or if feature IDs are duplicated (globally or per sample if sample_col is provided),
-        or if sample_col contains missing values or no samples are present.
+        or if sample_col contains missing values or no samples are present,
+        or if 0 total counts dected
     """
 
     required_cols = [gene_col, feature_col, expression_col]
@@ -55,6 +56,9 @@ def validate_counts_input(
     # expression validation
     if (df[expression_col] < 0).any():
         raise ValueError(f"Expression column '{expression_col}' contains negative values.")
+        
+    if df[expression_col].sum(axis=0) <= 0:
+        raise ValueError(f"Total counts of expression column '{expression_col}' <= 0.")
 
     # # check for duplicated identifiers
     # if sample_col is not None:
@@ -291,12 +295,12 @@ def call_effective(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
     -------
     pd.DataFrame
         DataFrame with additional columns:
-        - 'n_effective_features': perplexity rounded to nearest integer
+        - 'n_effective': perplexity rounded to nearest integer
         - 'feature_rank': rank of each feature within its gene (by pi)
-        - 'effective_feature': boolean indicating if feature is effective
+        - 'effective': boolean indicating if feature is effective
     """
     # round perplexity to nearest integer
-    df['n_effective_features'] = df['perplexity'].round(0)
+    df['n_effective'] = df['perplexity'].round(0)
 
     # rank features within each gene by pi
     df['feature_rank'] = (
@@ -306,7 +310,7 @@ def call_effective(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
     )
 
     # mark features as effective if rank <= rounded perplexity
-    df['effective_feature'] = df['feature_rank'] <= df['n_effective_features']
+    df['effective'] = df['feature_rank'] <= df['n_effective']
 
     return df
 
@@ -317,7 +321,7 @@ def compute_expression_breadth(df, sample_col, feature_col=TRANSCRIPT_COL):
     Parameters
     ----------
     df : pd.DataFrame
-        DataFrame containing feature, sample, and 'effective_feature' columns.
+        DataFrame containing feature, sample, and 'effective' columns.
     sample_col : str
         Column representing sample IDs.
     feature_col : str
@@ -333,7 +337,7 @@ def compute_expression_breadth(df, sample_col, feature_col=TRANSCRIPT_COL):
     n_samples = df[sample_col].nunique()
 
     temp = (
-        df.loc[df['effective_feature'], [feature_col, sample_col]]
+        df.loc[df['effective'], [feature_col, sample_col]]
         .groupby(feature_col)
         .nunique()
         .reset_index()
@@ -375,7 +379,8 @@ def compute_expression_var(df, sample_col, feature_col=TRANSCRIPT_COL):
 
 def compute_avg_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
-    Compute average expression across samples for each feature.
+    Compute average expression across samples for each feature. 
+    Only considers samples where feature is expressed!
 
     Parameters
     ----------
@@ -470,10 +475,14 @@ def compute_global_isoform_metrics(df,
     # compute isoform ratios
     df = compute_pi(df)
     
+    # repeatedly used column args
+    col_kwargs = {'gene_col': gene_col,
+                  'feature_col': feature_col}
+    
     # compute gene-level metrics
     df = compute_gene_potential(df, **col_kwargs)
-    df = compute_entropy(df, **col_kwargs)
-    df = compute_perplexity(df, **col_kwargs)
+    df = compute_entropy(df, gene_col=gene_col)
+    df = compute_perplexity(df)
 
     # mark effective features
     df = call_effective(df, **col_kwargs)
