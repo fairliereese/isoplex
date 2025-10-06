@@ -11,6 +11,79 @@ from iso_perplexity.utils import *
 # Fixtures: build a minimal valid dataframe
 # ------------------------------------------------------------
 @pytest.fixture
+def long_df():
+    # 2 features × 3 samples
+    return pd.DataFrame({
+        "transcript_id": ["T1", "T1", "T1", "T2", "T2", "T2"],
+        "sample":        ["S1", "S2", "S3", "S1", "S2", "S3"],
+        "tpm":           [10, 20,  0,  5,  0,  15],
+    })
+
+@pytest.fixture
+def multi_sample_counts_df():
+    # Simple table with two genes, two isoforms, two samples
+    return pd.DataFrame({
+        "gene_id": ["G1", "G1", "G2", "G2"],
+        "transcript_id": ["T1", "T2", "T3", "T4"],
+        "S1": [100, 50, 10, 0],
+        "S2": [80, 20, 5, 2],
+    })
+
+
+@pytest.fixture
+def multi_sample_tpm_df():
+    # Pretend these are TPMs
+    return pd.DataFrame({
+        "gene_id": ["G1", "G1", "G2", "G2"],
+        "transcript_id": ["T1", "T2", "T3", "T4"],
+        "S1": [60.0, 40.0, 80.0, 0.0],
+        "S2": [50.0, 50.0, 70.0, 10.0],
+    })
+
+
+
+@pytest.fixture
+def wide_df():
+    return pd.DataFrame({
+        "gene_id": ["g1", "g1", "g2"],
+        "transcript_id": ["t1", "t2", "t3"],
+        "s1": [10, 5, 3],
+        "s2": [20, 7, 8],
+    })
+
+@pytest.fixture
+def wide_valid_df():
+    # 2 genes, 2 transcripts, 2 samples
+    return pd.DataFrame({
+        "gene_id": ["g1", "g1", "g2", "g2"],
+        "transcript_id": ["t1", "t2", "t3", "t4"],
+        "s1": [10, 5, 8, 3],
+        "s2": [20, 0, 12, 6],
+    })
+
+@pytest.fixture
+def manuscript_sample_df():
+    df = pd.DataFrame()
+    df['gene_id'] = ['A' for i in range(8*4)]
+    df['transcript_id'] = flatten_list([[f'A_{j+1}' for i in range(4)] for j in range(8)])
+    df['sample'] = flatten_list([['heart', 'brain', 'lungs', 'kidney'] for i in range(8)])
+    df['pi'] = [0.5, 0.45, 0.2, 0.2,
+                0, 0, 0.1, 0.2,
+                0, 0, 0.08, 0.2,
+                0.5, 0.1, 0.02, 0.2,
+                0, 0, 0.5, 0,
+                0, 0, 0.04, 0.2,
+                0, 0.45, 0, 0,
+                0, 0, 0.06, 0]
+    
+    # long formitze it
+    df = df.pivot(index=['gene_id', 'transcript_id'], columns='sample', values='pi')
+    df = df.reset_index()
+    df.columns.name = ''
+    
+    return df
+
+@pytest.fixture
 def manuscript_df():
     df = pd.DataFrame()
     df['gene_id'] = ['A' for i in range(2)]+\
@@ -19,10 +92,11 @@ def manuscript_df():
     df['transcript_id'] = [f'A_{i+1}' for i in range(2)]+\
                           [f'B_{i+1}' for i in range(7)]+\
                           [f'C_{i+1}' for i in range(8)]
-    df['counts'] = [0.5, 0.5, 
+    df['sample'] = [0.5, 0.5, 
                  0.4, 0.35, 0.10, 0.07, 0.04, 0.03, 0.01]+\
                  [0.125 for i in range(8)]
-    df['counts'] = [i*100 for i in df['counts'].tolist()]
+    df['sample'] = [i*100 for i in df['sample'].tolist()]
+
     return df
 
 @pytest.fixture
@@ -84,7 +158,7 @@ def simple_counts_df():
     return pd.DataFrame({
         "gene_id": ["G1", "G1", "G2", "G2"],
         "transcript_id": ["T1", "T2", "T3", "T4"],
-        "counts": [100, 50, 30, 0],
+        "global_counts": [100, 50, 30, 0],
     })
 
 
@@ -95,7 +169,7 @@ def counts_with_feature():
         "gene_id": ["G1", "G1", "G1", "G1"],
         "transcript_id": ["T1", "T2", "T3", "T4"],
         "alt_feature": ["F1", "F1", "F2", "F2"],
-        "counts": [10, 20, 0, 5],
+        "global_counts": [10, 20, 0, 5],
     })
 
 
@@ -103,6 +177,7 @@ def counts_with_feature():
 def tpm_df(simple_counts_df):
     """Fake TPM dataset corresponding to the simple counts."""
     df = simple_counts_df.copy()
+    df.drop('global_counts', axis=1, inplace=True)
     df["tpm"] = [60.0, 40.0, 80.0, 0.0]
     return df
 
@@ -112,111 +187,120 @@ def tpm_df(simple_counts_df):
 # ------------------------------------------------------------
 # 1. Passing test: everything is valid
 # ------------------------------------------------------------
-def test_validate_counts_input_valid(valid_df):
-    assert validate_counts_input(valid_df,
-                                 gene_col=GENE_COL,
-                                 feature_col=FEATURE_COL,
-                                 sample_col=SAMPLE_COL,
-                                 expression_col=EXP_COL)
+def test_validate_counts_input_valid(wide_valid_df):
+    assert validate_counts_input(wide_valid_df,
+                                 gene_col="gene_id",
+                                 feature_col="transcript_id")
 
 
 # ------------------------------------------------------------
 # 2. Missing required columns
 # ------------------------------------------------------------
-def test_missing_columns(valid_df):
-    bad_df = valid_df.drop(columns=[FEATURE_COL])
+def test_missing_columns(wide_valid_df):
+    bad_df = wide_valid_df.drop(columns=["transcript_id"])
     with pytest.raises(KeyError, match="Missing required columns"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
 
 
 # ------------------------------------------------------------
 # 3. Null values in gene or feature columns
 # ------------------------------------------------------------
-def test_null_gene_values(valid_df):
-    bad_df = valid_df.copy()
-    bad_df.loc[0, GENE_COL] = None
-    with pytest.raises(ValueError, match=f"Missing {GENE_COL}"):
+def test_null_gene_values(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df.loc[0, "gene_id"] = None
+    with pytest.raises(ValueError, match="Missing values in `gene_id`"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
 
 
-def test_null_feature_values(valid_df):
-    bad_df = valid_df.copy()
-    bad_df.loc[0, FEATURE_COL] = None
-    with pytest.raises(ValueError, match=f"Missing {FEATURE_COL}"):
+def test_null_feature_values(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df.loc[0, "transcript_id"] = None
+    with pytest.raises(ValueError, match="Missing values in `transcript_id`"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
-
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
 
 # ------------------------------------------------------------
 # 4. Negative expression values
 # ------------------------------------------------------------
-def test_negative_expression(valid_df):
-    bad_df = valid_df.copy()
-    bad_df.loc[1, EXP_COL] = -5
+def test_negative_expression(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df.loc[0, "s1"] = -5
     with pytest.raises(ValueError, match="negative"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
-        
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
+     
+def test_all_zero_expression(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df[["s1", "s2"]] = 0
+    with pytest.raises(ValueError, match="sum to zero"):
+        validate_counts_input(bad_df,
+                              gene_col="gene_id",
+                              feature_col="transcript_id")    
+
 # ------------------------------------------------------------
 # 4.5. Negative expression values
 # ------------------------------------------------------------
-def test_negative_expression(valid_df):
-    bad_df = valid_df.copy()
-    bad_df[EXP_COL] = 0
-    with pytest.raises(ValueError, match="<= 0"):
+def test_negative_expression(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df.loc[0, "s1"] = -5
+    with pytest.raises(ValueError, match="negative"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
 
 
 # ------------------------------------------------------------
-# 5. Sample column checks
+# 6. Extra non-numeric metadata column
 # ------------------------------------------------------------
-def test_missing_sample_values(valid_df):
-    bad_df = valid_df.copy()
-    bad_df.loc[2, SAMPLE_COL] = None
-    with pytest.raises(ValueError, match="contains missing values"):
+def test_extra_non_numeric_column(wide_valid_df):
+    bad_df = wide_valid_df.copy()
+    bad_df["metadata"] = ["meta1", "meta2", "meta3", "meta4"]
+    with pytest.raises(ValueError, match="non-numeric columns"):
         validate_counts_input(bad_df,
-                              gene_col=GENE_COL,
-                              feature_col=FEATURE_COL,
-                              sample_col=SAMPLE_COL,
-                              expression_col=EXP_COL)
+                              gene_col="gene_id",
+                              feature_col="transcript_id")
 
+# ########### wide to long tests
+# def test_wide_to_long_basic(wide_df):
+#     out = wide_to_long(wide_df,
+#                        gene_col="gene_id",
+#                        feature_col="transcript_id",
+#                        expression_type="counts")
 
-# def test_no_samples(valid_df):
-#     bad_df = valid_df.copy()
-#     bad_df[SAMPLE_COL] = 'one_sample'
-#     with pytest.raises(ValueError, match="one sample"):
-#         validate_counts_input(
-#             bad_df,
-#             gene_col=GENE_COL,
-#             feature_col=FEATURE_COL,
-#             sample_col=SAMPLE_COL,
-#             expression_col=EXP_COL,
-#         )
+#     # expected shape: rows = original_rows * num_samples
+#     assert out.shape == (wide_df.shape[0] * 2, 4)
+#     assert set(out.columns) == {"gene_id", "transcript_id", "sample", "counts"}
 
+#     # check a few known values
+#     first_row = out.iloc[0]
+#     assert first_row["gene_id"] == "g1"
+#     assert first_row["transcript_id"] == "t1"
+#     assert first_row["sample"] in ["s1", "s2"]
+#     assert first_row["counts"] in [10, 20]
+
+# # ------------------------------------------------------------
+# # 2. Works with different expression column name
+# # ------------------------------------------------------------
+# def test_wide_to_long_with_tpm(wide_df):
+#     out = wide_to_long(wide_df,
+#                        gene_col="gene_id",
+#                        feature_col="transcript_id",
+#                        expression_type="tpm")
+#     assert "tpm" in out.columns
+#     assert "counts" not in out.columns
+        
 ################# collapse_counts_by_feature tests
 def test_collapse_single_sample(single_sample_df):
     out = collapse_counts_by_feature(
         single_sample_df,
         feature_col="orf_id",
-        expression_col="counts",
+        expression_type="counts",
         gene_col="gene_id",
         sample_col=None
     )
@@ -237,7 +321,7 @@ def test_collapse_multi_sample(multi_sample_df):
     out = collapse_counts_by_feature(
         multi_sample_df,
         feature_col="orf_id",
-        expression_col="counts",
+        expression_type="counts",
         gene_col="gene_id",
         sample_col="sample"
     )
@@ -263,7 +347,7 @@ def test_no_collapse_needed(single_sample_df):
     out = collapse_counts_by_feature(
         single_sample_df,
         feature_col="transcript_id",
-        expression_col="counts",
+        expression_type="counts",
         gene_col="gene_id",
         sample_col=None
     )
@@ -770,7 +854,7 @@ def simple_multi_sample_df():
     return pd.DataFrame({
         'transcript_id': ['t1', 't1', 't1', 't2', 't2', 't2'],
         'sample':        ['s1', 's2', 's3', 's1', 's2', 's3'],
-        'counts':        [10, 20, 30, 5, 0, 0]
+        'tpm':        [10, 20, 30, 5, 0, 0]
     })
 
 
@@ -783,7 +867,7 @@ def duplicated_rows_df():
     return pd.DataFrame({
         'transcript_id': ['t1', 't1', 't1', 't1', 't2', 't2'],
         'sample':        ['s1', 's1', 's2', 's3', 's1', 's2'],
-        'counts':        [5, 5, 20, 30, 10, 15]  # t1 has duplicate rows in s1
+        'tpm':        [5, 5, 20, 30, 10, 15]  # t1 has duplicate rows in s1
     })
 
 
@@ -795,9 +879,8 @@ def all_unexpressed_df():
     return pd.DataFrame({
         'transcript_id': ['t1', 't1', 't2', 't2'],
         'sample':        ['s1', 's2', 's1', 's2'],
-        'counts':        [0, 0, 0, 0]
+        'tpm':        [0, 0, 0, 0]
     })
-
 
 # --- Tests ---
 
@@ -805,43 +888,23 @@ def test_basic_avg_expression(simple_multi_sample_df):
     """
     Average expression excludes zero-count samples.
     """
+    
     df = compute_avg_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
     
     # For t1: (10+20+30)/3 = 20
-    assert df.loc[df['transcript_id'] == 't1', 'avg_transcript_id_counts'].iloc[0] == 20
+    assert df.loc[df['transcript_id'] == 't1', 'avg_transcript_id_tpm'].iloc[0] == 20
 
     # For t2: only s1 is expressed, so mean = 5 (not 5/3)
-    assert df.loc[df['transcript_id'] == 't2', 'avg_transcript_id_counts'].iloc[0] == 5
-
-# this should not be a possibility given
-# input checking
-# def test_duplicate_rows_handled(duplicated_rows_df):
-#     """
-#     Duplicate rows for the same feature/sample should be summed first.
-#     """
-#     df = compute_avg_expression(duplicated_rows_df, sample_col='sample', feature_col='transcript_id')
-    
-#     import pdb; pdb.set_trace()
-
-#     # t1: s1=5+5=10, s2=20, s3=30 -> mean = (10+20+30)/3 = 20
-#     assert pytest.approx(
-#         df.loc[df['transcript_id'] == 't1', 'avg_transcript_id_counts'].iloc[0], rel=1e-8
-#     ) == 20
-
-#     # t2: s1=10, s2=15 -> mean = (10+15)/2 = 12.5
-#     assert pytest.approx(
-#         df.loc[df['transcript_id'] == 't2', 'avg_transcript_id_counts'].iloc[0], rel=1e-8
-#     ) == 12.5
-
+    assert df.loc[df['transcript_id'] == 't2', 'avg_transcript_id_tpm'].iloc[0] == 5
 
 def test_all_unexpressed(all_unexpressed_df):
     """
     If a feature is never expressed, the average should be NaN.
     """
     df = compute_avg_expression(all_unexpressed_df, sample_col='sample', feature_col='transcript_id')
-
+    
     # Both features are unexpressed -> NaN
-    assert df['avg_transcript_id_counts'].isna().all()
+    assert df['avg_transcript_id_tpm'].isna().all()
 
 
 def test_merge_preserves_rows(simple_multi_sample_df):
@@ -851,14 +914,60 @@ def test_merge_preserves_rows(simple_multi_sample_df):
     df = compute_avg_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
     
     assert len(df) == len(simple_multi_sample_df), "Row count changed after merging"
-    assert 'avg_transcript_id_counts' in df.columns
+    assert 'avg_transcript_id_tpm' in df.columns
 
+########## max expression tests
+def test_basic_max_expression(simple_multi_sample_df):
+    """
+    The max expression for each feature should be the maximum
+    TPM among non-zero samples.
+    """
+    df = compute_max_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
+
+    # For t1: max across s1=10, s2=20, s3=30 → 30
+    assert df.loc[df['transcript_id'] == 't1', 'max_transcript_id_tpm'].iloc[0] == 30
+
+    # For t2: max across s1=5, s2=0, s3=0 → 5
+    assert df.loc[df['transcript_id'] == 't2', 'max_transcript_id_tpm'].iloc[0] == 5
+
+def test_duplicate_rows_handled(duplicated_rows_df):
+    """
+    Duplicated entries for the same feature+sample
+    should be summed before taking the max.
+    """
+    
+    df = compute_max_expression(duplicated_rows_df, sample_col='sample', feature_col='transcript_id')
+
+    # t1 has s1: 5+5=10, s2:20, s3:30 → max=30
+    assert df.loc[df['transcript_id'] == 't1', 'max_transcript_id_tpm'].iloc[0] == 30
+
+    # t2 has s1=10, s2=15 → max=15
+    assert df.loc[df['transcript_id'] == 't2', 'max_transcript_id_tpm'].iloc[0] == 15
+
+
+def test_all_unexpressed(all_unexpressed_df):
+    """
+    If a feature is never expressed (>0), max should be NaN.
+    """
+    df = compute_max_expression(all_unexpressed_df, sample_col='sample', feature_col='transcript_id')
+
+    assert df['max_transcript_id_tpm'].isna().all()
+
+
+def test_merge_preserves_rows(simple_multi_sample_df):
+    """
+    Ensure the row count and order are preserved after merging back.
+    """
+    df = compute_max_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
+
+    assert len(df) == len(simple_multi_sample_df)
+    assert 'max_transcript_id_tpm' in df.columns
+    
 
 ############# testing compute_global_isoform_metrics
 def test_happy_path_counts(simple_counts_df):
     df_out = compute_global_isoform_metrics(simple_counts_df,
-                                            expression_col="counts",
-                                            expression_col_type="counts")
+                                            expression_type="counts")
     
     # Expect same rows as input
     assert len(df_out) == len(simple_counts_df)
@@ -873,67 +982,63 @@ def test_happy_path_counts(simple_counts_df):
 
 
 def test_happy_path_tpm(tpm_df):
+        
     df_out = compute_global_isoform_metrics(tpm_df,
-                                            expression_col="tpm",
-                                            expression_col_type="tpm")
+                                            expression_type='tpm')
+    
     # Should not overwrite supplied TPM
     assert np.allclose(df_out["tpm"], tpm_df["tpm"], equal_nan=True)
 
 
-def test_invalid_input_missing_col(simple_counts_df):
-    df_bad = simple_counts_df.drop(columns=["counts"])
-    with pytest.raises(KeyError, match="counts"):
+def test_invalid_input_missing_expression(simple_counts_df):
+    df_bad = simple_counts_df.drop(columns=["global_counts"])
+    with pytest.raises(ValueError, match="No sample"):
         compute_global_isoform_metrics(df_bad,
-                                       expression_col="counts",
-                                       expression_col_type="counts")
+                                       expression_type="counts")
 
 def test_invalid_input_negative_counts(simple_counts_df):
     df_bad = simple_counts_df.copy()
-    df_bad.loc[0, "counts"] = -10
+    df_bad.loc[0, "global_counts"] = -10
     with pytest.raises(ValueError, match="negative"):
         compute_global_isoform_metrics(df_bad,
-                                       expression_col="counts",
-                                       expression_col_type="counts")
-
+                                       expression_type="counts")
 
 # def test_zero_counts_behavior(simple_counts_df):
 #     df = simple_counts_df.copy()
 #     df["counts"] = [0, 0, 0, 0]
 #     df_out = compute_global_isoform_metrics(df,
-#                                             expression_col="counts",
-#                                             expression_col_type="counts")
+#                                             expression_type="counts",
+#                                             expression_type_type="counts")
 #     # All TPM and pi should be zero or NaN-safe
 #     assert (df_out["tpm"] == 0).all() or (df_out["tpm"].fillna(0) == 0).all()
 
 
 def test_collapsing_feature(counts_with_feature):
+    counts_with_feature = counts_with_feature.drop('transcript_id', axis=1)
     df_out = compute_global_isoform_metrics(counts_with_feature,
                                             gene_col="gene_id",
                                             feature_col="alt_feature",
-                                            expression_col="counts",
-                                            expression_col_type="counts")
+                                            expression_type="counts")
     # Expect output to have unique alt_feature per gene
     assert df_out["alt_feature"].nunique() == 2
 
 
-# def test_unexpected_sample_column(simple_counts_df):
-#     df = simple_counts_df.copy()
-#     df["sample"] = ["s1", "s1", "s1", "s1"]
-#     # Should error because this function is single-sample only
-#     with pytest.raises(ValueError, match="single-sample"):
-#         compute_global_isoform_metrics(df,
-#                                        expression_col="counts",
-#                                        expression_col_type="counts")
+# # def test_unexpected_sample_column(simple_counts_df):
+# #     df = simple_counts_df.copy()
+# #     df["sample"] = ["s1", "s1", "s1", "s1"]
+# #     # Should error because this function is single-sample only
+# #     with pytest.raises(ValueError, match="single-sample"):
+# #         compute_global_isoform_metrics(df,
+# #                                        expression_type="counts",
+# #                                        expression_type_type="counts")
 
 
 def test_order_independence(simple_counts_df):
     shuffled = simple_counts_df.sample(frac=1, random_state=42)
     out1 = compute_global_isoform_metrics(simple_counts_df,
-                                          expression_col="counts",
-                                          expression_col_type="counts")
+                                          expression_type="counts")
     out2 = compute_global_isoform_metrics(shuffled,
-                                          expression_col="counts",
-                                          expression_col_type="counts")
+                                          expression_type="counts")
 
     # Sort both outputs for comparison
     out1_sorted = out1.sort_values(["gene_id", "transcript_id"]).reset_index(drop=True)
@@ -944,8 +1049,7 @@ def test_order_independence(simple_counts_df):
 
 def test_manuscript_global(manuscript_df):
     df = compute_global_isoform_metrics(manuscript_df,
-                                          expression_col="counts",
-                                          expression_col_type="counts")
+                                          expression_type="counts")
     
     # gene-level metrics
     assert df.set_index('gene_id')['gene_potential'].to_dict() == {'A': 2, 'B': 7, 'C': 8}
@@ -956,6 +1060,114 @@ def test_manuscript_global(manuscript_df):
     eff_isos = df.loc[df.effective].transcript_id.tolist()
     truth = ['A_1', 'A_2', 'B_1', 'B_2', 'B_3', 'B_4',
              'C_1', 'C_2', 'C_3', 'C_4', 'C_5', 'C_6', 'C_7', 'C_8']
-    assert eff_isos == truthå
+    assert eff_isos == truth
+    
+############## testing multi sample workflow
+def test_multi_sample_happy_path(multi_sample_counts_df):
+    out = compute_multi_sample_isoform_metrics(
+        multi_sample_counts_df,
+        gene_col="gene_id",
+        feature_col="transcript_id",
+        expression_type="counts"
+    )
+    
+    # Expect 2 samples × 4 isoforms = 8 rows
+    assert len(out) == 8
+
+    # There should be a column for sample ID
+    assert "sample" in out.columns
+    assert set(out["sample"]) == {"S1", "S2"}
+
+    # Per-sample metrics should exist
+    for col in ["tpm", "pi", "gene_potential", "entropy", "perplexity", "effective"]:
+        assert col in out.columns
+
+    # Cross-sample metrics should exist
+    assert any("breadth" in c for c in out.columns)
+    assert any("expression_var" in c for c in out.columns)
+    assert any("avg_transcript_id_tpm" in c for c in out.columns)
+    assert any("avg_gene_id_tpm" in c for c in out.columns)
+    assert any("max_gene_id_tpm" in c for c in out.columns)
+    assert any("max_transcript_id_tpm" in c for c in out.columns)
     
     
+
+def test_multi_sample_tpm(multi_sample_tpm_df):
+    
+    out = compute_multi_sample_isoform_metrics(
+        multi_sample_tpm_df,
+        gene_col="gene_id",
+        feature_col="transcript_id",
+        expression_type="tpm"
+    )
+    
+
+    # Should use provided TPM directly, not recompute
+    assert np.allclose(
+        out[out["sample"] == "S1"].sort_values("transcript_id")["tpm"].values,
+        multi_sample_tpm_df["S1"].values
+    )
+
+def test_multi_sample_missing_sample(multi_sample_counts_df):
+    bad = multi_sample_counts_df.drop(columns=["S1", "S2"])
+    with pytest.raises(Exception):   # ValueError/KeyError depending on validator
+        compute_multi_sample_isoform_metrics(
+            bad,
+            gene_col="gene_id",
+            feature_col="transcript_id",
+            expression_type="counts"
+        )
+
+
+def test_multi_sample_negative_counts(multi_sample_counts_df):
+    bad = multi_sample_counts_df.copy()
+    bad.loc[0, "S1"] = -5
+    with pytest.raises(ValueError, match="negative"):
+        compute_multi_sample_isoform_metrics(
+            bad,
+            gene_col="gene_id",
+            feature_col="transcript_id",
+            expression_type="counts"
+        )
+
+def test_multi_sample_order_independence(multi_sample_counts_df):
+    shuffled = multi_sample_counts_df.sample(frac=1, random_state=42)
+
+    out1 = compute_multi_sample_isoform_metrics(
+        multi_sample_counts_df,
+        gene_col="gene_id",
+        feature_col="transcript_id",
+        expression_type="counts"
+    )
+    out2 = compute_multi_sample_isoform_metrics(
+        shuffled,
+        gene_col="gene_id",
+        feature_col="transcript_id",
+        expression_type="counts"
+    )
+
+    # Sort for comparison
+    cols_to_check = ["gene_id", "transcript_id", "sample", "tpm"]
+    out1s = out1[cols_to_check].sort_values(cols_to_check).reset_index(drop=True)
+    out2s = out2[cols_to_check].sort_values(cols_to_check).reset_index(drop=True)
+
+    pd.testing.assert_frame_equal(out1s, out2s)
+
+# now the most important test is if the manuscript output is correct
+def test_manuscript_sample(manuscript_sample_df):
+    df = compute_multi_sample_isoform_metrics(manuscript_sample_df,
+                                              gene_col='gene_id',
+                                              feature_col='transcript_id',
+                                              expression_type='counts')
+    
+    # gene-level metrics
+    assert df.set_index('gene_id')['gene_potential'].to_dict() == {'A': 8}
+
+    # effective isoforms
+    
+    # sample level metrics
+    assert df.set_index('sample')['perplexity'].to_dict() == pytest.approx({'heart':2, 'brain':2.58, 'lungs':4.38, 'kidney':5}, rel=1e6)
+    
+    # tissue-level metrics
+    assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':100, 'A_2':50, 'A_3':50, 'A_4':75, 'A_5':25, 'A_6':25, 'A_7':25, 'A_8':0}, rel=1e6)
+    assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':0.160, 'A_2':0.096, 'A_3':0.094, 'A_4':0.210, 'A_5':0.250, 'A_6':0.095, 'A_7':0.225, 'A_8':0.030}, rel=1e6)
