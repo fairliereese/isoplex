@@ -536,7 +536,7 @@ def compute_multi_sample_isoform_metrics(
           • per-sample metrics (gene potential, entropy, etc.)
           • cross-sample metrics (breadth, variance, average expression)
           • columns for global metrics.
-    """
+    """    
 
     # validate input
     validate_counts_input(df,
