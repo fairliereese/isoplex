@@ -24,10 +24,10 @@ You can either clone the public repository:
 git clone git://github.com/fairliereese/iso_perplexity
 ```
 
-Or download the [tarball](https://github.com/fairliereese/iso_perplexity/tarball/master):
+Or download the [tarball](https://github.com/fairliereese/iso_perplexity/tarball/main):
 
 ```sh
-curl -OJL https://github.com/fairliereese/iso_perplexity/tarball/master
+curl -OJL https://github.com/fairliereese/iso_perplexity/tarball/main
 ```
 
 Once you have a copy of the source, you can install it with:
