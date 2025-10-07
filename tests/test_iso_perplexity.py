@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import pytest
-from iso_perplexity.utils import *
+from isoplex.utils import *
 
-"""Tests for `iso_perplexity` package."""
+"""Tests for `isoplex` package."""
 
-# from iso_perplexity import iso_perplexity
+# from isoplex import isoplex
 
 
 # ------------------------------------------------------------

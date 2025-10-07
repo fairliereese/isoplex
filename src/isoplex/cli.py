@@ -1,11 +1,11 @@
-"""Console script for iso_perplexity."""
+"""Console script for isoplex."""
 
 import typer
 from rich.console import Console
 import pandas as pd
-from iso_perplexity import utils
+from isoplex import utils
 
-app = typer.Typer(help='Command line for running iso_perplexity')
+app = typer.Typer(help='Command line for running isoplex')
 console = Console()
 
 

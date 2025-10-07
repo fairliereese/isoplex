@@ -1,1 +1,1 @@
-"""Unit test package for iso_perplexity."""
+"""Unit test package for isoplex."""

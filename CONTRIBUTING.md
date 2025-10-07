@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at https://github.com/fairliereese/iso_perplexity/issues.
+Report bugs at https://github.com/fairliereese/isoplex/issues.
 
 If you are reporting a bug, please include:
 
@@ -30,7 +30,7 @@ Isoform Perplexity could always use more documentation, whether as part of the o
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at https://github.com/fairliereese/iso_perplexity/issues.
+The best way to send feedback is to file an issue at https://github.com/fairliereese/isoplex/issues.
 
 If you are proposing a feature:
 
@@ -40,20 +40,20 @@ If you are proposing a feature:
 
 ## Get Started!
 
-Ready to contribute? Here's how to set up `iso_perplexity` for local development.
+Ready to contribute? Here's how to set up `isoplex` for local development.
 
-1. Fork the `iso_perplexity` repo on GitHub.
+1. Fork the `isoplex` repo on GitHub.
 2. Clone your fork locally:
 
    ```sh
-   git clone git@github.com:your_name_here/iso_perplexity.git
+   git clone git@github.com:your_name_here/isoplex.git
    ```
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development:
 
    ```sh
-   mkvirtualenv iso_perplexity
-   cd iso_perplexity/
+   mkvirtualenv isoplex
+   cd isoplex/
    python setup.py develop
    ```
 
@@ -99,7 +99,7 @@ Before you submit a pull request, check that it meets these guidelines:
 To run a subset of tests:
 
 ```sh
-pytest tests.test_iso_perplexity
+pytest tests.test_isoplex
 ```
 
 ## Deploying

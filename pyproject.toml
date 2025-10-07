@@ -1,5 +1,5 @@
 [project]
-name = "iso_perplexity"
+name = "isoplex"
 version = "0.1.0"
 description = "Compute and filter isoforms based on perplexity"
 readme = "README.md"
@@ -22,7 +22,7 @@ requires-python = ">= 3.8"
 
 # tell setuptools to find the package in src/
 [tool.setuptools]
-packages = ["iso_perplexity"]
+packages = ["isoplex"]
 package-dir = {"" = "src"}
 
 [project.optional-dependencies]
@@ -35,12 +35,12 @@ test = [
 ]
 
 [project.urls]
-bugs = "https://github.com/fairliereese/iso_perplexity/issues"
-changelog = "https://github.com/fairliereese/iso_perplexity/blob/master/changelog.md"
-homepage = "https://github.com/fairliereese/iso_perplexity"
+bugs = "https://github.com/fairliereese/isoplex/issues"
+changelog = "https://github.com/fairliereese/isoplex/blob/master/changelog.md"
+homepage = "https://github.com/fairliereese/isoplex"
 
 [project.scripts]
-iso_perplexity = "iso_perplexity.cli:app"
+isoplex = "isoplex.cli:app"
 
 [tool.ty]
 # All rules are enabled as "error" by default; no need to specify unless overriding.

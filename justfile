@@ -1,4 +1,4 @@
-# Justfile for iso_perplexity
+# Justfile for isoplex
 
 # Show available commands
 list:
