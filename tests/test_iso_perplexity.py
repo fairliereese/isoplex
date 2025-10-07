@@ -425,38 +425,38 @@ def test_zero_tpm():
     # division by zero results in NaN
     assert df['pi'].isna().all()
 
-######################## testing compute_gene_potential
-def test_gene_potential_basic(valid_df):
+######################## testing compute_n_detected_features
+def test_n_detected_features_basic(valid_df):
     """
     Basic test: two genes, each with two transcripts.
     Gene potential should be 2 for both.
     """
     valid_df.rename({EXP_COL:'tpm'}, axis=1, inplace=True) # filter here requires tpm col
-    result = compute_gene_potential(valid_df, gene_col=GENE_COL, feature_col=FEATURE_COL)
+    result = compute_n_detected_features(valid_df, gene_col=GENE_COL, feature_col=FEATURE_COL)
     expected = [2, 2, 2, 2]   # each row inherits its gene's potential
-    assert result['gene_potential'].tolist() == expected
+    assert result['n_detected_features'].tolist() == expected
 
 
-def test_gene_potential_collapsed(single_sample_df):
+def test_n_detected_features_collapsed(single_sample_df):
     """
     Mixed situation: two genes.
     g1 has only one unique ORF (orfA)
     g2 has two unique ORFs (orfB, orfC)
     """
     single_sample_df.rename({'counts':'tpm'}, axis=1, inplace=True)
-    result = compute_gene_potential(single_sample_df,
+    result = compute_n_detected_features(single_sample_df,
                                     gene_col='gene_id',
                                     feature_col='orf_id')
 
     # orfA counts as 1 for g1
     # orfB, orfC count as 2 for g2
     expected = [1, 1, 2, 2]
-    assert result['gene_potential'].tolist() == expected
+    assert result['n_detected_features'].tolist() == expected
     assert result['gene_id'].tolist() == ['g1', 'g1', 'g2', 'g2']
 
 
 
-def test_gene_potential_single_gene(simple_df):
+def test_n_detected_features_single_gene(simple_df):
     """
     Single gene with 3 transcripts.
     Potential should be 3 for all rows.
@@ -464,20 +464,20 @@ def test_gene_potential_single_gene(simple_df):
     # fabricate a feature_col (transcript_id) just for test
     df = simple_df.copy()
     df['transcript_id'] = ['t1', 't2', 't3']
-    result = compute_gene_potential(df,
+    result = compute_n_detected_features(df,
                                     gene_col='gene_id',
                                     feature_col='transcript_id')
-    assert result['gene_potential'].tolist() == [3, 3, 3]
+    assert result['n_detected_features'].tolist() == [3, 3, 3]
 
 
-def test_gene_potential_empty_df():
+def test_n_detected_features_empty_df():
     """
     Edge case: empty dataframe should return empty result.
     """
     df = pd.DataFrame(columns=[GENE_COL, FEATURE_COL, 'tpm'])
-    result = compute_gene_potential(df, gene_col=GENE_COL, feature_col=FEATURE_COL)
-    # should still have the gene_potential column, but be empty
-    assert 'gene_potential' in result.columns
+    result = compute_n_detected_features(df, gene_col=GENE_COL, feature_col=FEATURE_COL)
+    # should still have the n_detected_features column, but be empty
+    assert 'n_detected_features' in result.columns
     assert result.empty
 
 ########### test compute_entropy
@@ -976,7 +976,7 @@ def test_happy_path_counts(simple_counts_df):
 
     # Columns we expect to be present
     expected_cols = {"gene_id", "transcript_id", "counts", "tpm",
-                     "pi", "gene_potential", "entropy", "perplexity", "effective"}
+                     "pi", "n_detected_features", "entropy", "perplexity", "effective"}
     assert expected_cols.issubset(df_out.columns)
 
     # Check that TPM was computed
@@ -1054,7 +1054,7 @@ def test_manuscript_global(manuscript_df):
                                           expression_type="counts")
 
     # gene-level metrics
-    assert df.set_index('gene_id')['gene_potential'].to_dict() == {'A': 2, 'B': 7, 'C': 8}
+    assert df.set_index('gene_id')['n_detected_features'].to_dict() == {'A': 2, 'B': 7, 'C': 8}
     assert df.set_index('gene_id')['entropy'].to_dict() == pytest.approx({'A': 1, 'B': 2.06, 'C': 3}, rel=1e6)
     assert df.set_index('gene_id')['perplexity'].to_dict() == pytest.approx({'A': 2, 'B': 4.18, 'C': 8}, rel=1e6)
 
@@ -1081,7 +1081,7 @@ def test_multi_sample_happy_path(multi_sample_counts_df):
     assert set(out["sample"]) == {"S1", "S2"}
 
     # Per-sample metrics should exist
-    for col in ["tpm", "pi", "gene_potential", "entropy", "perplexity", "effective"]:
+    for col in ["tpm", "pi", "n_detected_features", "entropy", "perplexity", "effective"]:
         assert col in out.columns
 
     # Cross-sample metrics should exist
@@ -1163,7 +1163,7 @@ def test_manuscript_sample(manuscript_sample_df):
                                               expression_type='counts')
 
     # gene-level metrics
-    assert df.set_index('sample')['gene_potential'].to_dict() == {'heart': 2, 'brain': 3, 'lungs': 7, 'kidney': 5}
+    assert df.set_index('sample')['n_detected_features'].to_dict() == {'heart': 2, 'brain': 3, 'lungs': 7, 'kidney': 5}
 
     # effective isoforms
 

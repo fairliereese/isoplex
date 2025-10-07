@@ -1,7 +1,7 @@
 [project]
 name = "isoplex"
 version = "0.1.0"
-description = "Compute and filter isoforms based on perplexity"
+description = "Compute and filter isoforms or other features based on perplexity"
 readme = "README.md"
 authors = [
   {name = "Fairlie Reese", email = "fairlie.reese@gmail.com"}

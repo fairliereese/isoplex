@@ -164,7 +164,7 @@ def compute_pi(df, gene_col=GENE_COL):
     df = df.drop(columns='gene_tpm')
     return df
 
-def compute_gene_potential(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
+def compute_n_detected_features(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
     """
     Compute gene potential based on the number of unique expressed features per gene.
 
@@ -181,20 +181,20 @@ def compute_gene_potential(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
     -------
     pd.DataFrame
         DataFrame with an additional column:
-        - 'gene_potential': number of unique features per gene
+        - 'n_detected_features': number of unique features per gene
     """
     # count unique expressed features per gene
     temp = df.loc[df.tpm>0].copy(deep=True)
-    gene_potential_df = (
+    n_detected_features_df = (
         temp[[gene_col, feature_col]]
         .groupby(gene_col)
         .nunique()
         .reset_index()
-        .rename({feature_col: 'gene_potential'}, axis=1)
+        .rename({feature_col: 'n_detected_features'}, axis=1)
     )
 
     # merge back to original df
-    df = df.merge(gene_potential_df, how='left', on=gene_col)
+    df = df.merge(n_detected_features_df, how='left', on=gene_col)
 
     return df
 
@@ -500,7 +500,7 @@ def compute_global_isoform_metrics(df,
     df = compute_pi(df)
 
     # compute gene-level metrics
-    df = compute_gene_potential(df, gene_col=gene_col, feature_col=feature_col)
+    df = compute_n_detected_features(df, gene_col=gene_col, feature_col=feature_col)
     df = compute_entropy(df, gene_col=gene_col)
     df = compute_perplexity(df)
 
