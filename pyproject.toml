@@ -16,7 +16,7 @@ license = {text = "MIT"}
 dependencies = [
   "typer",
   "pandas",
-  "numpy"
+  "numpy",
 ]
 requires-python = ">= 3.8"
 

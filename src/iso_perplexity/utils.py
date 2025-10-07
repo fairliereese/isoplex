@@ -82,7 +82,7 @@ def rename_sample_col( df: pd.DataFrame,
                                                       feature_col]]
     if len(sample_cols)>1:
         raise ValueError('DF has more than one sample')
-    
+
     sample = sample_cols[0]
     df.rename({sample:expression_type}, axis=1, inplace=True)
     return df
@@ -117,7 +117,7 @@ def collapse_counts_by_feature(df,
 
     if sample_col is not None:
         group_cols.append(sample_col)
-    
+
     # sum counts for all transcripts mapping to the same feature
     out = (df.groupby(group_cols, as_index=False)[expression_type]
           .sum())
@@ -183,9 +183,10 @@ def compute_gene_potential(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
         DataFrame with an additional column:
         - 'gene_potential': number of unique features per gene
     """
-    # count unique features per gene
+    # count unique expressed features per gene
+    temp = df.loc[df.tpm>0].copy(deep=True)
     gene_potential_df = (
-        df[[gene_col, feature_col]]
+        temp[[gene_col, feature_col]]
         .groupby(gene_col)
         .nunique()
         .reset_index()
@@ -349,15 +350,15 @@ def compute_expression_var(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
     # number of samples where feature is expressed
     df['n_exp_samples'] = df.groupby(feature_col)[sample_col].transform('nunique')
-    
+
     # standard deviation of pi across samples
     df['expression_var'] = df.groupby(feature_col)['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
-    
+
     return df
 
 def compute_max_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
-    Compute maximum expression across samples for each feature. 
+    Compute maximum expression across samples for each feature.
     Only considers samples where feature is expressed!
 
     Parameters
@@ -374,7 +375,7 @@ def compute_max_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
     pd.DataFrame
         DataFrame with additional column:
         - 'avg_<feature_col>_tpm': mean tpm across samples for the feature
-    """    
+    """
     temp = df[[feature_col, sample_col, 'tpm']]
 
     # filter out unexpressed features so mean denominator is correct
@@ -404,7 +405,7 @@ def compute_max_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
 
 def compute_avg_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
     """
-    Compute average expression across samples for each feature. 
+    Compute average expression across samples for each feature.
     Only considers samples where feature is expressed!
 
     Parameters
@@ -421,7 +422,7 @@ def compute_avg_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
     pd.DataFrame
         DataFrame with additional column:
         - 'avg_<feature_col>_tpm': mean tpm across samples for the feature
-    """    
+    """
     temp = df[[feature_col, sample_col, 'tpm']]
 
     # filter out unexpressed features so mean denominator is correct
@@ -478,9 +479,9 @@ def compute_global_isoform_metrics(df,
     validate_counts_input(df,
                           gene_col=gene_col,
                           feature_col=feature_col)
-    
+
     # convert from wide to long
-    df = rename_sample_col(df, 
+    df = rename_sample_col(df,
                       gene_col=gene_col,
                       feature_col=feature_col,
                       expression_type=expression_type)
@@ -492,12 +493,12 @@ def compute_global_isoform_metrics(df,
                                     gene_col=gene_col,
                                     sample_col=None)
 
-    # compute TPM if required        
+    # compute TPM if required
     df = df if expression_type == 'tpm' else compute_tpm(df)
 
     # compute isoform ratios
     df = compute_pi(df)
-        
+
     # compute gene-level metrics
     df = compute_gene_potential(df, gene_col=gene_col, feature_col=feature_col)
     df = compute_entropy(df, gene_col=gene_col)
@@ -526,7 +527,7 @@ def compute_multi_sample_isoform_metrics(
     feature_col : str
         Column identifying isoforms or other features (e.g. ORFs).
     expression_type : {'counts', 'tpm'}
-        Type of expression values 
+        Type of expression values
 
     Returns
     -------
@@ -563,8 +564,6 @@ def compute_multi_sample_isoform_metrics(
         dfs.append(s_df)
 
     big_df = pd.concat(dfs, axis=0, ignore_index=True)
-    
-    # import pdb; pdb.set_trace()
 
     # compute cross-sample metrics on the combined table
     big_df = compute_expression_breadth(big_df,

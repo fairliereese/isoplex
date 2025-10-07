@@ -75,12 +75,12 @@ def manuscript_sample_df():
                 0, 0, 0.04, 0.2,
                 0, 0.45, 0, 0,
                 0, 0, 0.06, 0]
-    
+
     # long formitze it
     df = df.pivot(index=['gene_id', 'transcript_id'], columns='sample', values='pi')
     df = df.reset_index()
     df.columns.name = ''
-    
+
     return df
 
 @pytest.fixture
@@ -92,7 +92,7 @@ def manuscript_df():
     df['transcript_id'] = [f'A_{i+1}' for i in range(2)]+\
                           [f'B_{i+1}' for i in range(7)]+\
                           [f'C_{i+1}' for i in range(8)]
-    df['sample'] = [0.5, 0.5, 
+    df['sample'] = [0.5, 0.5,
                  0.4, 0.35, 0.10, 0.07, 0.04, 0.03, 0.01]+\
                  [0.125 for i in range(8)]
     df['sample'] = [i*100 for i in df['sample'].tolist()]
@@ -234,14 +234,14 @@ def test_negative_expression(wide_valid_df):
         validate_counts_input(bad_df,
                               gene_col="gene_id",
                               feature_col="transcript_id")
-     
+
 def test_all_zero_expression(wide_valid_df):
     bad_df = wide_valid_df.copy()
     bad_df[["s1", "s2"]] = 0
     with pytest.raises(ValueError, match="sum to zero"):
         validate_counts_input(bad_df,
                               gene_col="gene_id",
-                              feature_col="transcript_id")    
+                              feature_col="transcript_id")
 
 # ------------------------------------------------------------
 # 4.5. Negative expression values
@@ -294,7 +294,7 @@ def test_extra_non_numeric_column(wide_valid_df):
 #                        expression_type="tpm")
 #     assert "tpm" in out.columns
 #     assert "counts" not in out.columns
-        
+
 ################# collapse_counts_by_feature tests
 def test_collapse_single_sample(single_sample_df):
     out = collapse_counts_by_feature(
@@ -335,7 +335,7 @@ def test_collapse_multi_sample(multi_sample_df):
         "sample":  ["s1", "s1", "s1", "s2", "s2", "s2"],
         "counts":  [15, 8, 3, 30, 16, 6]
     })
-    
+
     pd.testing.assert_frame_equal(
         out.sort_values(["sample", "gene_id", "orf_id"]).reset_index(drop=True),
         expected.sort_values(["sample", "gene_id", "orf_id"]).reset_index(drop=True)
@@ -372,7 +372,7 @@ def test_compute_tpm_basic():
 
     # TPM sum should be 1e6
     assert np.isclose(result['tpm'].sum(), 1e6)
-    
+
     # check individual TPMs
     expected = np.array([100 / 200 * 1e6, 50 / 200 * 1e6, 50 / 200 * 1e6])
     assert np.allclose(result['tpm'].values, expected)
@@ -397,7 +397,7 @@ def test_compute_tpm_zero_counts():
     result = compute_tpm(df.copy())
     # dividing zero by zero gives NaN
     assert result['tpm'].isna().all()
-    
+
 ################ testing compute_pi
 def test_single_gene(simple_df):
     df = compute_pi(simple_df)
@@ -412,7 +412,7 @@ def test_multi_gene(multi_gene_df):
     # pi sum per gene = 1
     pi_sum_g1 = df.loc[df['gene_id'] == 'g1', 'pi'].sum()
     pi_sum_g2 = df.loc[df['gene_id'] == 'g2', 'pi'].sum()
-        
+
     assert pytest.approx(pi_sum_g1, 1e-8) == 1.0
     assert pytest.approx(pi_sum_g2, 1e-8) == 1.0
     # check individual pi values
@@ -424,13 +424,14 @@ def test_zero_tpm():
     df = compute_pi(df)
     # division by zero results in NaN
     assert df['pi'].isna().all()
-    
+
 ######################## testing compute_gene_potential
 def test_gene_potential_basic(valid_df):
     """
     Basic test: two genes, each with two transcripts.
     Gene potential should be 2 for both.
     """
+    valid_df.rename({EXP_COL:'tpm'}, axis=1, inplace=True) # filter here requires tpm col
     result = compute_gene_potential(valid_df, gene_col=GENE_COL, feature_col=FEATURE_COL)
     expected = [2, 2, 2, 2]   # each row inherits its gene's potential
     assert result['gene_potential'].tolist() == expected
@@ -442,16 +443,17 @@ def test_gene_potential_collapsed(single_sample_df):
     g1 has only one unique ORF (orfA)
     g2 has two unique ORFs (orfB, orfC)
     """
+    single_sample_df.rename({'counts':'tpm'}, axis=1, inplace=True)
     result = compute_gene_potential(single_sample_df,
                                     gene_col='gene_id',
                                     feature_col='orf_id')
-    
+
     # orfA counts as 1 for g1
     # orfB, orfC count as 2 for g2
     expected = [1, 1, 2, 2]
     assert result['gene_potential'].tolist() == expected
     assert result['gene_id'].tolist() == ['g1', 'g1', 'g2', 'g2']
-    
+
 
 
 def test_gene_potential_single_gene(simple_df):
@@ -472,12 +474,12 @@ def test_gene_potential_empty_df():
     """
     Edge case: empty dataframe should return empty result.
     """
-    df = pd.DataFrame(columns=[GENE_COL, FEATURE_COL])
+    df = pd.DataFrame(columns=[GENE_COL, FEATURE_COL, 'tpm'])
     result = compute_gene_potential(df, gene_col=GENE_COL, feature_col=FEATURE_COL)
     # should still have the gene_potential column, but be empty
     assert 'gene_potential' in result.columns
     assert result.empty
-    
+
 ########### test compute_entropy
 def test_entropy_single_gene_uniform(simple_df):
     """
@@ -492,7 +494,7 @@ def test_entropy_single_gene_uniform(simple_df):
 
     # expected entropy = log2(3)
     expected_entropy = np.log2(3)
-    
+
     # all rows should inherit the same gene-level entropy
     assert np.allclose(result['entropy'].values, expected_entropy, rtol=1e-8)
 
@@ -513,7 +515,7 @@ def test_entropy_single_gene_skewed(simple_df):
         0.25 * np.log2(0.25) +
         0.25 * np.log2(0.25)
     )
-    
+
     assert np.allclose(result['entropy'].values, expected, rtol=1e-8)
 
 
@@ -531,7 +533,7 @@ def test_entropy_multiple_genes(multi_gene_df):
 
     # expected entropy per gene
     H_g1 = -(1/3 * np.log2(1/3) + 2/3 * np.log2(2/3))
-    H_g2 = -(0.25 * np.log2(0.25) + 0.75 * np.log2(0.75))    
+    H_g2 = -(0.25 * np.log2(0.25) + 0.75 * np.log2(0.75))
 
     expected = [H_g1, H_g1, H_g2, H_g2]
     assert np.allclose(result['entropy'].values, expected, rtol=1e-8)
@@ -550,7 +552,7 @@ def test_entropy_with_zero_pi():
     result = compute_entropy(df, gene_col=GENE_COL)
 
     expected = -(0.5 * np.log2(0.5) + 0.5 * np.log2(0.5))
-    
+
     assert np.allclose(result['entropy'].values, expected, rtol=1e-8)
 
 
@@ -569,7 +571,7 @@ def test_perplexity_basic():
 
     # expected: g1 -> 2^1 = 2; g2 -> 2^2 = 4
     expected = [2.0, 2.0, 4.0, 4.0]
-    
+
     assert np.allclose(result['perplexity'].values, expected, rtol=1e-8)
 
 
@@ -601,7 +603,7 @@ def test_perplexity_floats():
     expected = [2 ** 0.5, 2 ** 0.5, 2 ** 1.5, 2 ** 1.5]
 
     assert np.allclose(result['perplexity'].values, expected, rtol=1e-8)
-    
+
 ################### test call_effective
 def test_call_effective_basic():
     """
@@ -616,7 +618,7 @@ def test_call_effective_basic():
     })
 
     result = call_effective(df)
-    
+
     # perplexity = 2 → top 2 isoforms effective for g1
     g1 = result[result[GENE_COL] == 'g1']
     assert set(g1[g1['effective']][TRANSCRIPT_COL]) == {'t1', 't2'}
@@ -642,7 +644,7 @@ def test_call_effective_rounding():
     })
 
     result = call_effective(df)
-    
+
     # expect 2 effective features due to rounding
     assert (result['n_effective'].unique() == [2]).all()
     assert sum(result['effective']) == 2
@@ -659,7 +661,7 @@ def test_call_effective_ties():
         'perplexity': [2.0, 2.0, 2.0],
     })
 
-    result = call_effective(df)    
+    result = call_effective(df)
 
     # Top 2 features by order of appearance get marked effective
     assert sum(result['effective']) == 2
@@ -680,7 +682,7 @@ def test_call_effective_all_effective():
     result = call_effective(df)
 
     assert all(result['effective'])
-    
+
 ################## test calc_expressino_breadth
 
 def test_expression_breadth_basic():
@@ -700,7 +702,7 @@ def test_expression_breadth_basic():
     # t2 effective in only 1 sample → breadth = 50%
     # t3 effective in 0 samples    → breadth = 0%
     breadth = dict(zip(result[TRANSCRIPT_COL], result['expression_breadth']))
-    
+
     assert breadth['t1'] == 100
     assert breadth['t2'] == 50
     assert breadth['t3'] == 0
@@ -760,7 +762,7 @@ def test_expression_breadth_single_sample():
     assert breadth['t1'] == 100
     assert breadth['t2'] == 0
     assert breadth['t3'] == 100
-    
+
 ############ expression variance tests
 
 def test_expression_var_basic():
@@ -841,7 +843,7 @@ def test_expression_var_feature_with_constant_pi():
 
     assert (result['n_exp_samples'] == 3).all()
     assert result['expression_var'].iloc[0] == pytest.approx(0.0, rel=1e-8)
-    
+
 ############ tests for compute_average-expression
 
 @pytest.fixture
@@ -888,9 +890,9 @@ def test_basic_avg_expression(simple_multi_sample_df):
     """
     Average expression excludes zero-count samples.
     """
-    
+
     df = compute_avg_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
-    
+
     # For t1: (10+20+30)/3 = 20
     assert df.loc[df['transcript_id'] == 't1', 'avg_transcript_id_tpm'].iloc[0] == 20
 
@@ -902,7 +904,7 @@ def test_all_unexpressed(all_unexpressed_df):
     If a feature is never expressed, the average should be NaN.
     """
     df = compute_avg_expression(all_unexpressed_df, sample_col='sample', feature_col='transcript_id')
-    
+
     # Both features are unexpressed -> NaN
     assert df['avg_transcript_id_tpm'].isna().all()
 
@@ -912,7 +914,7 @@ def test_merge_preserves_rows(simple_multi_sample_df):
     Ensure no rows are lost after merging back.
     """
     df = compute_avg_expression(simple_multi_sample_df, sample_col='sample', feature_col='transcript_id')
-    
+
     assert len(df) == len(simple_multi_sample_df), "Row count changed after merging"
     assert 'avg_transcript_id_tpm' in df.columns
 
@@ -935,7 +937,7 @@ def test_duplicate_rows_handled(duplicated_rows_df):
     Duplicated entries for the same feature+sample
     should be summed before taking the max.
     """
-    
+
     df = compute_max_expression(duplicated_rows_df, sample_col='sample', feature_col='transcript_id')
 
     # t1 has s1: 5+5=10, s2:20, s3:30 → max=30
@@ -962,16 +964,16 @@ def test_merge_preserves_rows(simple_multi_sample_df):
 
     assert len(df) == len(simple_multi_sample_df)
     assert 'max_transcript_id_tpm' in df.columns
-    
+
 
 ############# testing compute_global_isoform_metrics
 def test_happy_path_counts(simple_counts_df):
     df_out = compute_global_isoform_metrics(simple_counts_df,
                                             expression_type="counts")
-    
+
     # Expect same rows as input
     assert len(df_out) == len(simple_counts_df)
-    
+
     # Columns we expect to be present
     expected_cols = {"gene_id", "transcript_id", "counts", "tpm",
                      "pi", "gene_potential", "entropy", "perplexity", "effective"}
@@ -982,10 +984,10 @@ def test_happy_path_counts(simple_counts_df):
 
 
 def test_happy_path_tpm(tpm_df):
-        
+
     df_out = compute_global_isoform_metrics(tpm_df,
                                             expression_type='tpm')
-    
+
     # Should not overwrite supplied TPM
     assert np.allclose(df_out["tpm"], tpm_df["tpm"], equal_nan=True)
 
@@ -1050,7 +1052,7 @@ def test_order_independence(simple_counts_df):
 def test_manuscript_global(manuscript_df):
     df = compute_global_isoform_metrics(manuscript_df,
                                           expression_type="counts")
-    
+
     # gene-level metrics
     assert df.set_index('gene_id')['gene_potential'].to_dict() == {'A': 2, 'B': 7, 'C': 8}
     assert df.set_index('gene_id')['entropy'].to_dict() == pytest.approx({'A': 1, 'B': 2.06, 'C': 3}, rel=1e6)
@@ -1061,7 +1063,7 @@ def test_manuscript_global(manuscript_df):
     truth = ['A_1', 'A_2', 'B_1', 'B_2', 'B_3', 'B_4',
              'C_1', 'C_2', 'C_3', 'C_4', 'C_5', 'C_6', 'C_7', 'C_8']
     assert eff_isos == truth
-    
+
 ############## testing multi sample workflow
 def test_multi_sample_happy_path(multi_sample_counts_df):
     out = compute_multi_sample_isoform_metrics(
@@ -1070,7 +1072,7 @@ def test_multi_sample_happy_path(multi_sample_counts_df):
         feature_col="transcript_id",
         expression_type="counts"
     )
-    
+
     # Expect 2 samples × 4 isoforms = 8 rows
     assert len(out) == 8
 
@@ -1089,18 +1091,18 @@ def test_multi_sample_happy_path(multi_sample_counts_df):
     assert any("avg_gene_id_tpm" in c for c in out.columns)
     assert any("max_gene_id_tpm" in c for c in out.columns)
     assert any("max_transcript_id_tpm" in c for c in out.columns)
-    
-    
+
+
 
 def test_multi_sample_tpm(multi_sample_tpm_df):
-    
+
     out = compute_multi_sample_isoform_metrics(
         multi_sample_tpm_df,
         gene_col="gene_id",
         feature_col="transcript_id",
         expression_type="tpm"
     )
-    
+
 
     # Should use provided TPM directly, not recompute
     assert np.allclose(
@@ -1159,15 +1161,15 @@ def test_manuscript_sample(manuscript_sample_df):
                                               gene_col='gene_id',
                                               feature_col='transcript_id',
                                               expression_type='counts')
-    
+
     # gene-level metrics
-    assert df.set_index('gene_id')['gene_potential'].to_dict() == {'A': 8}
+    assert df.set_index('sample')['gene_potential'].to_dict() == {'heart': 2, 'brain': 3, 'lungs': 7, 'kidney': 5}
 
     # effective isoforms
-    
+
     # sample level metrics
     assert df.set_index('sample')['perplexity'].to_dict() == pytest.approx({'heart':2, 'brain':2.58, 'lungs':4.38, 'kidney':5}, rel=1e6)
-    
+
     # tissue-level metrics
     assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':100, 'A_2':50, 'A_3':50, 'A_4':75, 'A_5':25, 'A_6':25, 'A_7':25, 'A_8':0}, rel=1e6)
     assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':0.160, 'A_2':0.096, 'A_3':0.094, 'A_4':0.210, 'A_5':0.250, 'A_6':0.095, 'A_7':0.225, 'A_8':0.030}, rel=1e6)
