@@ -22,6 +22,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install mkdocs mkdocs-material mkdocstrings[python] pymdown-extensions
 
+      # 3. Install the actual thing
+      - run: |
+          pip install -e .
+
       # 4. Build the site
       - run: mkdocs build --verbose
 
