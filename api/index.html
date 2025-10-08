@@ -1,0 +1,3208 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://fairliereese.github.io/isoplex/api/">
+      
+      
+        <link rel="prev" href="../input_data/">
+      
+      
+        <link rel="next" href="../contributing/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+    
+    
+      
+        <title>API - isoplex</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Montserrat";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../styles/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#fb8072" data-md-color-accent="orange">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="isoplex" class="md-header__button md-logo" aria-label="isoplex" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            isoplex
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="isoplex" class="md-nav__button md-logo" aria-label="isoplex" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    isoplex
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../input_data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Input data formatting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    API
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex" class="md-nav__link">
+    <span class="md-ellipsis">
+      isoplex
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.call_effective" class="md-nav__link">
+    <span class="md-ellipsis">
+      call_effective
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="call_effective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.call_effective--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.call_effective--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      collapse_counts_by_feature
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="collapse_counts_by_feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_avg_expression
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_avg_expression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_entropy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_entropy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_expression_breadth
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_expression_breadth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_expression_var
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_expression_var">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_global_isoform_metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_global_isoform_metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_max_expression
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_max_expression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_multi_sample_isoform_metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_multi_sample_isoform_metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_n_detected_features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_n_detected_features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_perplexity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_perplexity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_pi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_pi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_pi--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_pi--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_tpm
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_tpm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.flatten_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      flatten_list
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="flatten_list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.flatten_list--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.rename_sample_col" class="md-nav__link">
+    <span class="md-ellipsis">
+      rename_sample_col
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input" class="md-nav__link">
+    <span class="md-ellipsis">
+      validate_counts_input
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="validate_counts_input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input--raises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raises
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Contributing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex" class="md-nav__link">
+    <span class="md-ellipsis">
+      isoplex
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.call_effective" class="md-nav__link">
+    <span class="md-ellipsis">
+      call_effective
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="call_effective">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.call_effective--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.call_effective--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature" class="md-nav__link">
+    <span class="md-ellipsis">
+      collapse_counts_by_feature
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="collapse_counts_by_feature">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.collapse_counts_by_feature--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_avg_expression
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_avg_expression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_avg_expression--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_entropy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_entropy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_entropy--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_expression_breadth
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_expression_breadth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_breadth--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_expression_var
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_expression_var">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_expression_var--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_global_isoform_metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_global_isoform_metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_global_isoform_metrics--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_max_expression
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_max_expression">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_max_expression--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_multi_sample_isoform_metrics
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_multi_sample_isoform_metrics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_multi_sample_isoform_metrics--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_n_detected_features
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_n_detected_features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_n_detected_features--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_perplexity
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_perplexity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_perplexity--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_pi" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_pi
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_pi">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_pi--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_pi--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      compute_tpm
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="compute_tpm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.compute_tpm--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.flatten_list" class="md-nav__link">
+    <span class="md-ellipsis">
+      flatten_list
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="flatten_list">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.flatten_list--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.rename_sample_col" class="md-nav__link">
+    <span class="md-ellipsis">
+      rename_sample_col
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input" class="md-nav__link">
+    <span class="md-ellipsis">
+      validate_counts_input
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="validate_counts_input">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.validate_counts_input--raises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raises
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="api-reference">API Reference</h1>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<a id="isoplex"></a>
+    <div class="doc doc-contents first">
+
+        <p>Top-level package for Isoform Perplexity.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.call_effective" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Identify effective features per gene based on gene perplexity.</p>
+<h4 id="isoplex.call_effective--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing gene, feature, 'pi', and 'perplexity' columns.
+gene_col : str
+    Column representing the gene (default: 'gene_id')
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.call_effective--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with additional columns:
+    - 'n_effective': perplexity rounded to nearest integer
+    - 'feature_rank': rank of each feature within its gene (by pi)
+    - 'effective': boolean indicating if feature is effective</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span>
+<span class="normal">264</span>
+<span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Identify effective features per gene based on gene perplexity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing gene, feature, &#39;pi&#39;, and &#39;perplexity&#39; columns.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with additional columns:</span>
+<span class="sd">        - &#39;n_effective&#39;: perplexity rounded to nearest integer</span>
+<span class="sd">        - &#39;feature_rank&#39;: rank of each feature within its gene (by pi)</span>
+<span class="sd">        - &#39;effective&#39;: boolean indicating if feature is effective</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># round perplexity to nearest integer</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_effective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># rank features within each gene by pi</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># mark features as effective if rank &lt;= rounded perplexity</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;effective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature_rank&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_effective&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.collapse_counts_by_feature" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">collapse_counts_by_feature</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">sample_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.</p>
+<h4 id="isoplex.collapse_counts_by_feature--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    Input table with counts at transcript level.
+feature_col : str
+    Alternative feature column to collapse to (e.g. 'orf_id').
+expression_type : str
+    Name of expression col to collapse
+gene_col : str
+    Column identifying genes.
+sample_col : str, optional
+    Sample column. If None, assumes single-sample bulk.</p>
+<h4 id="isoplex.collapse_counts_by_feature--returns">Returns</h4>
+<p>pd.DataFrame
+    Collapsed df with summed counts per feature.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">collapse_counts_by_feature</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                               <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
+                               <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">,</span>
+                               <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
+                               <span class="n">sample_col</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Input table with counts at transcript level.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Alternative feature column to collapse to (e.g. &#39;orf_id&#39;).</span>
+<span class="sd">    expression_type : str</span>
+<span class="sd">        Name of expression col to collapse</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column identifying genes.</span>
+<span class="sd">    sample_col : str, optional</span>
+<span class="sd">        Sample column. If None, assumes single-sample bulk.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        Collapsed df with summed counts per feature.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">group_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">([</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]))</span>
+
+    <span class="k">if</span> <span class="n">sample_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">group_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample_col</span><span class="p">)</span>
+
+    <span class="c1"># sum counts for all transcripts mapping to the same feature</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">group_cols</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="n">expression_type</span><span class="p">]</span>
+          <span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_avg_expression" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute average expression across samples for each feature.
+Only considers samples where feature is expressed!</p>
+<h4 id="isoplex.compute_avg_expression--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing feature, sample, and counts columns.
+sample_col : str
+    Column representing sample IDs.
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.compute_avg_expression--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with additional column:
+    - 'avg_<feature_col>_tpm': mean tpm across samples for the feature</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">406</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span>
+<span class="normal">445</span>
+<span class="normal">446</span>
+<span class="normal">447</span>
+<span class="normal">448</span>
+<span class="normal">449</span>
+<span class="normal">450</span>
+<span class="normal">451</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute average expression across samples for each feature.</span>
+<span class="sd">    Only considers samples where feature is expressed!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing feature, sample, and counts columns.</span>
+<span class="sd">    sample_col : str</span>
+<span class="sd">        Column representing sample IDs.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with additional column:</span>
+<span class="sd">        - &#39;avg_&lt;feature_col&gt;_tpm&#39;: mean tpm across samples for the feature</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+
+    <span class="c1"># filter out unexpressed features so mean denominator is correct</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># sum counts per feature per sample (handles cases with multiple rows per feature)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">sample_col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># then take mean across samples</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;avg_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># merge back to original df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_entropy" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute Shannon entropy per gene based on isoform proportions.</p>
+<h4 id="isoplex.compute_entropy--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing gene and 'pi' columns.
+gene_col : str
+    Column representing the gene (default: 'gene_id')</p>
+<h4 id="isoplex.compute_entropy--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with an additional column:
+    - 'entropy': Shannon entropy per gene</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Shannon entropy per gene based on isoform proportions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing gene and &#39;pi&#39; columns.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with an additional column:</span>
+<span class="sd">        - &#39;entropy&#39;: Shannon entropy per gene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># compute plogp for each feature; avoid log2(0)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;plogp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+
+    <span class="c1"># sum plogp per gene</span>
+    <span class="n">entropy_df</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="s1">&#39;plogp&#39;</span><span class="p">]]</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;plogp&#39;</span><span class="p">:</span> <span class="s1">&#39;entropy&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># multiply by -1 for positive entropy</span>
+    <span class="n">entropy_df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">entropy_df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span>
+
+    <span class="c1"># merge back to original df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entropy_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
+
+    <span class="c1"># drop intermediate column</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;plogp&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_expression_breadth" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute percentage of samples in which each feature is effective.</p>
+<h4 id="isoplex.compute_expression_breadth--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing feature, sample, and 'effective' columns.
+sample_col : str
+    Column representing sample IDs.
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.compute_expression_breadth--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with additional columns:
+    - 'n_samples_effective': number of samples where the feature is effective
+    - 'expression_breadth': percentage of samples where the feature is effective</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span>
+<span class="normal">321</span>
+<span class="normal">322</span>
+<span class="normal">323</span>
+<span class="normal">324</span>
+<span class="normal">325</span>
+<span class="normal">326</span>
+<span class="normal">327</span>
+<span class="normal">328</span>
+<span class="normal">329</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute percentage of samples in which each feature is effective.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing feature, sample, and &#39;effective&#39; columns.</span>
+<span class="sd">    sample_col : str</span>
+<span class="sd">        Column representing sample IDs.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with additional columns:</span>
+<span class="sd">        - &#39;n_samples_effective&#39;: number of samples where the feature is effective</span>
+<span class="sd">        - &#39;expression_breadth&#39;: percentage of samples where the feature is effective</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;effective&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">]]</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">sample_col</span><span class="p">:</span> <span class="s1">&#39;n_samples_effective&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;expression_breadth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_samples_effective&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">*</span> <span class="mi">100</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_expression_var" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute number of samples expressing each feature and pi standard deviation.</p>
+<h4 id="isoplex.compute_expression_var--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing feature, sample, and 'pi' columns.
+sample_col : str
+    Column representing sample IDs.
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.compute_expression_var--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with additional columns:
+    - 'n_exp_samples': number of samples where feature is expressed
+    - 'expression_var': standard deviation of pi across samples</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">331</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span>
+<span class="normal">356</span>
+<span class="normal">357</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute number of samples expressing each feature and pi standard deviation.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing feature, sample, and &#39;pi&#39; columns.</span>
+<span class="sd">    sample_col : str</span>
+<span class="sd">        Column representing sample IDs.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with additional columns:</span>
+<span class="sd">        - &#39;n_exp_samples&#39;: number of samples where feature is expressed</span>
+<span class="sd">        - &#39;expression_var&#39;: standard deviation of pi across samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># number of samples where feature is expressed</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_exp_samples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;nunique&#39;</span><span class="p">)</span>
+
+    <span class="c1"># standard deviation of pi across samples</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;expression_var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_global_isoform_metrics" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute isoform or other feature diversity metrics for a single-sample (bulk) dataframe.
+Either provide counts or TPMs; if counts, will automatically convert to TPM.
+Optionally, collapse counts to a different feature or compute TPM.</p>
+<h4 id="isoplex.compute_global_isoform_metrics--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing counts at transcript level.
+gene_col : str
+    Column representing the gene (default: 'gene_id')
+feature_col : str
+    Column representing the feature (default: 'transcript_id')
+expression_type : str
+    Type of expression values in table {'counts' | 'tpm'}</p>
+<h4 id="isoplex.compute_global_isoform_metrics--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with computed metrics.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">453</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span>
+<span class="normal">492</span>
+<span class="normal">493</span>
+<span class="normal">494</span>
+<span class="normal">495</span>
+<span class="normal">496</span>
+<span class="normal">497</span>
+<span class="normal">498</span>
+<span class="normal">499</span>
+<span class="normal">500</span>
+<span class="normal">501</span>
+<span class="normal">502</span>
+<span class="normal">503</span>
+<span class="normal">504</span>
+<span class="normal">505</span>
+<span class="normal">506</span>
+<span class="normal">507</span>
+<span class="normal">508</span>
+<span class="normal">509</span>
+<span class="normal">510</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                                   <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
+                                   <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
+                                   <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute isoform or other feature diversity metrics for a single-sample (bulk) dataframe.</span>
+<span class="sd">    Either provide counts or TPMs; if counts, will automatically convert to TPM.</span>
+<span class="sd">    Optionally, collapse counts to a different feature or compute TPM.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing counts at transcript level.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">    expression_type : str</span>
+<span class="sd">        Type of expression values in table {&#39;counts&#39; | &#39;tpm&#39;}</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with computed metrics.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># validate input</span>
+    <span class="n">validate_counts_input</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                          <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                          <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+
+    <span class="c1"># convert from wide to long</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">rename_sample_col</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                      <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                      <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
+                      <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">)</span>
+
+    <span class="c1"># collapse counts if feature_col is not unique</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">collapse_counts_by_feature</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                                    <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
+                                    <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">,</span>
+                                    <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                                    <span class="n">sample_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># compute TPM if required</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="k">if</span> <span class="n">expression_type</span> <span class="o">==</span> <span class="s1">&#39;tpm&#39;</span> <span class="k">else</span> <span class="n">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># compute isoform ratios</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># compute gene-level metrics</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+    <span class="c1"># mark effective features</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_max_expression" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute maximum expression across samples for each feature.
+Only considers samples where feature is expressed!</p>
+<h4 id="isoplex.compute_max_expression--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing feature, sample, and counts columns.
+sample_col : str
+    Column representing sample IDs.
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.compute_max_expression--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with additional column:
+    - 'avg_<feature_col>_tpm': mean tpm across samples for the feature</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">359</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span>
+<span class="normal">398</span>
+<span class="normal">399</span>
+<span class="normal">400</span>
+<span class="normal">401</span>
+<span class="normal">402</span>
+<span class="normal">403</span>
+<span class="normal">404</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute maximum expression across samples for each feature.</span>
+<span class="sd">    Only considers samples where feature is expressed!</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing feature, sample, and counts columns.</span>
+<span class="sd">    sample_col : str</span>
+<span class="sd">        Column representing sample IDs.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with additional column:</span>
+<span class="sd">        - &#39;avg_&lt;feature_col&gt;_tpm&#39;: mean tpm across samples for the feature</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+
+    <span class="c1"># filter out unexpressed features so mean denominator is correct</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># sum counts per feature per sample (handles cases with multiple rows per feature)</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">])</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">temp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">sample_col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># then take mean across samples</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">max</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;max_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># merge back to original df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_multi_sample_isoform_metrics" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_multi_sample_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute isoform metrics across multiple samples as well as global
+metrics.</p>
+<h4 id="isoplex.compute_multi_sample_isoform_metrics--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    Input table with counts or TPMs for all samples.
+gene_col : str
+    Column identifying genes.
+feature_col : str
+    Column identifying isoforms or other features (e.g. ORFs).
+expression_type : {'counts', 'tpm'}
+    Type of expression values</p>
+<h4 id="isoplex.compute_multi_sample_isoform_metrics--returns">Returns</h4>
+<p>big_df : pd.DataFrame
+    DataFrame with:
+      • per-sample metrics (gene potential, entropy, etc.)
+      • cross-sample metrics (breadth, variance, average expression)
+global_df : pd.DataFrame
+    DataFrame with:
+      • global entropy, detected features, and perplexity per gene,
+        based on summing tpms across all samples</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">512</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_multi_sample_isoform_metrics</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
+    <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
+    <span class="n">expression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EXP_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute isoform metrics across multiple samples as well as global</span>
+<span class="sd">    metrics.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Input table with counts or TPMs for all samples.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column identifying genes.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column identifying isoforms or other features (e.g. ORFs).</span>
+<span class="sd">    expression_type : {&#39;counts&#39;, &#39;tpm&#39;}</span>
+<span class="sd">        Type of expression values</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    big_df : pd.DataFrame</span>
+<span class="sd">        DataFrame with:</span>
+<span class="sd">          • per-sample metrics (gene potential, entropy, etc.)</span>
+<span class="sd">          • cross-sample metrics (breadth, variance, average expression)</span>
+<span class="sd">    global_df : pd.DataFrame</span>
+<span class="sd">        DataFrame with:</span>
+<span class="sd">          • global entropy, detected features, and perplexity per gene,</span>
+<span class="sd">            based on summing tpms across all samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># validate input</span>
+    <span class="n">validate_counts_input</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+                          <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                          <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+
+    <span class="c1"># prepare kwargs for downstream functions</span>
+    <span class="n">col_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+        <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
+        <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># loop over samples and compute single-sample metrics</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]]</span>
+    <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">:</span>
+        <span class="n">s_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="n">s</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">s_df</span> <span class="o">=</span> <span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">s_df</span><span class="p">,</span>
+                                              <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                                              <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
+                                              <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">)</span>
+        <span class="n">s_df</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>  <span class="c1"># re-attach sample ID</span>
+        <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_df</span><span class="p">)</span>
+
+    <span class="n">big_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># compute cross-sample metrics on the combined table</span>
+    <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_expression_breadth</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+    <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_expression_var</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
+                                    <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                    <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">gene_col</span><span class="p">]:</span>
+        <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_avg_expression</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">feature_col</span><span class="o">=</span><span class="n">fc</span><span class="p">)</span>
+        <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_max_expression</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">feature_col</span><span class="o">=</span><span class="n">fc</span><span class="p">)</span>
+
+    <span class="c1"># sum up tpms across samples</span>
+    <span class="n">global_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">big_df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+          <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">])</span>
+          <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+          <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+         <span class="p">)</span>
+
+    <span class="n">global_df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="s1">&#39;global&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+
+    <span class="n">global_df</span> <span class="o">=</span> <span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">global_df</span><span class="p">,</span>
+                                               <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
+                                               <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
+                                               <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;tpm&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">big_df</span><span class="p">,</span> <span class="n">global_df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_n_detected_features" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute gene potential based on the number of unique expressed features per gene.</p>
+<h4 id="isoplex.compute_n_detected_features--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing gene and feature columns.
+gene_col : str
+    Column representing the gene (default: 'gene_id')
+feature_col : str
+    Column representing the feature (default: 'transcript_id')</p>
+<h4 id="isoplex.compute_n_detected_features--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with an additional column:
+    - 'n_detected_features': number of unique features per gene</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute gene potential based on the number of unique expressed features per gene.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing gene and feature columns.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with an additional column:</span>
+<span class="sd">        - &#39;n_detected_features&#39;: number of unique features per gene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># count unique expressed features per gene</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tpm</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">n_detected_features_df</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">temp</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]]</span>
+        <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">feature_col</span><span class="p">:</span> <span class="s1">&#39;n_detected_features&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># merge back to original df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">n_detected_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_perplexity" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compute perplexity per gene based on Shannon entropy.</p>
+<h4 id="isoplex.compute_perplexity--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing 'gene_id' and 'entropy' columns.</p>
+<h4 id="isoplex.compute_perplexity--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with an additional column:
+    - 'perplexity': effective number of isoforms per gene</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute perplexity per gene based on Shannon entropy.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing &#39;gene_id&#39; and &#39;entropy&#39; columns.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with an additional column:</span>
+<span class="sd">        - &#39;perplexity&#39;: effective number of isoforms per gene</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># compute perplexity as 2^entropy</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_pi" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Generate pi values (isoform ratios) from input expression column.</p>
+<h4 id="isoplex.compute_pi--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    DataFrame containing at least <gene_col> and 'tpm'.
+gene_col : str
+    Column representing the gene (default: gene_id)</p>
+<h4 id="isoplex.compute_pi--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with an additional 'pi' column.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate pi values (isoform ratios) from input expression column.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        DataFrame containing at least &lt;gene_col&gt; and &#39;tpm&#39;.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column representing the gene (default: gene_id)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with an additional &#39;pi&#39; column.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.compute_tpm" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Calculate TPM values from counts for a single-sample (bulk) dataframe
+and add as a new column to the dataframe.</p>
+<h4 id="isoplex.compute_tpm--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    Input dataframe containing 'counts'.</p>
+<h4 id="isoplex.compute_tpm--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with a new column 'tpm' added.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate TPM values from counts for a single-sample (bulk) dataframe</span>
+<span class="sd">    and add as a new column to the dataframe.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Input dataframe containing &#39;counts&#39;.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with a new column &#39;tpm&#39; added.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e6</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.flatten_list" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Flatten a list into 1 dimension.</p>
+<h4 id="isoplex.flatten_list--parameters">Parameters</h4>
+<p>l : list</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flatten a list into 1 dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    l : list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.rename_sample_col" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">rename_sample_col</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">rename_sample_col</span><span class="p">(</span> <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+                       <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
+                       <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
+                       <span class="n">expression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EXP_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sample_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span>
+                                                      <span class="n">feature_col</span><span class="p">]]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_cols</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;DF has more than one sample&#39;</span><span class="p">)</span>
+
+    <span class="n">sample</span> <span class="o">=</span> <span class="n">sample_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">sample</span><span class="p">:</span><span class="n">expression_type</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.validate_counts_input" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">validate_counts_input</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Validate a wide-format expression DataFrame.</p>
+<p>In wide-format input, rows correspond to features (e.g. transcripts),
+columns (other than <code>gene_col</code> and <code>feature_col</code>) correspond to samples.</p>
+<h4 id="isoplex.validate_counts_input--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    Wide-format expression table.
+gene_col : str
+    Column name identifying genes.
+feature_col : str
+    Column name identifying features (e.g., transcripts).</p>
+<h4 id="isoplex.validate_counts_input--raises">Raises</h4>
+<p>KeyError
+    If either <code>gene_col</code> or <code>feature_col</code> is missing.
+ValueError
+    If:
+      - any sample column is non-numeric,
+      - there are missing gene or feature IDs,
+      - expression values contain negatives,
+      - all expression values sum to zero.</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">validate_counts_input</span><span class="p">(</span>
+    <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
+    <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Validate a wide-format expression DataFrame.</span>
+
+<span class="sd">    In wide-format input, rows correspond to features (e.g. transcripts),</span>
+<span class="sd">    columns (other than `gene_col` and `feature_col`) correspond to samples.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Wide-format expression table.</span>
+<span class="sd">    gene_col : str</span>
+<span class="sd">        Column name identifying genes.</span>
+<span class="sd">    feature_col : str</span>
+<span class="sd">        Column name identifying features (e.g., transcripts).</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    KeyError</span>
+<span class="sd">        If either `gene_col` or `feature_col` is missing.</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If:</span>
+<span class="sd">          - any sample column is non-numeric,</span>
+<span class="sd">          - there are missing gene or feature IDs,</span>
+<span class="sd">          - expression values contain negatives,</span>
+<span class="sd">          - all expression values sum to zero.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Check that gene and feature columns exist</span>
+    <span class="n">required_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]</span>
+    <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">required_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing required columns: </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Identify all putative sample columns</span>
+    <span class="n">sample_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">required_cols</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sample_cols</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No sample columns found in input.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># All sample columns must be numeric</span>
+    <span class="n">non_numeric</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sample_cols</span>
+                   <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">])]</span>
+    <span class="k">if</span> <span class="n">non_numeric</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Found non-numeric columns (likely metadata) in input: </span><span class="si">{</span><span class="n">non_numeric</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Check for missing identifiers</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">gene_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing values in `</span><span class="si">{</span><span class="n">gene_col</span><span class="si">}</span><span class="s2">` column.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing values in `</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s2">` column.&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Check that expression values are non-negative and not all zero</span>
+    <span class="n">expr_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">expr_df</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expression values contain negative numbers.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">expr_df</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Total expression counts sum to zero or less.&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.f55a23d4.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,20 @@
+:root {
+  --md-primary-fg-color: #fb8072;
+  --md-accent-fg-color: #ff9800;
+  --md-default-bg-color: #ffffff;
+}
+
+/* Style the whole heading (function block) */
+h2.doc.doc-heading {
+  font-size: 1rem;               /* smaller than default */
+  font-weight: bold;             /* make the entire heading bold */
+  background-color: #f9f2f4;     /* light background */
+  padding: 0.4em 0.6em;          /* add some spacing */
+  border-radius: 4px;            /* rounded corners */
+  margin-top: 1em;               /* spacing between functions */
+  margin-bottom: 1em;
+}
+
+html {
+  font-size: 14px;   /* default is ~16px; pick e.g. 14-15px */
+}
