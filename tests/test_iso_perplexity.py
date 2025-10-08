@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import pytest
 from isoplex.utils import *
+from isoplex.cli import app
+
 
 """Tests for `isoplex` package."""
 
@@ -1205,3 +1207,113 @@ def test_manuscript_sample(manuscript_sample_df):
 
     assert temp.entropy.values[0] == pytest.approx(2.610, rel=1e6)
     assert temp.perplexity.values[0] == pytest.approx(6.11, rel=1e6)
+
+################### testing cli
+from typer.testing import CliRunner
+runner = CliRunner()
+
+# ---------------------------------------------------------------------
+# Test for the global-metrics command
+# ---------------------------------------------------------------------
+def test_global_metrics_command(tmp_path, simple_counts_df, monkeypatch):
+    # Create input file
+    input_file = tmp_path / "input.tsv"
+    simple_counts_df.to_csv(input_file, sep="\t", index=False)
+
+    output_file = tmp_path / "out.tsv"
+
+    # Monkey-patch compute_global_isoform_metrics so we don’t depend on internals
+    def fake_compute_global_isoform_metrics(df, **kwargs):
+        # Return a very simple transformed dataframe
+        return df.assign(metric=df.iloc[:, -1] * 2)
+
+    monkeypatch.setattr("isoplex.utils.compute_global_isoform_metrics", fake_compute_global_isoform_metrics)
+
+    # Invoke CLI
+    result = runner.invoke(
+        app,
+        [
+            "global-metrics",
+            str(input_file),
+            str(output_file),
+            "--gene-col", "gene_id",
+            "--feature-col", "transcript_id",
+            "--expression-type", "counts",
+            "--sep", "\t",
+        ]
+    )
+
+    # Assertions
+    assert result.exit_code == 0
+    assert output_file.exists()
+
+    out_df = pd.read_csv(output_file, sep="\t")
+    # Should have same rows and an extra column
+    assert "metric" in out_df.columns
+    assert len(out_df) == len(simple_counts_df)
+
+    # ---------------------------------------------------------------------
+# Test for the multi-sample-metrics command
+# ---------------------------------------------------------------------
+def test_multi_sample_metrics_command(tmp_path, multi_sample_counts_df, monkeypatch):
+    input_file = tmp_path / "input.tsv"
+    multi_sample_counts_df.to_csv(input_file, sep="\t", index=False)
+
+    output_sample = tmp_path / "sample_out.tsv"
+    output_global = tmp_path / "global_out.tsv"
+
+    # Monkey-patch compute_multi_sample_isoform_metrics
+    def fake_multi(df, **kwargs):
+        # Return two simple dataframes
+        return df.assign(sample_metric=1), df.assign(global_metric=2)
+
+    monkeypatch.setattr("isoplex.utils.compute_multi_sample_isoform_metrics", fake_multi)
+
+    result = runner.invoke(
+        app,
+        [
+            "multi-sample-metrics",
+            str(input_file),
+            str(output_sample),
+            str(output_global),
+            "--gene-col", "gene_id",
+            "--feature-col", "transcript_id",
+            "--expression-type", "counts",
+            "--sep", "\t",
+        ]
+    )
+
+    assert result.exit_code == 0
+    assert output_sample.exists()
+    assert output_global.exists()
+
+    s_df = pd.read_csv(output_sample, sep="\t")
+    g_df = pd.read_csv(output_global, sep="\t")
+
+    assert "sample_metric" in s_df.columns
+    assert "global_metric" in g_df.columns
+
+
+# ---------------------------------------------------------------------
+# Test error handling
+# ---------------------------------------------------------------------
+def test_global_metrics_handles_error(tmp_path, simple_counts_df, monkeypatch):
+    input_file = tmp_path / "input.tsv"
+    simple_counts_df.to_csv(input_file, sep="\t", index=False)
+    output_file = tmp_path / "out.tsv"
+
+    def fake_fail(*args, **kwargs):
+        raise ValueError("Deliberate failure")
+
+    monkeypatch.setattr("isoplex.utils.compute_global_isoform_metrics", fake_fail)
+
+    result = runner.invoke(
+        app,
+        ["global-metrics", str(input_file), str(output_file)]
+    )
+
+    assert result.exit_code != 0
+    # Should not produce output file
+    assert not output_file.exists()
+    # Optional: check that the error text appeared
+    assert "Deliberate failure" in result.stdout

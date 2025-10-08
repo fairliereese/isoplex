@@ -45,7 +45,8 @@ def global_metrics(
 @app.command("multi-sample-metrics")
 def multi_sample_metrics(
     input_file: str = typer.Argument(..., help="Filename to input expression table (CSV or TSV)."),
-    output_file: str = typer.Argument(..., help="Filename save the output file."),
+    output_sample_file: str = typer.Argument(..., help="Filename save the sample-level output file."),
+    output_global_file: str = typer.Argument(..., help="Filename save the global-level output file."),
     gene_col: str = typer.Option("gene_id", help="Column name for gene IDs."),
     feature_col: str = typer.Option("transcript_id", help="Column name for isoform/feature IDs."),
     expression_type: str = typer.Option("counts", help="Expression type in table: 'counts' or 'tpm'."),
@@ -60,7 +61,7 @@ def multi_sample_metrics(
 
     console.print(f"[bold cyan]Running metrics computation on {feature_col} column...[/bold cyan]")
     try:
-        df_out = utils.compute_multi_sample_isoform_metrics(
+        sample_out, global_out = utils.compute_multi_sample_isoform_metrics(
             df,
             gene_col=gene_col,
             feature_col=feature_col,
@@ -70,8 +71,9 @@ def multi_sample_metrics(
         console.print(f"[bold red]Error:[/bold red] {e}")
         raise typer.Exit(code=1)
 
-    console.print(f"[bold cyan]Saving results to:[/bold cyan] {output_file}")
-    df_out.to_csv(output_file, sep=sep, index=False)
+    console.print(f"[bold cyan]Saving results to:[/bold cyan] {output_sample_file}, {output_global_file}")
+    sample_out.to_csv(output_sample_file, sep=sep, index=False)
+    global_out.to_csv(output_global_file, sep=sep, index=False)
 
     console.print("[bold green]Done![/bold green]")
 
