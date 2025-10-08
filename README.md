@@ -1,11 +1,12 @@
 # Isoform Perplexity
 
-<!-- ![PyPI version](https://img.shields.io/pypi/v/isoplex.svg)
-[![Documentation Status](https://readthedocs.org/projects/isoplex/badge/?version=latest)](https://isoplex.readthedocs.io/en/latest/?version=latest) -->
+![PyPI version](https://img.shields.io/pypi/v/isoplex.svg)
+
+<!-- [![Documentation Status](https://readthedocs.org/projects/isoplex/badge/?version=latest)](https://isoplex.readthedocs.io/en/latest/?version=latest) -->
 
 Compute and filter isoforms based on perplexity
 
-<!-- * PyPI package: https://pypi.org/project/isoplex/ -->
+* PyPI package: https://pypi.org/project/isoplex/
 * Free software: MIT License
 * Documentation: https://fairliereese.github.io/isoplex/
 
