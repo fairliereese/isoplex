@@ -1,6 +1,6 @@
 # Usage
 
-`iso-perplexity` allows you to perform the computations either from within Python, or using the command line. There are two modes: *single-sample* (global) or *multi-sample*. If you have a multi-sample expression matrix, please use the corresponding option; global-level metrics will also be provided!
+`isoplex` allows you to perform the computations either from within Python, or using the command line. There are two modes: *single-sample* (global) or *multi-sample*. If you have a multi-sample expression matrix, please use the corresponding option; global-level metrics will also be provided!
 
 See also the [input data format specifications](input_data.md).
 
@@ -40,7 +40,7 @@ See more details about the Python functions in the [API docs](api.md).
 
 Compute single-sample statistics:
 
-```bash
+```text
 Usage: isoplex global-metrics [OPTIONS] INPUT_FILE OUTPUT_FILE
 
 Compute global isoform (or other feature) diversity metrics for a single-sample dataset.
@@ -59,7 +59,7 @@ Options:
 
 Compute multi-sample statistics, as well as global statistics:
 
-```bash
+```text
 Usage: isoplex multi-sample-metrics [OPTIONS] INPUT_FILE OUTPUT_SAMPLE_FILE
                                     OUTPUT_GLOBAL_FILE
 

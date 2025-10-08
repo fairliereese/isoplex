@@ -3,8 +3,10 @@ site_url: https://fairliereese.github.io/isoplex/
 theme:
   name: material
   palette:
-    primary: 'coral'
+    primary: '#fb8072'
     accent: 'orange'
+  font:
+    text: Montserrat
 nav:
   - Home: index.md
   - Installation: installation.md
@@ -15,3 +17,13 @@ nav:
 plugins:
   - search
   - mkdocstrings
+
+extra_css:
+  - styles/extra.css    # <── path is relative to the docs/ folder
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight          # <-- recommended
+  - pymdownx.inlinehilite
+  - pymdownx.superfences        # <-- allows fenced code blocks with highlighting
+  - codehilite
