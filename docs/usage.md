@@ -1,6 +1,6 @@
 # Usage
 
-`iso-perplexity` allows you to perform the computations either from within Python, or using the command line.
+`iso-perplexity` allows you to perform the computations either from within Python, or using the command line. There are two modes: *single-sample* (global) or *multi-sample*. If you have a multi-sample expression matrix, please use the corresponding option; global-level metrics will also be provided!
 
 ## Python
 
@@ -12,7 +12,7 @@ import isoplex
 
 df = pd.read_csv('my_isoform_expression_matrix.tsv', sep='\t')
 
-perplexity = isoplex.compute_global_isoform_metrics(df,
+global_perplexity = isoplex.compute_global_isoform_metrics(df,
                               gene_col='gene_id',
                               feature_col='transcript_id',
                               expression_type='tpm')
@@ -26,7 +26,7 @@ import isoplex
 
 df = pd.read_csv('my_isoform_expression_matrix.tsv', sep='\t')
 
-perplexity = isoplex.compute_multi_sample_isoform_metrics(df,
+sample_perplexity, global_perplexity = isoplex.compute_multi_sample_isoform_metrics(df,
                               gene_col='gene_id',
                               feature_col='transcript_id',
                               expression_type='tpm')

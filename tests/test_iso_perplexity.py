@@ -1066,7 +1066,7 @@ def test_manuscript_global(manuscript_df):
 
 ############## testing multi sample workflow
 def test_multi_sample_happy_path(multi_sample_counts_df):
-    out = compute_multi_sample_isoform_metrics(
+    out, global_out = compute_multi_sample_isoform_metrics(
         multi_sample_counts_df,
         gene_col="gene_id",
         feature_col="transcript_id",
@@ -1092,23 +1092,30 @@ def test_multi_sample_happy_path(multi_sample_counts_df):
     assert any("max_gene_id_tpm" in c for c in out.columns)
     assert any("max_transcript_id_tpm" in c for c in out.columns)
 
+    # global checks
+    assert len(global_out) == 4 # just the # of isoforms
 
+    # Per-sample metrics should exist
+    for col in ["tpm", "pi", "n_detected_features", "entropy", "perplexity", "effective"]:
+        assert col in global_out.columns
 
 def test_multi_sample_tpm(multi_sample_tpm_df):
 
-    out = compute_multi_sample_isoform_metrics(
+    out, global_out = compute_multi_sample_isoform_metrics(
         multi_sample_tpm_df,
         gene_col="gene_id",
         feature_col="transcript_id",
         expression_type="tpm"
     )
 
-
     # Should use provided TPM directly, not recompute
     assert np.allclose(
         out[out["sample"] == "S1"].sort_values("transcript_id")["tpm"].values,
         multi_sample_tpm_df["S1"].values
     )
+
+    # also check summed tpm values
+    assert global_out.set_index('transcript_id')['tpm'].to_dict() == pytest.approx({'T1': 110, 'T2': 90, 'T3': 150, 'T4': 10}, rel=1e6)
 
 def test_multi_sample_missing_sample(multi_sample_counts_df):
     bad = multi_sample_counts_df.drop(columns=["S1", "S2"])
@@ -1119,7 +1126,6 @@ def test_multi_sample_missing_sample(multi_sample_counts_df):
             feature_col="transcript_id",
             expression_type="counts"
         )
-
 
 def test_multi_sample_negative_counts(multi_sample_counts_df):
     bad = multi_sample_counts_df.copy()
@@ -1135,13 +1141,13 @@ def test_multi_sample_negative_counts(multi_sample_counts_df):
 def test_multi_sample_order_independence(multi_sample_counts_df):
     shuffled = multi_sample_counts_df.sample(frac=1, random_state=42)
 
-    out1 = compute_multi_sample_isoform_metrics(
+    out1, global_out1 = compute_multi_sample_isoform_metrics(
         multi_sample_counts_df,
         gene_col="gene_id",
         feature_col="transcript_id",
         expression_type="counts"
     )
-    out2 = compute_multi_sample_isoform_metrics(
+    out2, global_out2 = compute_multi_sample_isoform_metrics(
         shuffled,
         gene_col="gene_id",
         feature_col="transcript_id",
@@ -1157,7 +1163,7 @@ def test_multi_sample_order_independence(multi_sample_counts_df):
 
 # now the most important test is if the manuscript output is correct
 def test_manuscript_sample(manuscript_sample_df):
-    df = compute_multi_sample_isoform_metrics(manuscript_sample_df,
+    df, global_df = compute_multi_sample_isoform_metrics(manuscript_sample_df,
                                               gene_col='gene_id',
                                               feature_col='transcript_id',
                                               expression_type='counts')
@@ -1166,6 +1172,19 @@ def test_manuscript_sample(manuscript_sample_df):
     assert df.set_index('sample')['n_detected_features'].to_dict() == {'heart': 2, 'brain': 3, 'lungs': 7, 'kidney': 5}
 
     # effective isoforms
+    eff_isos_test = df.loc[df.effective]
+    eff_isos_test = set([(tid, sample) for tid, sample in zip(eff_isos_test.transcript_id.tolist(), eff_isos_test['sample'].tolist())])
+    eff_isos_ctrl = set([
+        ('A_1', 'heart'), ('A_1', 'brain'), ('A_1', 'lungs'), ('A_1', 'kidney'),
+        ('A_2', 'lungs'), ('A_2', 'kidney'),
+        ('A_3', 'lungs'), ('A_3', 'kidney'),
+        ('A_4', 'heart'), ('A_4', 'brain'), ('A_4', 'kidney'),
+        ('A_5', 'lungs'),
+        ('A_6', 'kidney'),
+        ('A_7', 'brain')
+    ])
+
+    assert eff_isos_test == eff_isos_ctrl
 
     # sample level metrics
     assert df.set_index('sample')['perplexity'].to_dict() == pytest.approx({'heart':2, 'brain':2.58, 'lungs':4.38, 'kidney':5}, rel=1e6)
@@ -1173,3 +1192,16 @@ def test_manuscript_sample(manuscript_sample_df):
     # tissue-level metrics
     assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':100, 'A_2':50, 'A_3':50, 'A_4':75, 'A_5':25, 'A_6':25, 'A_7':25, 'A_8':0}, rel=1e6)
     assert df.set_index('transcript_id')['expression_breadth'].to_dict() == pytest.approx({'A_1':0.160, 'A_2':0.096, 'A_3':0.094, 'A_4':0.210, 'A_5':0.250, 'A_6':0.095, 'A_7':0.225, 'A_8':0.030}, rel=1e6)
+
+    # now have to check global level things
+    temp = global_df
+
+    # check that global tpm / isoform is ok
+    ctrl_tpm = {'A_1': 1.35, 'A_2':0.3, 'A_3':0.28, 'A_4': 0.82,
+                'A_5': 0.5, 'A_6': 0.24, 'A_7': 0.45, 'A_8': 0.06}
+    ctrl_tpm = {key: (item/1)*1e6 for key, item in ctrl_tpm.items()} # all library sizes = 1
+    assert temp.set_index('transcript_id')['tpm'].to_dict() == pytest.approx(ctrl_tpm, rel=1e6)
+    assert temp.n_detected_features.values[0] == 8
+
+    assert temp.entropy.values[0] == pytest.approx(2.610, rel=1e6)
+    assert temp.perplexity.values[0] == pytest.approx(6.11, rel=1e6)

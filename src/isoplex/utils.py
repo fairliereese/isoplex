@@ -531,12 +531,15 @@ def compute_multi_sample_isoform_metrics(
 
     Returns
     -------
-    pd.DataFrame
+    big_df : pd.DataFrame
         DataFrame with:
           • per-sample metrics (gene potential, entropy, etc.)
           • cross-sample metrics (breadth, variance, average expression)
-          • columns for global metrics.
-    """    
+    global_df : pd.DataFrame
+        DataFrame with:
+          • global entropy, detected features, and perplexity per gene,
+            based on summing tpms across all samples
+    """
 
     # validate input
     validate_counts_input(df,
@@ -581,7 +584,23 @@ def compute_multi_sample_isoform_metrics(
                                         sample_col='sample',
                                         feature_col=fc)
 
-    return big_df
+    # sum up tpms across samples
+    global_df = (big_df[[gene_col, feature_col, 'tpm']]
+          .groupby([gene_col, feature_col])
+          .sum()
+          .reset_index()
+         )
+
+    global_df.rename({'tpm': 'global'}, axis=1, inplace=True)
+
+
+
+    global_df = compute_global_isoform_metrics(global_df,
+                                               gene_col=gene_col,
+                                               feature_col=feature_col,
+                                               expression_type='tpm')
+
+    return big_df, global_df
 
 def flatten_list(l):
     """
