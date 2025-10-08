@@ -1,0 +1,19 @@
+                                                                                                                                                     
+ Usage: isoplex multi-sample-metrics [OPTIONS] INPUT_FILE OUTPUT_SAMPLE_FILE                                                                         
+                                     OUTPUT_GLOBAL_FILE                                                                                              
+                                                                                                                                                     
+ Compute sample-level and global isoform (or other feature) diversity metrics for a single-sample dataset.                                           
+                                                                                                                                                     
+╭─ Arguments ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ *    input_file              TEXT  Filename to input expression table (CSV or TSV). [required]                                                    │
+│ *    output_sample_file      TEXT  Filename save the sample-level output file. [required]                                                         │
+│ *    output_global_file      TEXT  Filename save the global-level output file. [required]                                                         │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ --gene-col               TEXT  Column name for gene IDs. [default: gene_id]                                                                       │
+│ --feature-col            TEXT  Column name for isoform/feature IDs. [default: transcript_id]                                                      │
+│ --expression-type        TEXT  Expression type in table: 'counts' or 'tpm'. [default: counts]                                                     │
+│ --sep                    TEXT  Delimiter for input/output files. Use ',' for CSV. [default: \t]                                                   │
+│ --help                         Show this message and exit.                                                                                        │
+╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+

@@ -10,11 +10,5 @@ These metrics are designed to provide a more intuitive description of isoform di
 - [Installation](installation.md)
 - [Usage](usage.md)
 - [Input data formatting](input_data.md)
-- [Contributing](contributing.md)
 - [API](api.md)
-
-## Indices and tables
-
-- [Index](genindex)
-- [Module Index](modindex)
-- [Search](search)
+- [Contributing](contributing.md)

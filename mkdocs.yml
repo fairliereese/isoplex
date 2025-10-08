@@ -1,0 +1,17 @@
+site_name: isoplex
+site_url: https://fairliereese.github.io/isoplex/
+theme:
+  name: material
+  palette:
+    primary: 'coral'
+    accent: 'orange'
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - Input data formatting: input_data.md
+  - API: api.md
+  - Contributing: contributing.md
+plugins:
+  - search
+  - mkdocstrings
