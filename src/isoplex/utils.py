@@ -161,6 +161,7 @@ def compute_pi(df, gene_col=GENE_COL):
     """
     df['gene_tpm'] = df.groupby(gene_col)['tpm'].transform('sum')
     df['pi'] = df['tpm'] / df['gene_tpm']
+    df['pi'] = df['pi'].fillna(0)
     df = df.drop(columns='gene_tpm')
     return df
 
@@ -195,6 +196,8 @@ def compute_n_detected_features(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_CO
 
     # merge back to original df
     df = df.merge(n_detected_features_df, how='left', on=gene_col)
+
+    df['n_detected_features'] = df['n_detected_features'].fillna(0)
 
     return df
 
@@ -557,8 +560,10 @@ def compute_multi_sample_isoform_metrics(
     samples = [c for c in df.columns if c not in [gene_col, feature_col]]
     dfs = []
 
-    for s in samples:
+    for i, s in enumerate(samples):
         s_df = df[[gene_col, feature_col, s]].copy()
+        df.drop(s, axis=1, inplace=True) # remove from original df to save memory
+        # if i % 25 == 0: print(i)
         s_df = compute_global_isoform_metrics(s_df,
                                               gene_col=gene_col,
                                               feature_col=feature_col,
