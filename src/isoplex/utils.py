@@ -159,7 +159,6 @@ def compute_pi(df, gene_col=GENE_COL):
     pd.DataFrame
         DataFrame with an additional 'pi' column.
     """
-    import pdb;pdb.set_trace()
     df['gene_tpm'] = df.groupby(gene_col)['tpm'].transform('sum')
     df['pi'] = df['tpm'] / df['gene_tpm']
     df['pi'] = df['pi'].fillna(0)
