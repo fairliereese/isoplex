@@ -1486,7 +1486,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">264</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
+<span class="normal">264</span>
 <span class="normal">265</span>
 <span class="normal">266</span>
 <span class="normal">267</span>
@@ -1519,8 +1520,7 @@ feature_col : str
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
-<span class="normal">297</span>
-<span class="normal">298</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Identify effective features per gene based on gene perplexity.</span>
 
@@ -1696,7 +1696,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">410</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
+<span class="normal">410</span>
 <span class="normal">411</span>
 <span class="normal">412</span>
 <span class="normal">413</span>
@@ -1740,8 +1741,7 @@ feature_col : str
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span>
-<span class="normal">455</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute average expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
@@ -1818,7 +1818,8 @@ gene_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">205</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
+<span class="normal">205</span>
 <span class="normal">206</span>
 <span class="normal">207</span>
 <span class="normal">208</span>
@@ -1855,8 +1856,7 @@ gene_col : str
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute Shannon entropy per gene based on isoform proportions.</span>
 
@@ -1929,7 +1929,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">300</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">299</span>
+<span class="normal">300</span>
 <span class="normal">301</span>
 <span class="normal">302</span>
 <span class="normal">303</span>
@@ -1961,8 +1962,7 @@ feature_col : str
 <span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
-<span class="normal">332</span>
-<span class="normal">333</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute percentage of samples in which each feature is effective.</span>
 
@@ -2030,7 +2030,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">335</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">334</span>
+<span class="normal">335</span>
 <span class="normal">336</span>
 <span class="normal">337</span>
 <span class="normal">338</span>
@@ -2055,8 +2056,7 @@ feature_col : str
 <span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
-<span class="normal">360</span>
-<span class="normal">361</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute number of samples expressing each feature and pi standard deviation.</span>
 
@@ -2119,7 +2119,8 @@ expression_type : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">457</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
+<span class="normal">457</span>
 <span class="normal">458</span>
 <span class="normal">459</span>
 <span class="normal">460</span>
@@ -2175,8 +2176,7 @@ expression_type : str
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span>
-<span class="normal">514</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
                                    <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
                                    <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
                                    <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">):</span>
@@ -2268,7 +2268,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">363</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">362</span>
+<span class="normal">363</span>
 <span class="normal">364</span>
 <span class="normal">365</span>
 <span class="normal">366</span>
@@ -2312,8 +2313,7 @@ feature_col : str
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
-<span class="normal">407</span>
-<span class="normal">408</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">407</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute maximum expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
@@ -2400,7 +2400,8 @@ global_df : pd.DataFrame
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">515</span>
+<span class="normal">516</span>
 <span class="normal">517</span>
 <span class="normal">518</span>
 <span class="normal">519</span>
@@ -2492,8 +2493,7 @@ global_df : pd.DataFrame
 <span class="normal">605</span>
 <span class="normal">606</span>
 <span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_multi_sample_isoform_metrics</span><span class="p">(</span>
+<span class="normal">608</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_multi_sample_isoform_metrics</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
     <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
@@ -2620,7 +2620,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">169</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
+<span class="normal">169</span>
 <span class="normal">170</span>
 <span class="normal">171</span>
 <span class="normal">172</span>
@@ -2653,8 +2654,7 @@ feature_col : str
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute gene potential based on the number of unique expressed features per gene.</span>
 
@@ -2718,7 +2718,8 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">245</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
+<span class="normal">245</span>
 <span class="normal">246</span>
 <span class="normal">247</span>
 <span class="normal">248</span>
@@ -2734,8 +2735,7 @@ feature_col : str
 <span class="normal">258</span>
 <span class="normal">259</span>
 <span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute perplexity per gene based on Shannon entropy.</span>
 
@@ -2803,8 +2803,7 @@ gene_col : str
 <span class="normal">163</span>
 <span class="normal">164</span>
 <span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate pi values (isoform ratios) from input expression column.</span>
 
@@ -2820,7 +2819,6 @@ gene_col : str
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with an additional &#39;pi&#39; column.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span><span class="w"> </span><span class="nn">pdb</span><span class="p">;</span><span class="n">pdb</span><span class="o">.</span><span class="n">set_trace</span><span class="p">()</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -2914,15 +2912,15 @@ and add as a new column to the dataframe.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">611</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">610</span>
+<span class="normal">611</span>
 <span class="normal">612</span>
 <span class="normal">613</span>
 <span class="normal">614</span>
 <span class="normal">615</span>
 <span class="normal">616</span>
 <span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+<span class="normal">618</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Flatten a list into 1 dimension.</span>
 
