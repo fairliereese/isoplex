@@ -159,6 +159,7 @@ def compute_pi(df, gene_col=GENE_COL):
     pd.DataFrame
         DataFrame with an additional 'pi' column.
     """
+    import pdb;pdb.set_trace()
     df['gene_tpm'] = df.groupby(gene_col)['tpm'].transform('sum')
     df['pi'] = df['tpm'] / df['gene_tpm']
     df['pi'] = df['pi'].fillna(0)
@@ -500,7 +501,7 @@ def compute_global_isoform_metrics(df,
     df = df if expression_type == 'tpm' else compute_tpm(df)
 
     # compute isoform ratios
-    df = compute_pi(df)
+    df = compute_pi(df, gene_col=gene_col)
 
     # compute gene-level metrics
     df = compute_n_detected_features(df, gene_col=gene_col, feature_col=feature_col)
