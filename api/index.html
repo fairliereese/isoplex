@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.21">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.22">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.2a3383ac.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.84d31ad4.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -808,6 +808,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats" class="md-nav__link">
+    <span class="md-ellipsis">
+      remove_unexpressed_feats
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="remove_unexpressed_feats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#isoplex.rename_sample_col" class="md-nav__link">
     <span class="md-ellipsis">
       rename_sample_col
@@ -1368,6 +1401,39 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats" class="md-nav__link">
+    <span class="md-ellipsis">
+      remove_unexpressed_feats
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="remove_unexpressed_feats">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats--parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isoplex.remove_unexpressed_feats--returns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Returns
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#isoplex.rename_sample_col" class="md-nav__link">
     <span class="md-ellipsis">
       rename_sample_col
@@ -1486,29 +1552,7 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span>
-<span class="normal">278</span>
-<span class="normal">279</span>
-<span class="normal">280</span>
-<span class="normal">281</span>
-<span class="normal">282</span>
-<span class="normal">283</span>
-<span class="normal">284</span>
-<span class="normal">285</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
@@ -1520,7 +1564,30 @@ feature_col : str
 <span class="normal">294</span>
 <span class="normal">295</span>
 <span class="normal">296</span>
-<span class="normal">297</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span>
+<span class="normal">305</span>
+<span class="normal">306</span>
+<span class="normal">307</span>
+<span class="normal">308</span>
+<span class="normal">309</span>
+<span class="normal">310</span>
+<span class="normal">311</span>
+<span class="normal">312</span>
+<span class="normal">313</span>
+<span class="normal">314</span>
+<span class="normal">315</span>
+<span class="normal">316</span>
+<span class="normal">317</span>
+<span class="normal">318</span>
+<span class="normal">319</span>
+<span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Identify effective features per gene based on gene perplexity.</span>
 
@@ -1541,6 +1608,7 @@ feature_col : str
 <span class="sd">        - &#39;feature_rank&#39;: rank of each feature within its gene (by pi)</span>
 <span class="sd">        - &#39;effective&#39;: boolean indicating if feature is effective</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># round perplexity to nearest integer</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_effective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
@@ -1696,44 +1764,7 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">409</span>
-<span class="normal">410</span>
-<span class="normal">411</span>
-<span class="normal">412</span>
-<span class="normal">413</span>
-<span class="normal">414</span>
-<span class="normal">415</span>
-<span class="normal">416</span>
-<span class="normal">417</span>
-<span class="normal">418</span>
-<span class="normal">419</span>
-<span class="normal">420</span>
-<span class="normal">421</span>
-<span class="normal">422</span>
-<span class="normal">423</span>
-<span class="normal">424</span>
-<span class="normal">425</span>
-<span class="normal">426</span>
-<span class="normal">427</span>
-<span class="normal">428</span>
-<span class="normal">429</span>
-<span class="normal">430</span>
-<span class="normal">431</span>
-<span class="normal">432</span>
-<span class="normal">433</span>
-<span class="normal">434</span>
-<span class="normal">435</span>
-<span class="normal">436</span>
-<span class="normal">437</span>
-<span class="normal">438</span>
-<span class="normal">439</span>
-<span class="normal">440</span>
-<span class="normal">441</span>
-<span class="normal">442</span>
-<span class="normal">443</span>
-<span class="normal">444</span>
-<span class="normal">445</span>
-<span class="normal">446</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">446</span>
 <span class="normal">447</span>
 <span class="normal">448</span>
 <span class="normal">449</span>
@@ -1741,7 +1772,44 @@ feature_col : str
 <span class="normal">451</span>
 <span class="normal">452</span>
 <span class="normal">453</span>
-<span class="normal">454</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">454</span>
+<span class="normal">455</span>
+<span class="normal">456</span>
+<span class="normal">457</span>
+<span class="normal">458</span>
+<span class="normal">459</span>
+<span class="normal">460</span>
+<span class="normal">461</span>
+<span class="normal">462</span>
+<span class="normal">463</span>
+<span class="normal">464</span>
+<span class="normal">465</span>
+<span class="normal">466</span>
+<span class="normal">467</span>
+<span class="normal">468</span>
+<span class="normal">469</span>
+<span class="normal">470</span>
+<span class="normal">471</span>
+<span class="normal">472</span>
+<span class="normal">473</span>
+<span class="normal">474</span>
+<span class="normal">475</span>
+<span class="normal">476</span>
+<span class="normal">477</span>
+<span class="normal">478</span>
+<span class="normal">479</span>
+<span class="normal">480</span>
+<span class="normal">481</span>
+<span class="normal">482</span>
+<span class="normal">483</span>
+<span class="normal">484</span>
+<span class="normal">485</span>
+<span class="normal">486</span>
+<span class="normal">487</span>
+<span class="normal">488</span>
+<span class="normal">489</span>
+<span class="normal">490</span>
+<span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute average expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
@@ -1818,28 +1886,7 @@ gene_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">204</span>
-<span class="normal">205</span>
-<span class="normal">206</span>
-<span class="normal">207</span>
-<span class="normal">208</span>
-<span class="normal">209</span>
-<span class="normal">210</span>
-<span class="normal">211</span>
-<span class="normal">212</span>
-<span class="normal">213</span>
-<span class="normal">214</span>
-<span class="normal">215</span>
-<span class="normal">216</span>
-<span class="normal">217</span>
-<span class="normal">218</span>
-<span class="normal">219</span>
-<span class="normal">220</span>
-<span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
@@ -1856,7 +1903,28 @@ gene_col : str
 <span class="normal">239</span>
 <span class="normal">240</span>
 <span class="normal">241</span>
-<span class="normal">242</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span>
+<span class="normal">251</span>
+<span class="normal">252</span>
+<span class="normal">253</span>
+<span class="normal">254</span>
+<span class="normal">255</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span>
+<span class="normal">262</span>
+<span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute Shannon entropy per gene based on isoform proportions.</span>
 
@@ -1874,13 +1942,13 @@ gene_col : str
 <span class="sd">        - &#39;entropy&#39;: Shannon entropy per gene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># compute plogp for each feature; avoid log2(0)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;plogp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;plogp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">])</span>
 
     <span class="c1"># sum plogp per gene</span>
     <span class="n">entropy_df</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="s1">&#39;plogp&#39;</span><span class="p">]]</span>
         <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)</span>
-        <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
         <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;plogp&#39;</span><span class="p">:</span> <span class="s1">&#39;entropy&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
@@ -1929,30 +1997,7 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">299</span>
-<span class="normal">300</span>
-<span class="normal">301</span>
-<span class="normal">302</span>
-<span class="normal">303</span>
-<span class="normal">304</span>
-<span class="normal">305</span>
-<span class="normal">306</span>
-<span class="normal">307</span>
-<span class="normal">308</span>
-<span class="normal">309</span>
-<span class="normal">310</span>
-<span class="normal">311</span>
-<span class="normal">312</span>
-<span class="normal">313</span>
-<span class="normal">314</span>
-<span class="normal">315</span>
-<span class="normal">316</span>
-<span class="normal">317</span>
-<span class="normal">318</span>
-<span class="normal">319</span>
-<span class="normal">320</span>
-<span class="normal">321</span>
-<span class="normal">322</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">322</span>
 <span class="normal">323</span>
 <span class="normal">324</span>
 <span class="normal">325</span>
@@ -1962,7 +2007,30 @@ feature_col : str
 <span class="normal">329</span>
 <span class="normal">330</span>
 <span class="normal">331</span>
-<span class="normal">332</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">332</span>
+<span class="normal">333</span>
+<span class="normal">334</span>
+<span class="normal">335</span>
+<span class="normal">336</span>
+<span class="normal">337</span>
+<span class="normal">338</span>
+<span class="normal">339</span>
+<span class="normal">340</span>
+<span class="normal">341</span>
+<span class="normal">342</span>
+<span class="normal">343</span>
+<span class="normal">344</span>
+<span class="normal">345</span>
+<span class="normal">346</span>
+<span class="normal">347</span>
+<span class="normal">348</span>
+<span class="normal">349</span>
+<span class="normal">350</span>
+<span class="normal">351</span>
+<span class="normal">352</span>
+<span class="normal">353</span>
+<span class="normal">354</span>
+<span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute percentage of samples in which each feature is effective.</span>
 
@@ -2030,33 +2098,47 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">334</span>
-<span class="normal">335</span>
-<span class="normal">336</span>
-<span class="normal">337</span>
-<span class="normal">338</span>
-<span class="normal">339</span>
-<span class="normal">340</span>
-<span class="normal">341</span>
-<span class="normal">342</span>
-<span class="normal">343</span>
-<span class="normal">344</span>
-<span class="normal">345</span>
-<span class="normal">346</span>
-<span class="normal">347</span>
-<span class="normal">348</span>
-<span class="normal">349</span>
-<span class="normal">350</span>
-<span class="normal">351</span>
-<span class="normal">352</span>
-<span class="normal">353</span>
-<span class="normal">354</span>
-<span class="normal">355</span>
-<span class="normal">356</span>
-<span class="normal">357</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">357</span>
 <span class="normal">358</span>
 <span class="normal">359</span>
-<span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">360</span>
+<span class="normal">361</span>
+<span class="normal">362</span>
+<span class="normal">363</span>
+<span class="normal">364</span>
+<span class="normal">365</span>
+<span class="normal">366</span>
+<span class="normal">367</span>
+<span class="normal">368</span>
+<span class="normal">369</span>
+<span class="normal">370</span>
+<span class="normal">371</span>
+<span class="normal">372</span>
+<span class="normal">373</span>
+<span class="normal">374</span>
+<span class="normal">375</span>
+<span class="normal">376</span>
+<span class="normal">377</span>
+<span class="normal">378</span>
+<span class="normal">379</span>
+<span class="normal">380</span>
+<span class="normal">381</span>
+<span class="normal">382</span>
+<span class="normal">383</span>
+<span class="normal">384</span>
+<span class="normal">385</span>
+<span class="normal">386</span>
+<span class="normal">387</span>
+<span class="normal">388</span>
+<span class="normal">389</span>
+<span class="normal">390</span>
+<span class="normal">391</span>
+<span class="normal">392</span>
+<span class="normal">393</span>
+<span class="normal">394</span>
+<span class="normal">395</span>
+<span class="normal">396</span>
+<span class="normal">397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute number of samples expressing each feature and pi standard deviation.</span>
 
@@ -2079,9 +2161,23 @@ feature_col : str
     <span class="c1"># number of samples where feature is expressed</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_exp_samples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;nunique&#39;</span><span class="p">)</span>
 
-    <span class="c1"># standard deviation of pi across samples</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;expression_var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="c1"># get an inflated version of the df w/ 0s to stand in for unexpressed isos</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;transcript_id&#39;</span><span class="p">,</span> <span class="s1">&#39;sample&#39;</span><span class="p">,</span> <span class="s1">&#39;pi&#39;</span><span class="p">]]</span>
+            <span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">sample_col</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">:</span><span class="s1">&#39;None&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+           <span class="p">)</span>
 
+    <span class="c1"># standard deviation of pi across samples</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;expression_var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+    <span class="c1"># merge back into df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span>
+                  <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
+                  <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;pi&#39;</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -2119,44 +2215,7 @@ expression_type : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">456</span>
-<span class="normal">457</span>
-<span class="normal">458</span>
-<span class="normal">459</span>
-<span class="normal">460</span>
-<span class="normal">461</span>
-<span class="normal">462</span>
-<span class="normal">463</span>
-<span class="normal">464</span>
-<span class="normal">465</span>
-<span class="normal">466</span>
-<span class="normal">467</span>
-<span class="normal">468</span>
-<span class="normal">469</span>
-<span class="normal">470</span>
-<span class="normal">471</span>
-<span class="normal">472</span>
-<span class="normal">473</span>
-<span class="normal">474</span>
-<span class="normal">475</span>
-<span class="normal">476</span>
-<span class="normal">477</span>
-<span class="normal">478</span>
-<span class="normal">479</span>
-<span class="normal">480</span>
-<span class="normal">481</span>
-<span class="normal">482</span>
-<span class="normal">483</span>
-<span class="normal">484</span>
-<span class="normal">485</span>
-<span class="normal">486</span>
-<span class="normal">487</span>
-<span class="normal">488</span>
-<span class="normal">489</span>
-<span class="normal">490</span>
-<span class="normal">491</span>
-<span class="normal">492</span>
-<span class="normal">493</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">493</span>
 <span class="normal">494</span>
 <span class="normal">495</span>
 <span class="normal">496</span>
@@ -2176,7 +2235,50 @@ expression_type : str
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span>
+<span class="normal">521</span>
+<span class="normal">522</span>
+<span class="normal">523</span>
+<span class="normal">524</span>
+<span class="normal">525</span>
+<span class="normal">526</span>
+<span class="normal">527</span>
+<span class="normal">528</span>
+<span class="normal">529</span>
+<span class="normal">530</span>
+<span class="normal">531</span>
+<span class="normal">532</span>
+<span class="normal">533</span>
+<span class="normal">534</span>
+<span class="normal">535</span>
+<span class="normal">536</span>
+<span class="normal">537</span>
+<span class="normal">538</span>
+<span class="normal">539</span>
+<span class="normal">540</span>
+<span class="normal">541</span>
+<span class="normal">542</span>
+<span class="normal">543</span>
+<span class="normal">544</span>
+<span class="normal">545</span>
+<span class="normal">546</span>
+<span class="normal">547</span>
+<span class="normal">548</span>
+<span class="normal">549</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
                                    <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
                                    <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
                                    <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">):</span>
@@ -2201,12 +2303,15 @@ expression_type : str
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with computed metrics.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">del</span> <span class="n">df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">temp</span>
+
     <span class="c1"># validate input</span>
     <span class="n">validate_counts_input</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
                           <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                           <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
 
-    <span class="c1"># convert from wide to long</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">rename_sample_col</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
                       <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                       <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
@@ -2218,6 +2323,9 @@ expression_type : str
                                     <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">,</span>
                                     <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                                     <span class="n">sample_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># remove unexpressed features</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">remove_unexpressed_feats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">)</span>
 
     <span class="c1"># compute TPM if required</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="k">if</span> <span class="n">expression_type</span> <span class="o">==</span> <span class="s1">&#39;tpm&#39;</span> <span class="k">else</span> <span class="n">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
@@ -2268,44 +2376,7 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">362</span>
-<span class="normal">363</span>
-<span class="normal">364</span>
-<span class="normal">365</span>
-<span class="normal">366</span>
-<span class="normal">367</span>
-<span class="normal">368</span>
-<span class="normal">369</span>
-<span class="normal">370</span>
-<span class="normal">371</span>
-<span class="normal">372</span>
-<span class="normal">373</span>
-<span class="normal">374</span>
-<span class="normal">375</span>
-<span class="normal">376</span>
-<span class="normal">377</span>
-<span class="normal">378</span>
-<span class="normal">379</span>
-<span class="normal">380</span>
-<span class="normal">381</span>
-<span class="normal">382</span>
-<span class="normal">383</span>
-<span class="normal">384</span>
-<span class="normal">385</span>
-<span class="normal">386</span>
-<span class="normal">387</span>
-<span class="normal">388</span>
-<span class="normal">389</span>
-<span class="normal">390</span>
-<span class="normal">391</span>
-<span class="normal">392</span>
-<span class="normal">393</span>
-<span class="normal">394</span>
-<span class="normal">395</span>
-<span class="normal">396</span>
-<span class="normal">397</span>
-<span class="normal">398</span>
-<span class="normal">399</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">399</span>
 <span class="normal">400</span>
 <span class="normal">401</span>
 <span class="normal">402</span>
@@ -2313,7 +2384,44 @@ feature_col : str
 <span class="normal">404</span>
 <span class="normal">405</span>
 <span class="normal">406</span>
-<span class="normal">407</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">407</span>
+<span class="normal">408</span>
+<span class="normal">409</span>
+<span class="normal">410</span>
+<span class="normal">411</span>
+<span class="normal">412</span>
+<span class="normal">413</span>
+<span class="normal">414</span>
+<span class="normal">415</span>
+<span class="normal">416</span>
+<span class="normal">417</span>
+<span class="normal">418</span>
+<span class="normal">419</span>
+<span class="normal">420</span>
+<span class="normal">421</span>
+<span class="normal">422</span>
+<span class="normal">423</span>
+<span class="normal">424</span>
+<span class="normal">425</span>
+<span class="normal">426</span>
+<span class="normal">427</span>
+<span class="normal">428</span>
+<span class="normal">429</span>
+<span class="normal">430</span>
+<span class="normal">431</span>
+<span class="normal">432</span>
+<span class="normal">433</span>
+<span class="normal">434</span>
+<span class="normal">435</span>
+<span class="normal">436</span>
+<span class="normal">437</span>
+<span class="normal">438</span>
+<span class="normal">439</span>
+<span class="normal">440</span>
+<span class="normal">441</span>
+<span class="normal">442</span>
+<span class="normal">443</span>
+<span class="normal">444</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute maximum expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
@@ -2388,7 +2496,7 @@ feature_col : str
 expression_type : {'counts', 'tpm'}
     Type of expression values</p>
 <h4 id="isoplex.compute_multi_sample_isoform_metrics--returns">Returns</h4>
-<p>big_df : pd.DataFrame
+<p>sample_df : pd.DataFrame
     DataFrame with:
       • per-sample metrics (gene potential, entropy, etc.)
       • cross-sample metrics (breadth, variance, average expression)
@@ -2400,50 +2508,7 @@ global_df : pd.DataFrame
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">515</span>
-<span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
-<span class="normal">524</span>
-<span class="normal">525</span>
-<span class="normal">526</span>
-<span class="normal">527</span>
-<span class="normal">528</span>
-<span class="normal">529</span>
-<span class="normal">530</span>
-<span class="normal">531</span>
-<span class="normal">532</span>
-<span class="normal">533</span>
-<span class="normal">534</span>
-<span class="normal">535</span>
-<span class="normal">536</span>
-<span class="normal">537</span>
-<span class="normal">538</span>
-<span class="normal">539</span>
-<span class="normal">540</span>
-<span class="normal">541</span>
-<span class="normal">542</span>
-<span class="normal">543</span>
-<span class="normal">544</span>
-<span class="normal">545</span>
-<span class="normal">546</span>
-<span class="normal">547</span>
-<span class="normal">548</span>
-<span class="normal">549</span>
-<span class="normal">550</span>
-<span class="normal">551</span>
-<span class="normal">552</span>
-<span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">558</span>
 <span class="normal">559</span>
 <span class="normal">560</span>
 <span class="normal">561</span>
@@ -2493,7 +2558,55 @@ global_df : pd.DataFrame
 <span class="normal">605</span>
 <span class="normal">606</span>
 <span class="normal">607</span>
-<span class="normal">608</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_multi_sample_isoform_metrics</span><span class="p">(</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_multi_sample_isoform_metrics</span><span class="p">(</span>
     <span class="n">df</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
     <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
@@ -2515,7 +2628,7 @@ global_df : pd.DataFrame
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    big_df : pd.DataFrame</span>
+<span class="sd">    sample_df : pd.DataFrame</span>
 <span class="sd">        DataFrame with:</span>
 <span class="sd">          • per-sample metrics (gene potential, entropy, etc.)</span>
 <span class="sd">          • cross-sample metrics (breadth, variance, average expression)</span>
@@ -2524,9 +2637,12 @@ global_df : pd.DataFrame
 <span class="sd">          • global entropy, detected features, and perplexity per gene,</span>
 <span class="sd">            based on summing tpms across all samples</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">del</span> <span class="n">df</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">temp</span>
 
     <span class="c1"># validate input</span>
-    <span class="n">validate_counts_input</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
+    <span class="n">validate_counts_input</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span>
                           <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                           <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
 
@@ -2538,12 +2654,12 @@ global_df : pd.DataFrame
     <span class="p">)</span>
 
     <span class="c1"># loop over samples and compute single-sample metrics</span>
-    <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]]</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">temp</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]]</span>
     <span class="n">dfs</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
-        <span class="n">s_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="n">s</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># remove from original df to save memory</span>
+        <span class="n">s_df</span> <span class="o">=</span> <span class="n">temp</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="n">s</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">temp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1"># remove from original df to save memory</span>
         <span class="c1"># if i % 25 == 0: print(i)</span>
         <span class="n">s_df</span> <span class="o">=</span> <span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">s_df</span><span class="p">,</span>
                                               <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
@@ -2586,7 +2702,9 @@ global_df : pd.DataFrame
                                                <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
                                                <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;tpm&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">big_df</span><span class="p">,</span> <span class="n">global_df</span>
+    <span class="n">sample_df</span> <span class="o">=</span> <span class="n">big_df</span>
+
+    <span class="k">return</span> <span class="n">sample_df</span><span class="p">,</span> <span class="n">global_df</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2620,28 +2738,7 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
-<span class="normal">184</span>
-<span class="normal">185</span>
-<span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span>
 <span class="normal">192</span>
@@ -2654,7 +2751,28 @@ feature_col : str
 <span class="normal">199</span>
 <span class="normal">200</span>
 <span class="normal">201</span>
-<span class="normal">202</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute gene potential based on the number of unique expressed features per gene.</span>
 
@@ -2718,24 +2836,25 @@ feature_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">265</span>
+<span class="normal">266</span>
+<span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Compute perplexity per gene based on Shannon entropy.</span>
 
@@ -2750,6 +2869,7 @@ feature_col : str
 <span class="sd">        DataFrame with an additional column:</span>
 <span class="sd">        - &#39;perplexity&#39;: effective number of isoforms per gene</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># compute perplexity as 2^entropy</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">df</span>
@@ -2783,27 +2903,26 @@ gene_col : str
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate pi values (isoform ratios) from input expression column.</span>
 
@@ -2821,7 +2940,6 @@ gene_col : str
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
     <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -2853,24 +2971,24 @@ and add as a new column to the dataframe.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate TPM values from counts for a single-sample (bulk) dataframe</span>
 <span class="sd">    and add as a new column to the dataframe.</span>
@@ -2912,15 +3030,15 @@ and add as a new column to the dataframe.</p>
 
             <details class="quote">
               <summary>Source code in <code>src/isoplex/utils.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Flatten a list into 1 dimension.</span>
 
@@ -2929,6 +3047,79 @@ and add as a new column to the dataframe.</p>
 <span class="sd">    l : list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="isoplex.remove_unexpressed_feats" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">remove_unexpressed_feats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">)</span></code>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Remove unexpressed features (and by proxy, also unexpressed genes)
+from the dataframe.</p>
+<h4 id="isoplex.remove_unexpressed_feats--parameters">Parameters</h4>
+<p>df : pd.DataFrame
+    Input dataframe containing 'counts'.
+expression_type : str
+    Name of expression col to query for
+    unexpressed features</p>
+<h4 id="isoplex.remove_unexpressed_feats--returns">Returns</h4>
+<p>pd.DataFrame
+    DataFrame with unexpressed transcripts and genes removed</p>
+
+
+            <details class="quote">
+              <summary>Source code in <code>src/isoplex/utils.py</code></summary>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">remove_unexpressed_feats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove unexpressed features (and by proxy, also unexpressed genes)</span>
+<span class="sd">    from the dataframe.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pd.DataFrame</span>
+<span class="sd">        Input dataframe containing &#39;counts&#39;.</span>
+<span class="sd">    expression_type : str</span>
+<span class="sd">        Name of expression col to query for</span>
+<span class="sd">        unexpressed features</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pd.DataFrame</span>
+<span class="sd">        DataFrame with unexpressed transcripts and genes removed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">expression_type</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
