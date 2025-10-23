@@ -267,18 +267,18 @@ def test_extra_non_numeric_column(wide_valid_df):
         validate_counts_input(bad_df,
                               gene_col="gene_id",
                               feature_col="transcript_id")
-
+# don't need this anymore
 # ########### wide to long tests
 # def test_wide_to_long_basic(wide_df):
 #     out = wide_to_long(wide_df,
 #                        gene_col="gene_id",
 #                        feature_col="transcript_id",
 #                        expression_type="counts")
-
+#
 #     # expected shape: rows = original_rows * num_samples
 #     assert out.shape == (wide_df.shape[0] * 2, 4)
 #     assert set(out.columns) == {"gene_id", "transcript_id", "sample", "counts"}
-
+#
 #     # check a few known values
 #     first_row = out.iloc[0]
 #     assert first_row["gene_id"] == "g1"
@@ -286,17 +286,17 @@ def test_extra_non_numeric_column(wide_valid_df):
 #     assert first_row["sample"] in ["s1", "s2"]
 #     assert first_row["counts"] in [10, 20]
 
-# # ------------------------------------------------------------
-# # 2. Works with different expression column name
-# # ------------------------------------------------------------
-# def test_wide_to_long_with_tpm(wide_df):
-#     out = wide_to_long(wide_df,
-#                        gene_col="gene_id",
-#                        feature_col="transcript_id",
-#                        expression_type="tpm")
-#     assert "tpm" in out.columns
-#     assert "counts" not in out.columns
-
+# # # ------------------------------------------------------------
+# # # 2. Works with different expression column name
+# # # ------------------------------------------------------------
+# # def test_wide_to_long_with_tpm(wide_df):
+# #     out = wide_to_long(wide_df,
+# #                        gene_col="gene_id",
+# #                        feature_col="transcript_id",
+# #                        expression_type="tpm")
+# #     assert "tpm" in out.columns
+# #     assert "counts" not in out.columns
+#
 ################# collapse_counts_by_feature tests
 def test_collapse_single_sample(single_sample_df):
     out = collapse_counts_by_feature(
@@ -421,9 +421,12 @@ def test_multi_gene(multi_gene_df):
     expected = [10/30, 20/30, 5/20, 15/20]
     assert np.allclose(df['pi'].values, expected, rtol=1e-8)
 
+# IN THEORY THIS SHOULD NOT COME UP
 def test_zero_tpm():
+
     df = pd.DataFrame({'gene_id': ['g1', 'g1'], 'tpm': [0, 0]})
     df = compute_pi(df)
+
     # division by zero results in NaN
     assert df['pi'].isna().all()
 
@@ -456,8 +459,6 @@ def test_n_detected_features_collapsed(single_sample_df):
     assert result['n_detected_features'].tolist() == expected
     assert result['gene_id'].tolist() == ['g1', 'g1', 'g2', 'g2']
 
-
-
 def test_n_detected_features_single_gene(simple_df):
     """
     Single gene with 3 transcripts.
@@ -470,7 +471,6 @@ def test_n_detected_features_single_gene(simple_df):
                                     gene_col='gene_id',
                                     feature_col='transcript_id')
     assert result['n_detected_features'].tolist() == [3, 3, 3]
-
 
 def test_n_detected_features_empty_df():
     """
@@ -540,24 +540,6 @@ def test_entropy_multiple_genes(multi_gene_df):
     expected = [H_g1, H_g1, H_g2, H_g2]
     assert np.allclose(result['entropy'].values, expected, rtol=1e-8)
 
-
-def test_entropy_with_zero_pi():
-    """
-    Zero pi values should not cause math errors.
-    Entropy contribution for zero pi is defined as zero.
-    """
-    df = pd.DataFrame({
-        GENE_COL: ['g1', 'g1', 'g1'],
-        'pi': [0.0, 0.5, 0.5]
-    })
-
-    result = compute_entropy(df, gene_col=GENE_COL)
-
-    expected = -(0.5 * np.log2(0.5) + 0.5 * np.log2(0.5))
-
-    assert np.allclose(result['entropy'].values, expected, rtol=1e-8)
-
-
 ############# test compute_perplexity
 def test_perplexity_basic():
     """
@@ -589,7 +571,6 @@ def test_perplexity_zero_entropy():
     result = compute_perplexity(df)
 
     assert np.allclose(result['perplexity'].values, 1.0, rtol=1e-8)
-
 
 def test_perplexity_floats():
     """
@@ -633,7 +614,6 @@ def test_call_effective_basic():
     assert all(g1.sort_values('pi', ascending=False)['feature_rank'].values == [1, 2, 3])
     assert all(g2.sort_values('pi', ascending=False)['feature_rank'].values == [1, 2])
 
-
 def test_call_effective_rounding():
     """
     Check that perplexity is rounded to the nearest integer.
@@ -668,7 +648,6 @@ def test_call_effective_ties():
     # Top 2 features by order of appearance get marked effective
     assert sum(result['effective']) == 2
     assert set(result[result['effective']][TRANSCRIPT_COL]) <= {'t1', 't2'}
-
 
 def test_call_effective_all_effective():
     """
@@ -714,7 +693,6 @@ def test_expression_breadth_basic():
     assert n_eff['t2'] == 1
     assert pd.isna(n_eff['t3']) or n_eff['t3'] == 0  # after fillna(0)
 
-
 def test_expression_breadth_all_none():
     """
     All features ineffective → all breadth = 0%.
@@ -730,7 +708,6 @@ def test_expression_breadth_all_none():
     assert (result['expression_breadth'] == 0).all()
     assert (result['n_samples_effective'].fillna(0) == 0).all()
 
-
 def test_expression_breadth_all_effective():
     """
     All features effective in all samples → all breadth = 100%.
@@ -745,7 +722,6 @@ def test_expression_breadth_all_effective():
 
     assert (result['expression_breadth'] == 100).all()
     assert (result['n_samples_effective'] == 2).all()
-
 
 def test_expression_breadth_single_sample():
     """
@@ -765,6 +741,23 @@ def test_expression_breadth_single_sample():
     assert breadth['t2'] == 0
     assert breadth['t3'] == 100
 
+def test_expression_breadth_missing_samples():
+    """Some transcripts only appear in one sample (missing rows entirely)."""
+    df = pd.DataFrame({
+        'transcript_id': ['A', 'B', 'B', 'C'],
+        'sample': ['s1', 's1', 's2', 's1'],
+        'effective': [True, True, False, True],
+    })
+    df_out = compute_expression_breadth(df, 'sample', 'transcript_id')
+
+    # Total samples = 2
+    # A -> s1 only (effective) = 50%
+    # B -> s1 effective, s2 not effective = 50%
+    # C -> s1 only (effective) = 50%
+    expected = {'A': 50.0, 'B': 50.0, 'C': 50.0}
+    out_dict = dict(zip(df_out['transcript_id'], df_out['expression_breadth']))
+    for k, v in expected.items():
+        assert np.isclose(out_dict[k], v), f"Wrong breadth for {k}"
 ############ expression variance tests
 
 def test_expression_var_basic():
@@ -793,7 +786,6 @@ def test_expression_var_basic():
     assert std_by_feature['t1'] == pytest.approx(expected_t1_std, rel=1e-8)
     assert std_by_feature['t2'] == pytest.approx(expected_t2_std, rel=1e-8)
 
-
 def test_expression_var_single_sample():
     """
     If a feature is observed in only one sample, std should be NaN.
@@ -811,26 +803,6 @@ def test_expression_var_single_sample():
     assert result['expression_var'].isna().all()
 
 
-def test_expression_var_some_missing_pi():
-    """
-    Missing pi values should be skipped in std calculation.
-    """
-    df = pd.DataFrame({
-        TRANSCRIPT_COL: ['t1', 't1', 't1'],
-        SAMPLE_COL:     ['s1', 's2', 's3'],
-        'pi':           [0.2, np.nan, 0.4]
-    })
-
-    result = compute_expression_var(df, SAMPLE_COL, TRANSCRIPT_COL)
-
-    # Feature appears in 3 samples
-    assert (result['n_exp_samples'] == 3).all()
-
-    # std should be computed only from non-NaN values [0.2, 0.4]
-    expected_std = np.std([0.2, 0.4], ddof=1)
-    assert result['expression_var'].iloc[0] == pytest.approx(expected_std, rel=1e-8)
-
-
 def test_expression_var_feature_with_constant_pi():
     """
     Zero variance case → std should be 0.
@@ -845,6 +817,39 @@ def test_expression_var_feature_with_constant_pi():
 
     assert (result['n_exp_samples'] == 3).all()
     assert result['expression_var'].iloc[0] == pytest.approx(0.0, rel=1e-8)
+
+def test_expression_var_missing_samples():
+    """
+    Tests compute_expression_var() on a dataframe where some transcripts
+    are missing from certain samples, to ensure proper std and sample counting.
+    """
+    df = pd.DataFrame({
+        'transcript_id': ['A', 'B', 'B', 'C', 'C'],
+        'sample':        ['s1', 's1', 's2', 's1', 's3'],
+        'pi':            [0.1, 0.2, 0.3, 0.4, 0.6]
+    })
+    import pdb; pdb.set_trace()
+    df_out = compute_expression_var(df, sample_col='sample', feature_col='transcript_id')
+
+    # A appears in 1 sample → n_exp_samples = 1, variance = NaN (not enough data)
+    a = df_out.loc[df_out['transcript_id'] == 'A'].iloc[0]
+    expected_std_a = np.std([0.1,0,0], ddof=1)
+    assert a['n_exp_samples'] == 1
+    assert np.isclose(a['expression_var'], expected_std_a), "Incorrect std for A"
+
+
+    # B appears in 2 samples (0.2, 0.3)
+    b = df_out.loc[df_out['transcript_id'] == 'B'].iloc[0]
+    expected_std_b = np.std([0.2, 0.3, 0], ddof=1)
+    assert b['n_exp_samples'] == 2
+    assert np.isclose(b['expression_var'], expected_std_b), "Incorrect std for B"
+
+    # C appears in 3 samples (0.4, 0.6)
+    c = df_out.loc[df_out['transcript_id'] == 'C'].iloc[0]
+    expected_std_c = np.std([0.4, 0.6, 0], ddof=1)
+    assert c['n_exp_samples'] == 2
+    assert np.isclose(c['expression_var'], expected_std_c), "Incorrect std for C"
+
 
 ############ tests for compute_average-expression
 
@@ -957,7 +962,6 @@ def test_all_unexpressed(all_unexpressed_df):
 
     assert df['max_transcript_id_tpm'].isna().all()
 
-
 def test_merge_preserves_rows(simple_multi_sample_df):
     """
     Ensure the row count and order are preserved after merging back.
@@ -967,14 +971,15 @@ def test_merge_preserves_rows(simple_multi_sample_df):
     assert len(df) == len(simple_multi_sample_df)
     assert 'max_transcript_id_tpm' in df.columns
 
-
 ############# testing compute_global_isoform_metrics
 def test_happy_path_counts(simple_counts_df):
     df_out = compute_global_isoform_metrics(simple_counts_df,
                                             expression_type="counts")
 
-    # Expect same rows as input
-    assert len(df_out) == len(simple_counts_df)
+    # expect at least that all gene ids and tids
+    # in output were in input
+    assert len(set(df_out.transcript_id)-\
+               set(simple_counts_df.transcript_id)) == 0
 
     # Columns we expect to be present
     expected_cols = {"gene_id", "transcript_id", "counts", "tpm",
@@ -984,14 +989,18 @@ def test_happy_path_counts(simple_counts_df):
     # Check that TPM was computed
     assert not df_out["tpm"].isna().any()
 
-
 def test_happy_path_tpm(tpm_df):
 
     df_out = compute_global_isoform_metrics(tpm_df,
                                             expression_type='tpm')
 
+    assert len(set(df_out.transcript_id)-\
+               set(tpm_df.transcript_id)) == 0
+
     # Should not overwrite supplied TPM
-    assert np.allclose(df_out["tpm"], tpm_df["tpm"], equal_nan=True)
+    assert np.allclose(df_out["tpm"], \
+        tpm_df["tpm"].loc[tpm_df.transcript_id.isin(df_out.transcript_id.tolist())], \
+        equal_nan=True)
 
 
 def test_invalid_input_missing_expression(simple_counts_df):
@@ -1007,16 +1016,6 @@ def test_invalid_input_negative_counts(simple_counts_df):
         compute_global_isoform_metrics(df_bad,
                                        expression_type="counts")
 
-# def test_zero_counts_behavior(simple_counts_df):
-#     df = simple_counts_df.copy()
-#     df["counts"] = [0, 0, 0, 0]
-#     df_out = compute_global_isoform_metrics(df,
-#                                             expression_type="counts",
-#                                             expression_type_type="counts")
-#     # All TPM and pi should be zero or NaN-safe
-#     assert (df_out["tpm"] == 0).all() or (df_out["tpm"].fillna(0) == 0).all()
-
-
 def test_collapsing_feature(counts_with_feature):
     counts_with_feature = counts_with_feature.drop('transcript_id', axis=1)
     df_out = compute_global_isoform_metrics(counts_with_feature,
@@ -1025,17 +1024,6 @@ def test_collapsing_feature(counts_with_feature):
                                             expression_type="counts")
     # Expect output to have unique alt_feature per gene
     assert df_out["alt_feature"].nunique() == 2
-
-
-# # def test_unexpected_sample_column(simple_counts_df):
-# #     df = simple_counts_df.copy()
-# #     df["sample"] = ["s1", "s1", "s1", "s1"]
-# #     # Should error because this function is single-sample only
-# #     with pytest.raises(ValueError, match="single-sample"):
-# #         compute_global_isoform_metrics(df,
-# #                                        expression_type="counts",
-# #                                        expression_type_type="counts")
-
 
 def test_order_independence(simple_counts_df):
     shuffled = simple_counts_df.sample(frac=1, random_state=42)
@@ -1075,8 +1063,8 @@ def test_multi_sample_happy_path(multi_sample_counts_df):
         expression_type="counts"
     )
 
-    # Expect 2 samples × 4 isoforms = 8 rows
-    assert len(out) == 8
+    # Expect 2 samples × 4 isoforms - 1 unexpressed = 7 rows
+    assert len(out) == 7
 
     # There should be a column for sample ID
     assert "sample" in out.columns
@@ -1113,7 +1101,7 @@ def test_multi_sample_tpm(multi_sample_tpm_df):
     # Should use provided TPM directly, not recompute
     assert np.allclose(
         out[out["sample"] == "S1"].sort_values("transcript_id")["tpm"].values,
-        multi_sample_tpm_df["S1"].values
+        multi_sample_tpm_df.loc[multi_sample_tpm_df['S1']>0, "S1"].values
     )
 
     # also check summed tpm values
@@ -1317,3 +1305,16 @@ def test_global_metrics_handles_error(tmp_path, simple_counts_df, monkeypatch):
     assert not output_file.exists()
     # Optional: check that the error text appeared
     assert "Deliberate failure" in result.stdout
+
+#### unexpressed genes should be absent from output
+def test_unexpressed_gene_metrics(simple_counts_df):
+    df = simple_counts_df.copy()
+    df['global_counts'] = [0, 0, 0, 1]  # gene completely unexpressed
+
+    df_out = compute_global_isoform_metrics(df, expression_type="counts")
+
+    # this gene shouldn't even be in there
+    assert 'G1' not in df_out.gene_id.tolist()
+
+    # nor should this transcript
+    assert 'T3' not in df_out.transcript_id.tolist()

@@ -124,6 +124,28 @@ def collapse_counts_by_feature(df,
 
     return out
 
+def remove_unexpressed_feats(df, expression_type=EXP_COL):
+    """
+    Remove unexpressed features (and by proxy, also unexpressed genes)
+    from the dataframe.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input dataframe containing 'counts'.
+    expression_type : str
+        Name of expression col to query for
+        unexpressed features
+
+    Returns
+    -------
+    pd.DataFrame
+        DataFrame with unexpressed transcripts and genes removed
+    """
+    df = df.loc[df[expression_type]>0]
+
+    return df
+
 def compute_tpm(df):
     """
     Calculate TPM values from counts for a single-sample (bulk) dataframe
@@ -161,7 +183,6 @@ def compute_pi(df, gene_col=GENE_COL):
     """
     df['gene_tpm'] = df.groupby(gene_col)['tpm'].transform('sum')
     df['pi'] = df['tpm'] / df['gene_tpm']
-    df['pi'] = df['pi'].fillna(0)
     df = df.drop(columns='gene_tpm')
     return df
 
@@ -219,13 +240,13 @@ def compute_entropy(df, gene_col=GENE_COL):
         - 'entropy': Shannon entropy per gene
     """
     # compute plogp for each feature; avoid log2(0)
-    df['plogp'] = df['pi'] * np.log2(df['pi'].replace(0, np.nan))
+    df['plogp'] = df['pi'] * np.log2(df['pi'])
 
     # sum plogp per gene
     entropy_df = (
         df[[gene_col, 'plogp']]
         .groupby(gene_col)
-        .sum()
+        .sum(min_count=1)
         .reset_index()
         .rename({'plogp': 'entropy'}, axis=1)
     )
@@ -256,6 +277,7 @@ def compute_perplexity(df):
         DataFrame with an additional column:
         - 'perplexity': effective number of isoforms per gene
     """
+
     # compute perplexity as 2^entropy
     df['perplexity'] = 2 ** df['entropy']
     return df
@@ -281,6 +303,7 @@ def call_effective(df, gene_col=GENE_COL, feature_col=TRANSCRIPT_COL):
         - 'feature_rank': rank of each feature within its gene (by pi)
         - 'effective': boolean indicating if feature is effective
     """
+
     # round perplexity to nearest integer
     df['n_effective'] = df['perplexity'].round(0)
 
@@ -354,9 +377,23 @@ def compute_expression_var(df, sample_col, feature_col=TRANSCRIPT_COL):
     # number of samples where feature is expressed
     df['n_exp_samples'] = df.groupby(feature_col)[sample_col].transform('nunique')
 
-    # standard deviation of pi across samples
-    df['expression_var'] = df.groupby(feature_col)['pi'].transform(lambda x: x.std(ddof=1, skipna=True))
+    # get an inflated version of the df w/ 0s to stand in for unexpressed isos
+    temp = (df[['transcript_id', 'sample', 'pi']]
+            .pivot(index=feature_col, columns=sample_col)
+            .fillna(0)
+            .melt(ignore_index=False)
+            .reset_index()
+            .rename({'value':'pi', None:'None'}, axis=1)
+            .drop('None', axis=1)
+           )
 
+    # standard deviation of pi across samples
+    temp['expression_var'] = temp.groupby(feature_col)['pi'].transform(lambda x: x.std(ddof=1, skipna=False))
+
+    # merge back into df
+    df = df.merge(temp,
+                  how='left',
+                  on=[feature_col, sample_col, 'pi'])
     return df
 
 def compute_max_expression(df, sample_col, feature_col=TRANSCRIPT_COL):
@@ -478,12 +515,15 @@ def compute_global_isoform_metrics(df,
     pd.DataFrame
         DataFrame with computed metrics.
     """
+    temp = df.copy()
+    del df
+    df = temp
+
     # validate input
     validate_counts_input(df,
                           gene_col=gene_col,
                           feature_col=feature_col)
 
-    # convert from wide to long
     df = rename_sample_col(df,
                       gene_col=gene_col,
                       feature_col=feature_col,
@@ -495,6 +535,9 @@ def compute_global_isoform_metrics(df,
                                     expression_type=expression_type,
                                     gene_col=gene_col,
                                     sample_col=None)
+
+    # remove unexpressed features
+    df = remove_unexpressed_feats(df, expression_type=expression_type)
 
     # compute TPM if required
     df = df if expression_type == 'tpm' else compute_tpm(df)
@@ -534,7 +577,7 @@ def compute_multi_sample_isoform_metrics(
 
     Returns
     -------
-    big_df : pd.DataFrame
+    sample_df : pd.DataFrame
         DataFrame with:
           • per-sample metrics (gene potential, entropy, etc.)
           • cross-sample metrics (breadth, variance, average expression)
@@ -543,9 +586,12 @@ def compute_multi_sample_isoform_metrics(
           • global entropy, detected features, and perplexity per gene,
             based on summing tpms across all samples
     """
+    temp = df.copy()
+    del df
+    df = temp
 
     # validate input
-    validate_counts_input(df,
+    validate_counts_input(temp,
                           gene_col=gene_col,
                           feature_col=feature_col)
 
@@ -557,12 +603,12 @@ def compute_multi_sample_isoform_metrics(
     )
 
     # loop over samples and compute single-sample metrics
-    samples = [c for c in df.columns if c not in [gene_col, feature_col]]
+    samples = [c for c in temp.columns if c not in [gene_col, feature_col]]
     dfs = []
 
     for i, s in enumerate(samples):
-        s_df = df[[gene_col, feature_col, s]].copy()
-        df.drop(s, axis=1, inplace=True) # remove from original df to save memory
+        s_df = temp[[gene_col, feature_col, s]].copy()
+        temp.drop(s, axis=1, inplace=True) # remove from original df to save memory
         # if i % 25 == 0: print(i)
         s_df = compute_global_isoform_metrics(s_df,
                                               gene_col=gene_col,
@@ -605,7 +651,9 @@ def compute_multi_sample_isoform_metrics(
                                                feature_col=feature_col,
                                                expression_type='tpm')
 
-    return big_df, global_df
+    sample_df = big_df
+
+    return sample_df, global_df
 
 def flatten_list(l):
     """
