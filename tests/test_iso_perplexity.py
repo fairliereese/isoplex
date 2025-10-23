@@ -828,7 +828,6 @@ def test_expression_var_missing_samples():
         'sample':        ['s1', 's1', 's2', 's1', 's3'],
         'pi':            [0.1, 0.2, 0.3, 0.4, 0.6]
     })
-    import pdb; pdb.set_trace()
     df_out = compute_expression_var(df, sample_col='sample', feature_col='transcript_id')
 
     # A appears in 1 sample → n_exp_samples = 1, variance = NaN (not enough data)
