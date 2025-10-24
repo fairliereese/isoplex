@@ -361,6 +361,34 @@ def test_no_collapse_needed(single_sample_df):
         expected.sort_values(["gene_id", "transcript_id"]).reset_index(drop=True)
     )
 
+#################### testing remove_unexpressed_feats
+def test_remove_unexpressed_feats_basic():
+    """
+    Tests that remove_unexpressed_feats correctly filters out
+    unexpressed (<=0) features and leaves others intact.
+    """
+    df = pd.DataFrame({
+        'gene_id': ['g1', 'g1', 'g1', 'g1', 'g2', 'g2'],
+        'transcript_id': ['t1', 't2', 't3', 't4', 't5', 't6'],
+        'counts': [10, 0, 5, 0, 0, 0]
+    })
+
+    # Filter using tpm
+    filtered = remove_unexpressed_feats(df, expression_type='counts')
+
+    # Expect only rows with tpm > 0
+    expected = ['t1', 't3']
+    assert list(filtered['transcript_id']) == expected, \
+        f"Expected {expected}, got {list(filtered['transcript_id'])}"
+
+    # make sure the unexpressed gene was removed
+    assert 'g2' not in filtered['gene_id'].tolist()
+
+    # Should preserve other columns
+    assert 'counts' in filtered.columns
+    assert all(filtered['counts'] > 0), "Filtered dataframe still contains zeros"
+
+
 #################### testing compute_tpm
 
 def test_compute_tpm_basic():
@@ -969,6 +997,38 @@ def test_merge_preserves_rows(simple_multi_sample_df):
 
     assert len(df) == len(simple_multi_sample_df)
     assert 'max_transcript_id_tpm' in df.columns
+
+def test_max_expression_missing_samples():
+    """
+    Tests compute_max_expression() where some transcripts are missing
+    from certain samples and others have zero expression.
+    Ensures only expressed samples are considered in max calculation.
+    """
+    df = pd.DataFrame({
+        'transcript_id': ['A', 'B', 'B'],
+        'sample':        ['s1', 's1', 's3'],
+        'tpm':           [10.0, 5.0, 20]
+    })
+
+    df_out = compute_max_expression(df, sample_col='sample', feature_col='transcript_id')
+
+    # Expected logic:
+    # A: expressed only in s1 (10.0), s2=0 → max = 10.0
+    # B: expressed in s1=5.0 and s3=20.0 → max = 20.0
+    # C: expressed nowhere (0 only) → max = NaN
+
+    expected = {
+        'A': 10.0,
+        'B': 20.0,
+    }
+
+    for tid, exp_val in expected.items():
+        obs = df_out.loc[df_out['transcript_id'] == tid, 'max_transcript_id_tpm'].iloc[0]
+        if np.isnan(exp_val):
+            assert np.isnan(obs), f"Expected NaN for {tid}, got {obs}"
+        else:
+            assert np.isclose(obs, exp_val), f"Incorrect max_tpm for {tid}: got {obs}, expected {exp_val}"
+
 
 ############# testing compute_global_isoform_metrics
 def test_happy_path_counts(simple_counts_df):
