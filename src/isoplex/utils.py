@@ -378,7 +378,7 @@ def compute_expression_var(df, sample_col, feature_col=TRANSCRIPT_COL):
     df['n_exp_samples'] = df.groupby(feature_col)[sample_col].transform('nunique')
 
     # get an inflated version of the df w/ 0s to stand in for unexpressed isos
-    temp = (df[['transcript_id', 'sample', 'pi']]
+    temp = (df[[feature_col, sample_col, 'pi']]
             .pivot(index=feature_col, columns=sample_col)
             .fillna(0)
             .melt(ignore_index=False)
