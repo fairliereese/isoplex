@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -507,23 +507,23 @@
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">isoplex</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;my_isoform_expression_matrix.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'my_isoform_expression_matrix.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="n">global_perplexity</span> <span class="o">=</span> <span class="n">isoplex</span><span class="o">.</span><span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
-                              <span class="n">gene_col</span><span class="o">=</span><span class="s1">&#39;gene_id&#39;</span><span class="p">,</span>
-                              <span class="n">feature_col</span><span class="o">=</span><span class="s1">&#39;transcript_id&#39;</span><span class="p">,</span>
-                              <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;tpm&#39;</span><span class="p">)</span>
+                              <span class="n">gene_col</span><span class="o">=</span><span class="s1">'gene_id'</span><span class="p">,</span>
+                              <span class="n">feature_col</span><span class="o">=</span><span class="s1">'transcript_id'</span><span class="p">,</span>
+                              <span class="n">expression_type</span><span class="o">=</span><span class="s1">'tpm'</span><span class="p">)</span>
 </code></pre></div>
 <p>Compute multi-sample statistics, as well as global statistics:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">isoplex</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;my_isoform_expression_matrix.tsv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'my_isoform_expression_matrix.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="n">sample_perplexity</span><span class="p">,</span> <span class="n">global_perplexity</span> <span class="o">=</span> <span class="n">isoplex</span><span class="o">.</span><span class="n">compute_multi_sample_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
-                              <span class="n">gene_col</span><span class="o">=</span><span class="s1">&#39;gene_id&#39;</span><span class="p">,</span>
-                              <span class="n">feature_col</span><span class="o">=</span><span class="s1">&#39;transcript_id&#39;</span><span class="p">,</span>
-                              <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;tpm&#39;</span><span class="p">)</span>
+                              <span class="n">gene_col</span><span class="o">=</span><span class="s1">'gene_id'</span><span class="p">,</span>
+                              <span class="n">feature_col</span><span class="o">=</span><span class="s1">'transcript_id'</span><span class="p">,</span>
+                              <span class="n">expression_type</span><span class="o">=</span><span class="s1">'tpm'</span><span class="p">)</span>
 </code></pre></div>
 <p>See more details about the Python functions in the <a href="../api/">API docs</a>.</p>
 <h2 id="cli">CLI</h2>
@@ -539,8 +539,8 @@ Arguments:
 Options:
   --gene-col TEXT          Column name for gene IDs. [default: gene_id]
   --feature-col TEXT       Column name for isoform/feature IDs. [default: transcript_id]
-  --expression-type TEXT   Expression type in table: &#39;counts&#39; or &#39;tpm&#39;. [default: counts]
-  --sep TEXT               Delimiter for input/output files. Use &#39;,&#39; for CSV. [default: \t]
+  --expression-type TEXT   Expression type in table: 'counts' or 'tpm'. [default: counts]
+  --sep TEXT               Delimiter for input/output files. Use ',' for CSV. [default: \t]
   --help                   Show this message and exit.
 </code></pre></div>
 <p>Compute multi-sample statistics, as well as global statistics:</p>
@@ -559,9 +559,9 @@ Options:
   --gene-col TEXT          Column name for gene IDs. [default: gene_id]
   --feature-col TEXT       Column name for isoform/feature IDs. [default:
                            transcript_id]
-  --expression-type TEXT   Expression type in table: &#39;counts&#39; or &#39;tpm&#39;.
+  --expression-type TEXT   Expression type in table: 'counts' or 'tpm'.
                            [default: counts]
-  --sep TEXT               Delimiter for input/output files. Use &#39;,&#39; for CSV.
+  --sep TEXT               Delimiter for input/output files. Use ',' for CSV.
                            [default: \t]
   --help                   Show this message and exit.
 </code></pre></div>
@@ -617,7 +617,7 @@ Options:
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1822,39 +1822,39 @@ feature_col : str
 <span class="normal">318</span>
 <span class="normal">319</span>
 <span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">call_effective</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Identify effective features per gene based on gene perplexity.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing gene, feature, &#39;pi&#39;, and &#39;perplexity&#39; columns.</span>
+<span class="sd">        DataFrame containing gene, feature, 'pi', and 'perplexity' columns.</span>
 <span class="sd">    gene_col : str</span>
-<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">        Column representing the gene (default: 'gene_id')</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with additional columns:</span>
-<span class="sd">        - &#39;n_effective&#39;: perplexity rounded to nearest integer</span>
-<span class="sd">        - &#39;feature_rank&#39;: rank of each feature within its gene (by pi)</span>
-<span class="sd">        - &#39;effective&#39;: boolean indicating if feature is effective</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'n_effective': perplexity rounded to nearest integer</span>
+<span class="sd">        - 'feature_rank': rank of each feature within its gene (by pi)</span>
+<span class="sd">        - 'effective': boolean indicating if feature is effective</span>
+<span class="sd">    """</span>
 
     <span class="c1"># round perplexity to nearest integer</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_effective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'n_effective'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'perplexity'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="c1"># rank features within each gene by pi</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
-        <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">&#39;first&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'feature_rank'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">'pi'</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">method</span><span class="o">=</span><span class="s1">'first'</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># mark features as effective if rank &lt;= rounded perplexity</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;effective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;feature_rank&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_effective&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'effective'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'feature_rank'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'n_effective'</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -1933,7 +1933,7 @@ sample_col : str, optional
                                <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">,</span>
                                <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
                                <span class="n">sample_col</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Collapse counts by a feature (e.g. ORF, transcript) instead of transcript.</span>
 
 <span class="sd">    Parameters</span>
@@ -1941,7 +1941,7 @@ sample_col : str, optional
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        Input table with counts at transcript level.</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Alternative feature column to collapse to (e.g. &#39;orf_id&#39;).</span>
+<span class="sd">        Alternative feature column to collapse to (e.g. 'orf_id').</span>
 <span class="sd">    expression_type : str</span>
 <span class="sd">        Name of expression col to collapse</span>
 <span class="sd">    gene_col : str</span>
@@ -1953,7 +1953,7 @@ sample_col : str, optional
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        Collapsed df with summed counts per feature.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">group_cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">([</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]))</span>
 
     <span class="k">if</span> <span class="n">sample_col</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -2044,7 +2044,7 @@ feature_col : str
 <span class="normal">489</span>
 <span class="normal">490</span>
 <span class="normal">491</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_avg_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute average expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
 
@@ -2055,25 +2055,25 @@ feature_col : str
 <span class="sd">    sample_col : str</span>
 <span class="sd">        Column representing sample IDs.</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with additional column:</span>
-<span class="sd">        - &#39;avg_&lt;feature_col&gt;_tpm&#39;: mean tpm across samples for the feature</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+<span class="sd">        - 'avg_&lt;feature_col&gt;_tpm': mean tpm across samples for the feature</span>
+<span class="sd">    """</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">'tpm'</span><span class="p">]]</span>
 
     <span class="c1"># filter out unexpressed features so mean denominator is correct</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">'tpm'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># sum counts per feature per sample (handles cases with multiple rows per feature)</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">])</span>
         <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'tpm'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">temp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">sample_col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -2082,11 +2082,11 @@ feature_col : str
         <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
         <span class="o">.</span><span class="n">mean</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;avg_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'avg_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># merge back to original df</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -2159,42 +2159,42 @@ gene_col : str
 <span class="normal">261</span>
 <span class="normal">262</span>
 <span class="normal">263</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_entropy</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute Shannon entropy per gene based on isoform proportions.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing gene and &#39;pi&#39; columns.</span>
+<span class="sd">        DataFrame containing gene and 'pi' columns.</span>
 <span class="sd">    gene_col : str</span>
-<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">        Column representing the gene (default: 'gene_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with an additional column:</span>
-<span class="sd">        - &#39;entropy&#39;: Shannon entropy per gene</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'entropy': Shannon entropy per gene</span>
+<span class="sd">    """</span>
     <span class="c1"># compute plogp for each feature; avoid log2(0)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;plogp&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'plogp'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'pi'</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'pi'</span><span class="p">])</span>
 
     <span class="c1"># sum plogp per gene</span>
     <span class="n">entropy_df</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="s1">&#39;plogp&#39;</span><span class="p">]]</span>
+        <span class="n">df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="s1">'plogp'</span><span class="p">]]</span>
         <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)</span>
         <span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">min_count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;plogp&#39;</span><span class="p">:</span> <span class="s1">&#39;entropy&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'plogp'</span><span class="p">:</span> <span class="s1">'entropy'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># multiply by -1 for positive entropy</span>
-    <span class="n">entropy_df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">entropy_df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span>
+    <span class="n">entropy_df</span><span class="p">[</span><span class="s1">'entropy'</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">entropy_df</span><span class="p">[</span><span class="s1">'entropy'</span><span class="p">]</span>
 
     <span class="c1"># merge back to original df</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entropy_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">entropy_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
 
     <span class="c1"># drop intermediate column</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;plogp&#39;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'plogp'</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -2265,37 +2265,37 @@ feature_col : str
 <span class="normal">353</span>
 <span class="normal">354</span>
 <span class="normal">355</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_breadth</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute percentage of samples in which each feature is effective.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing feature, sample, and &#39;effective&#39; columns.</span>
+<span class="sd">        DataFrame containing feature, sample, and 'effective' columns.</span>
 <span class="sd">    sample_col : str</span>
 <span class="sd">        Column representing sample IDs.</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with additional columns:</span>
-<span class="sd">        - &#39;n_samples_effective&#39;: number of samples where the feature is effective</span>
-<span class="sd">        - &#39;expression_breadth&#39;: percentage of samples where the feature is effective</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'n_samples_effective': number of samples where the feature is effective</span>
+<span class="sd">        - 'expression_breadth': percentage of samples where the feature is effective</span>
+<span class="sd">    """</span>
     <span class="n">n_samples</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
 
     <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;effective&#39;</span><span class="p">],</span> <span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">]]</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">'effective'</span><span class="p">],</span> <span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">]]</span>
         <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
         <span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">sample_col</span><span class="p">:</span> <span class="s1">&#39;n_samples_effective&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">sample_col</span><span class="p">:</span> <span class="s1">'n_samples_effective'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;expression_breadth&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_samples_effective&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'expression_breadth'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'n_samples_effective'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span> <span class="o">*</span> <span class="mi">100</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -2373,45 +2373,45 @@ feature_col : str
 <span class="normal">395</span>
 <span class="normal">396</span>
 <span class="normal">397</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_expression_var</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute number of samples expressing each feature and pi standard deviation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing feature, sample, and &#39;pi&#39; columns.</span>
+<span class="sd">        DataFrame containing feature, sample, and 'pi' columns.</span>
 <span class="sd">    sample_col : str</span>
 <span class="sd">        Column representing sample IDs.</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with additional columns:</span>
-<span class="sd">        - &#39;n_exp_samples&#39;: number of samples where feature is expressed</span>
-<span class="sd">        - &#39;expression_var&#39;: standard deviation of pi across samples</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'n_exp_samples': number of samples where feature is expressed</span>
+<span class="sd">        - 'expression_var': standard deviation of pi across samples</span>
+<span class="sd">    """</span>
     <span class="c1"># number of samples where feature is expressed</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_exp_samples&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;nunique&#39;</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'n_exp_samples'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="n">sample_col</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'nunique'</span><span class="p">)</span>
 
     <span class="c1"># get an inflated version of the df w/ 0s to stand in for unexpressed isos</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;pi&#39;</span><span class="p">]]</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">'pi'</span><span class="p">]]</span>
             <span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">sample_col</span><span class="p">)</span>
             <span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">ignore_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-            <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span><span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">:</span><span class="s1">&#39;None&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'value'</span><span class="p">:</span><span class="s1">'pi'</span><span class="p">,</span> <span class="kc">None</span><span class="p">:</span><span class="s1">'None'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">'None'</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
            <span class="p">)</span>
 
     <span class="c1"># standard deviation of pi across samples</span>
-    <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;expression_var&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">temp</span><span class="p">[</span><span class="s1">'expression_var'</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)[</span><span class="s1">'pi'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">ddof</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">skipna</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 
     <span class="c1"># merge back into df</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span>
-                  <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span>
-                  <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;pi&#39;</span><span class="p">])</span>
+                  <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span>
+                  <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">'pi'</span><span class="p">])</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -2423,7 +2423,7 @@ feature_col : str
 
 
 <h2 id="isoplex.compute_global_isoform_metrics" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="s1">'counts'</span><span class="p">)</span></code>
 
 </h2>
 
@@ -2515,8 +2515,8 @@ expression_type : str
 <span class="normal">556</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">df</span><span class="p">,</span>
                                    <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span>
                                    <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
-                                   <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;counts&#39;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+                                   <span class="n">expression_type</span><span class="o">=</span><span class="s1">'counts'</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute isoform or other feature diversity metrics for a single-sample (bulk) dataframe.</span>
 <span class="sd">    Either provide counts or TPMs; if counts, will automatically convert to TPM.</span>
 <span class="sd">    Optionally, collapse counts to a different feature or compute TPM.</span>
@@ -2526,17 +2526,17 @@ expression_type : str
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        DataFrame containing counts at transcript level.</span>
 <span class="sd">    gene_col : str</span>
-<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">        Column representing the gene (default: 'gene_id')</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 <span class="sd">    expression_type : str</span>
-<span class="sd">        Type of expression values in table {&#39;counts&#39; | &#39;tpm&#39;}</span>
+<span class="sd">        Type of expression values in table {'counts' | 'tpm'}</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with computed metrics.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">del</span> <span class="n">df</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">temp</span>
@@ -2562,7 +2562,7 @@ expression_type : str
     <span class="n">df</span> <span class="o">=</span> <span class="n">remove_unexpressed_feats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">)</span>
 
     <span class="c1"># compute TPM if required</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="k">if</span> <span class="n">expression_type</span> <span class="o">==</span> <span class="s1">&#39;tpm&#39;</span> <span class="k">else</span> <span class="n">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span> <span class="k">if</span> <span class="n">expression_type</span> <span class="o">==</span> <span class="s1">'tpm'</span> <span class="k">else</span> <span class="n">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 
     <span class="c1"># compute isoform ratios</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
@@ -2656,7 +2656,7 @@ feature_col : str
 <span class="normal">442</span>
 <span class="normal">443</span>
 <span class="normal">444</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_max_expression</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute maximum expression across samples for each feature.</span>
 <span class="sd">    Only considers samples where feature is expressed!</span>
 
@@ -2667,25 +2667,25 @@ feature_col : str
 <span class="sd">    sample_col : str</span>
 <span class="sd">        Column representing sample IDs.</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with additional column:</span>
-<span class="sd">        - &#39;avg_&lt;feature_col&gt;_tpm&#39;: mean tpm across samples for the feature</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+<span class="sd">        - 'avg_&lt;feature_col&gt;_tpm': mean tpm across samples for the feature</span>
+<span class="sd">    """</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">,</span> <span class="s1">'tpm'</span><span class="p">]]</span>
 
     <span class="c1"># filter out unexpressed features so mean denominator is correct</span>
-    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">temp</span> <span class="o">=</span> <span class="n">temp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">temp</span><span class="p">[</span><span class="s1">'tpm'</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># sum counts per feature per sample (handles cases with multiple rows per feature)</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">sample_col</span><span class="p">])</span>
         <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'tpm'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">temp</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">sample_col</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -2694,11 +2694,11 @@ feature_col : str
         <span class="n">temp</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">feature_col</span><span class="p">)</span>
         <span class="o">.</span><span class="n">max</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;max_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'max_</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s1">_tpm'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># merge back to original df</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="n">feature_col</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -2845,7 +2845,7 @@ global_df : pd.DataFrame
     <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
     <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
     <span class="n">expression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EXP_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute isoform metrics across multiple samples as well as global</span>
 <span class="sd">    metrics.</span>
 
@@ -2857,7 +2857,7 @@ global_df : pd.DataFrame
 <span class="sd">        Column identifying genes.</span>
 <span class="sd">    feature_col : str</span>
 <span class="sd">        Column identifying isoforms or other features (e.g. ORFs).</span>
-<span class="sd">    expression_type : {&#39;counts&#39;, &#39;tpm&#39;}</span>
+<span class="sd">    expression_type : {'counts', 'tpm'}</span>
 <span class="sd">        Type of expression values</span>
 
 <span class="sd">    Returns</span>
@@ -2870,7 +2870,7 @@ global_df : pd.DataFrame
 <span class="sd">        DataFrame with:</span>
 <span class="sd">          • global entropy, detected features, and perplexity per gene,</span>
 <span class="sd">            based on summing tpms across all samples</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="k">del</span> <span class="n">df</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">temp</span>
@@ -2899,42 +2899,42 @@ global_df : pd.DataFrame
                                               <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                                               <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
                                               <span class="n">expression_type</span><span class="o">=</span><span class="n">expression_type</span><span class="p">)</span>
-        <span class="n">s_df</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>  <span class="c1"># re-attach sample ID</span>
+        <span class="n">s_df</span><span class="p">[</span><span class="s1">'sample'</span><span class="p">]</span> <span class="o">=</span> <span class="n">s</span>  <span class="c1"># re-attach sample ID</span>
         <span class="n">dfs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s_df</span><span class="p">)</span>
 
     <span class="n">big_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># compute cross-sample metrics on the combined table</span>
     <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_expression_breadth</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
-                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">'sample'</span><span class="p">,</span>
                                         <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
     <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_expression_var</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
-                                    <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                    <span class="n">sample_col</span><span class="o">=</span><span class="s1">'sample'</span><span class="p">,</span>
                                     <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">fc</span> <span class="ow">in</span> <span class="p">[</span><span class="n">feature_col</span><span class="p">,</span> <span class="n">gene_col</span><span class="p">]:</span>
         <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_avg_expression</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
-                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">'sample'</span><span class="p">,</span>
                                         <span class="n">feature_col</span><span class="o">=</span><span class="n">fc</span><span class="p">)</span>
         <span class="n">big_df</span> <span class="o">=</span> <span class="n">compute_max_expression</span><span class="p">(</span><span class="n">big_df</span><span class="p">,</span>
-                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">&#39;sample&#39;</span><span class="p">,</span>
+                                        <span class="n">sample_col</span><span class="o">=</span><span class="s1">'sample'</span><span class="p">,</span>
                                         <span class="n">feature_col</span><span class="o">=</span><span class="n">fc</span><span class="p">)</span>
 
     <span class="c1"># sum up tpms across samples</span>
-    <span class="n">global_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">big_df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="s1">&#39;tpm&#39;</span><span class="p">]]</span>
+    <span class="n">global_df</span> <span class="o">=</span> <span class="p">(</span><span class="n">big_df</span><span class="p">[[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="s1">'tpm'</span><span class="p">]]</span>
           <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">])</span>
           <span class="o">.</span><span class="n">sum</span><span class="p">()</span>
           <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
          <span class="p">)</span>
 
-    <span class="n">global_df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">&#39;tpm&#39;</span><span class="p">:</span> <span class="s1">&#39;global&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">global_df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="s1">'tpm'</span><span class="p">:</span> <span class="s1">'global'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
 
     <span class="n">global_df</span> <span class="o">=</span> <span class="n">compute_global_isoform_metrics</span><span class="p">(</span><span class="n">global_df</span><span class="p">,</span>
                                                <span class="n">gene_col</span><span class="o">=</span><span class="n">gene_col</span><span class="p">,</span>
                                                <span class="n">feature_col</span><span class="o">=</span><span class="n">feature_col</span><span class="p">,</span>
-                                               <span class="n">expression_type</span><span class="o">=</span><span class="s1">&#39;tpm&#39;</span><span class="p">)</span>
+                                               <span class="n">expression_type</span><span class="o">=</span><span class="s1">'tpm'</span><span class="p">)</span>
 
     <span class="n">sample_df</span> <span class="o">=</span> <span class="n">big_df</span>
 
@@ -3007,7 +3007,7 @@ feature_col : str
 <span class="normal">221</span>
 <span class="normal">222</span>
 <span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_n_detected_features</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="n">TRANSCRIPT_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute gene potential based on the number of unique expressed features per gene.</span>
 
 <span class="sd">    Parameters</span>
@@ -3015,16 +3015,16 @@ feature_col : str
 <span class="sd">    df : pd.DataFrame</span>
 <span class="sd">        DataFrame containing gene and feature columns.</span>
 <span class="sd">    gene_col : str</span>
-<span class="sd">        Column representing the gene (default: &#39;gene_id&#39;)</span>
+<span class="sd">        Column representing the gene (default: 'gene_id')</span>
 <span class="sd">    feature_col : str</span>
-<span class="sd">        Column representing the feature (default: &#39;transcript_id&#39;)</span>
+<span class="sd">        Column representing the feature (default: 'transcript_id')</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with an additional column:</span>
-<span class="sd">        - &#39;n_detected_features&#39;: number of unique features per gene</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'n_detected_features': number of unique features per gene</span>
+<span class="sd">    """</span>
     <span class="c1"># count unique expressed features per gene</span>
     <span class="n">temp</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tpm</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">n_detected_features_df</span> <span class="o">=</span> <span class="p">(</span>
@@ -3032,13 +3032,13 @@ feature_col : str
         <span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)</span>
         <span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
         <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
-        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">feature_col</span><span class="p">:</span> <span class="s1">&#39;n_detected_features&#39;</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">feature_col</span><span class="p">:</span> <span class="s1">'n_detected_features'</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># merge back to original df</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">n_detected_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">n_detected_features_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'left'</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">gene_col</span><span class="p">)</span>
 
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_detected_features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;n_detected_features&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'n_detected_features'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'n_detected_features'</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -3089,23 +3089,23 @@ feature_col : str
 <span class="normal">281</span>
 <span class="normal">282</span>
 <span class="normal">283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Compute perplexity per gene based on Shannon entropy.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing &#39;gene_id&#39; and &#39;entropy&#39; columns.</span>
+<span class="sd">        DataFrame containing 'gene_id' and 'entropy' columns.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with an additional column:</span>
-<span class="sd">        - &#39;perplexity&#39;: effective number of isoforms per gene</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        - 'perplexity': effective number of isoforms per gene</span>
+<span class="sd">    """</span>
 
     <span class="c1"># compute perplexity as 2^entropy</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;perplexity&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;entropy&#39;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'perplexity'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">df</span><span class="p">[</span><span class="s1">'entropy'</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3157,24 +3157,24 @@ gene_col : str
 <span class="normal">185</span>
 <span class="normal">186</span>
 <span class="normal">187</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_pi</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">gene_col</span><span class="o">=</span><span class="n">GENE_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Generate pi values (isoform ratios) from input expression column.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        DataFrame containing at least &lt;gene_col&gt; and &#39;tpm&#39;.</span>
+<span class="sd">        DataFrame containing at least &lt;gene_col&gt; and 'tpm'.</span>
 <span class="sd">    gene_col : str</span>
 <span class="sd">        Column representing the gene (default: gene_id)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        DataFrame with an additional &#39;pi&#39; column.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">]</span>
-    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;gene_tpm&#39;</span><span class="p">)</span>
+<span class="sd">        DataFrame with an additional 'pi' column.</span>
+<span class="sd">    """</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'gene_tpm'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">gene_col</span><span class="p">)[</span><span class="s1">'tpm'</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">'sum'</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'pi'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'tpm'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'gene_tpm'</span><span class="p">]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">'gene_tpm'</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3223,21 +3223,21 @@ and add as a new column to the dataframe.</p>
 <span class="normal">164</span>
 <span class="normal">165</span>
 <span class="normal">166</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">compute_tpm</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculate TPM values from counts for a single-sample (bulk) dataframe</span>
 <span class="sd">    and add as a new column to the dataframe.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        Input dataframe containing &#39;counts&#39;.</span>
+<span class="sd">        Input dataframe containing 'counts'.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
-<span class="sd">        DataFrame with a new column &#39;tpm&#39; added.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;tpm&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e6</span>
+<span class="sd">        DataFrame with a new column 'tpm' added.</span>
+<span class="sd">    """</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'tpm'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'counts'</span><span class="p">]</span> <span class="o">/</span> <span class="n">df</span><span class="p">[</span><span class="s1">'counts'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1e6</span>
 
     <span class="k">return</span> <span class="n">df</span>
 </code></pre></div></td></tr></table></div>
@@ -3273,13 +3273,13 @@ and add as a new column to the dataframe.</p>
 <span class="normal">664</span>
 <span class="normal">665</span>
 <span class="normal">666</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">flatten_list</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Flatten a list into 1 dimension.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    l : list</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3334,14 +3334,14 @@ expression_type : str
 <span class="normal">145</span>
 <span class="normal">146</span>
 <span class="normal">147</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">remove_unexpressed_feats</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">expression_type</span><span class="o">=</span><span class="n">EXP_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Remove unexpressed features (and by proxy, also unexpressed genes)</span>
 <span class="sd">    from the dataframe.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    df : pd.DataFrame</span>
-<span class="sd">        Input dataframe containing &#39;counts&#39;.</span>
+<span class="sd">        Input dataframe containing 'counts'.</span>
 <span class="sd">    expression_type : str</span>
 <span class="sd">        Name of expression col to query for</span>
 <span class="sd">        unexpressed features</span>
@@ -3350,7 +3350,7 @@ expression_type : str
 <span class="sd">    -------</span>
 <span class="sd">    pd.DataFrame</span>
 <span class="sd">        DataFrame with unexpressed transcripts and genes removed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">expression_type</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">df</span>
@@ -3393,12 +3393,12 @@ expression_type : str
                        <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
                        <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span><span class="p">,</span>
                        <span class="n">expression_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">EXP_COL</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    """</span>
     <span class="n">sample_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span>
                                                       <span class="n">feature_col</span><span class="p">]]</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample_cols</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;DF has more than one sample&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">'DF has more than one sample'</span><span class="p">)</span>
 
     <span class="n">sample</span> <span class="o">=</span> <span class="n">sample_cols</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">({</span><span class="n">sample</span><span class="p">:</span><span class="n">expression_type</span><span class="p">},</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3512,7 +3512,7 @@ ValueError
     <span class="n">gene_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">GENE_COL</span><span class="p">,</span>
     <span class="n">feature_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">TRANSCRIPT_COL</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Validate a wide-format expression DataFrame.</span>
 
 <span class="sd">    In wide-format input, rows correspond to features (e.g. transcripts),</span>
@@ -3537,39 +3537,39 @@ ValueError
 <span class="sd">          - there are missing gene or feature IDs,</span>
 <span class="sd">          - expression values contain negatives,</span>
 <span class="sd">          - all expression values sum to zero.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1"># Check that gene and feature columns exist</span>
     <span class="n">required_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">gene_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">]</span>
     <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">required_cols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">missing</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing required columns: </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing required columns: </span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Identify all putative sample columns</span>
     <span class="n">sample_cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">required_cols</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">sample_cols</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No sample columns found in input.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"No sample columns found in input."</span><span class="p">)</span>
 
     <span class="c1"># All sample columns must be numeric</span>
     <span class="n">non_numeric</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sample_cols</span>
                    <span class="k">if</span> <span class="ow">not</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">c</span><span class="p">])]</span>
     <span class="k">if</span> <span class="n">non_numeric</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Found non-numeric columns (likely metadata) in input: </span><span class="si">{</span><span class="n">non_numeric</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">"Found non-numeric columns (likely metadata) in input: </span><span class="si">{</span><span class="n">non_numeric</span><span class="si">}</span><span class="s2">"</span>
         <span class="p">)</span>
 
     <span class="c1"># Check for missing identifiers</span>
     <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">gene_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing values in `</span><span class="si">{</span><span class="n">gene_col</span><span class="si">}</span><span class="s2">` column.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values in `</span><span class="si">{</span><span class="n">gene_col</span><span class="si">}</span><span class="s2">` column."</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">df</span><span class="p">[</span><span class="n">feature_col</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing values in `</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s2">` column.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Missing values in `</span><span class="si">{</span><span class="n">feature_col</span><span class="si">}</span><span class="s2">` column."</span><span class="p">)</span>
 
     <span class="c1"># Check that expression values are non-negative and not all zero</span>
     <span class="n">expr_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">sample_cols</span><span class="p">]</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">expr_df</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Expression values contain negative numbers.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Expression values contain negative numbers."</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">expr_df</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Total expression counts sum to zero or less.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Total expression counts sum to zero or less."</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
@@ -3637,7 +3637,7 @@ ValueError
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
